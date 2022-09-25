@@ -6,11 +6,124 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
+    public const int BOARD_SIZE = 8;
+    
     [SerializeField] private Transform bottomLeftSquareTransform;
     [SerializeField] private float squareSize;
 
-    internal Vector3 CalculatePositionFromCoords(Vector2Int coords)
+
+    private Piece[,] grid;
+    private Piece selectedPiece;
+    private GameController controller;
+
+    private void Awake()
+    {
+        CreateGrid();
+    }
+
+    public void SetDependencies(GameController controller)
+    {
+        this.controller = controller;
+    }
+
+    private void CreateGrid()
+    {
+        grid = new Piece[BOARD_SIZE, BOARD_SIZE];
+    }
+
+    //Uses the position of the bottom left square to apply the starting position
+    public Vector3 CalculatePositionFromCoords(Vector2Int coords)
     {
         return bottomLeftSquareTransform.position+ new Vector3(coords.x*squareSize,0f,coords.y*squareSize);
+    }
+
+    private Vector2Int CalculateCoordsFromPosition(Vector3 inputPosition)
+    {
+        int x = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).x/squareSize)+BOARD_SIZE/2;
+        int y = Mathf.FloorToInt(transform.InverseTransformPoint(inputPosition).z / squareSize) + BOARD_SIZE / 2;
+        return new Vector2Int(x,y);
+    }
+
+    public void onSquareSelected(Vector3 inputPosition)
+    {
+        Vector2Int coords= CalculateCoordsFromPosition(inputPosition);
+        Piece piece = GetPieceOnSquare(coords);
+        if (selectedPiece)
+        {
+            if (piece != null && selectedPiece == piece)
+                DeselectPiece();
+            else if (piece != null && selectedPiece != piece && controller.IsTeamTurnActive(piece.color))
+                SelectPiece(piece);
+            else if (selectedPiece.CanMoveTo(coords))
+                OnSelectedPieceMoved(coords, selectedPiece);
+        }
+        else
+        {
+            if (piece != null && controller.IsTeamTurnActive(piece.color))
+                SelectPiece(piece);
+        }
+    }
+
+
+
+    private void SelectPiece(Piece piece)
+    {
+        selectedPiece = piece;
+    }
+
+    internal void SetPieceOnBoard(Vector2Int coords, Piece newPiece)
+    {
+        if(ChecIfCoordAreOnBoard(coords))
+            grid[coords.x,coords.y] = newPiece;
+    }
+
+    private void DeselectPiece()
+    {
+        selectedPiece = null;
+    }
+
+    private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
+    {
+        UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
+        selectedPiece.MovePiece(coords);
+        DeselectPiece();
+        EndTurn();
+    }
+
+    private void EndTurn()
+    {
+        controller.EndTurn();
+    }
+
+    private void UpdateBoardOnPieceMove(Vector2Int newCoords, Vector2Int oldCoords, Piece piece, Piece oldPiece)
+    {
+        grid[oldCoords.x, oldCoords.y] = oldPiece;
+        grid[newCoords.x, newCoords.y] = piece;
+    }
+
+    private Piece GetPieceOnSquare(Vector2Int coords)
+    {
+        if (ChecIfCoordAreOnBoard(coords))
+            return grid[coords.x, coords.y];
+        return null;
+    }
+
+    private bool ChecIfCoordAreOnBoard(Vector2Int coords)
+    {
+        if(coords.x < 0 || coords.y < 0 || coords.x>= BOARD_SIZE || coords.y>=BOARD_SIZE)
+            return false;
+        return true;
+    }
+
+    public bool HasPiece(Piece piece)
+    {
+        for (int i = 0; i < BOARD_SIZE; i++)
+        {
+            for (int j = 0; j < BOARD_SIZE; j++)
+            {
+                if(grid[i,j] == piece) { return true; }
+            }
+        }
+        return false;
     }
 }

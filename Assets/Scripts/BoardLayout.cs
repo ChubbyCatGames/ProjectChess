@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Board/Layout")]
+
+//This is a scriptable object that appears inside the editor to place connect the positions with every piece
 public class BoardLayout : ScriptableObject
 {
    [Serializable]
@@ -25,7 +27,7 @@ public class BoardLayout : ScriptableObject
     {
         if (boardSetup.Length <= index)
         {
-            Debug.LogError("Index of piece oor");
+            Debug.LogError("Index of piece out of Range");
             return new Vector2Int(-1, -1);
         }
         return new Vector2Int(boardSetup[index].position.x-1, boardSetup[index].position.y-1);
@@ -35,7 +37,7 @@ public class BoardLayout : ScriptableObject
     {
         if (boardSetup.Length <= index)
         {
-            Debug.LogError("Index of piece oor");
+            Debug.LogError("Index of piece out of Range");
             return "";
         }
 
@@ -46,7 +48,7 @@ public class BoardLayout : ScriptableObject
     {
         if (boardSetup.Length <= index)
         {
-            Debug.LogError("Index of piece oor");
+            Debug.LogError("Index of piece out of Range");
             return PieceColor.Black;
         }
 
