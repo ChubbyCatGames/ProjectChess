@@ -379,6 +379,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomLeftSquareTransform: {fileID: 1923438929}
   squareSize: -2
+--- !u!114 &1245744674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245744670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4cdea6a1d4c29049899ce51a704ebe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickPosition: {x: 0, y: 0, z: 0}
+  selection:
+    m_Name: Selection
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: e6a93e5a-5ad0-4956-a932-71b8e3598f9d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: d7120731-bbb8-4a81-b42f-c608eaac0f80
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Selection
+      m_Flags: 0
+    m_Flags: 0
+--- !u!114 &1245744675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1245744670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72d0b97cd214d441bdfb5c2821c3b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1867233998
 GameObject:
   m_ObjectHideFlags: 0
@@ -496,7 +538,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.74
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -519,11 +561,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931085114}
-  m_LocalRotation: {x: -0.09405499, y: 0.90406346, z: -0.2625519, w: -0.3238664}
-  m_LocalPosition: {x: 10.15, y: 10.85, z: 11.39}
+  m_LocalRotation: {x: -0.12140934, y: 0.8782962, z: -0.33890626, w: -0.31463972}
+  m_LocalPosition: {x: 10.15, y: 14.87, z: 11.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 32.388, y: 219.419, z: 0}
+  m_LocalEulerAnglesHint: {x: 42.2, y: 219.419, z: 0}
