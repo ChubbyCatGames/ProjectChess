@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+[RequireComponent(typeof(SquareSelectorCreator))]
 public class Board : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
@@ -15,9 +16,11 @@ public class Board : MonoBehaviour
     private Piece[,] grid;
     private Piece selectedPiece;
     private GameController controller;
+    private SquareSelectorCreator squareSelector;
 
     private void Awake()
     {
+        squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
     }
 
@@ -69,17 +72,32 @@ public class Board : MonoBehaviour
     private void SelectPiece(Piece piece)
     {
         selectedPiece = piece;
+        List<Vector2Int> selection = selectedPiece.avaliableMoves;
+        ShowSelectionSquares(selection);
+    }
+
+    private void ShowSelectionSquares(List<Vector2Int> selection)
+    {
+        Dictionary<Vector3, bool> squaresData = new Dictionary<Vector3, bool>();
+        for (int i = 0; i < selection.Count; i++)
+        {
+            Vector3 pos = CalculatePositionFromCoords(selection[i]);
+            bool freeSquare = GetPieceOnSquare(selection[i])==null;
+            squaresData.Add(pos, freeSquare);
+        }
+        squareSelector.ShowSelection(squaresData);
     }
 
     internal void SetPieceOnBoard(Vector2Int coords, Piece newPiece)
     {
-        if(ChecIfCoordAreOnBoard(coords))
+        if(CheckIfCoordAreOnBoard(coords))
             grid[coords.x,coords.y] = newPiece;
     }
 
     private void DeselectPiece()
     {
         selectedPiece = null;
+        squareSelector.ClearSelection();
     }
 
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
@@ -101,14 +119,14 @@ public class Board : MonoBehaviour
         grid[newCoords.x, newCoords.y] = piece;
     }
 
-    private Piece GetPieceOnSquare(Vector2Int coords)
+    public Piece GetPieceOnSquare(Vector2Int coords)
     {
-        if (ChecIfCoordAreOnBoard(coords))
+        if (CheckIfCoordAreOnBoard(coords))
             return grid[coords.x, coords.y];
         return null;
     }
 
-    private bool ChecIfCoordAreOnBoard(Vector2Int coords)
+    public bool CheckIfCoordAreOnBoard(Vector2Int coords)
     {
         if(coords.x < 0 || coords.y < 0 || coords.x>= BOARD_SIZE || coords.y>=BOARD_SIZE)
             return false;
