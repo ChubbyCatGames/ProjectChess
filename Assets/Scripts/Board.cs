@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+[RequireComponent(typeof(SquareSelectorCreator))]
 public class Board : MonoBehaviour
 {
     public const int BOARD_SIZE = 8;
@@ -15,9 +16,11 @@ public class Board : MonoBehaviour
     private Piece[,] grid;
     private Piece selectedPiece;
     private GameController controller;
+    private SquareSelectorCreator squareSelector;
 
     private void Awake()
     {
+        squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
     }
 
@@ -46,6 +49,8 @@ public class Board : MonoBehaviour
 
     public void onSquareSelected(Vector3 inputPosition)
     {
+        if(!controller.IsGameInProgress())
+            return;
         Vector2Int coords= CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
         if (selectedPiece)
@@ -64,30 +69,66 @@ public class Board : MonoBehaviour
         }
     }
 
-
+   
 
     private void SelectPiece(Piece piece)
     {
+        controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
+        List<Vector2Int> selection = selectedPiece.avaliableMoves;
+        ShowSelectionSquares(selection);
+    }
+
+    private void ShowSelectionSquares(List<Vector2Int> selection)
+    {
+        Dictionary<Vector3, bool> squaresData = new Dictionary<Vector3, bool>();
+        for (int i = 0; i < selection.Count; i++)
+        {
+            Vector3 pos = CalculatePositionFromCoords(selection[i]);
+            bool freeSquare = GetPieceOnSquare(selection[i])==null;
+            squaresData.Add(pos, freeSquare);
+        }
+        squareSelector.ShowSelection(squaresData);
     }
 
     internal void SetPieceOnBoard(Vector2Int coords, Piece newPiece)
     {
-        if(ChecIfCoordAreOnBoard(coords))
+        if(CheckIfCoordAreOnBoard(coords))
             grid[coords.x,coords.y] = newPiece;
     }
 
     private void DeselectPiece()
     {
         selectedPiece = null;
+        squareSelector.ClearSelection();
     }
 
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
+        TryToTake(coords);
         UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
         selectedPiece.MovePiece(coords);
         DeselectPiece();
         EndTurn();
+    }
+
+    //******ADD STATE FIGHT**********/////
+    private void TryToTake(Vector2Int coords)
+    {
+
+        //controller.startFight();
+        Piece piece = GetPieceOnSquare(coords);
+        if (piece != null && !selectedPiece.IsFromSameColor(piece))
+            TakePiece(piece);
+    }
+
+    private void TakePiece(Piece piece)
+    {
+        if (piece)
+        {
+            grid[piece.occupiedSquare.x, piece.occupiedSquare.y] = null;
+            controller.OnPieceRemoved(piece);
+        }
     }
 
     private void EndTurn()
@@ -95,20 +136,21 @@ public class Board : MonoBehaviour
         controller.EndTurn();
     }
 
-    private void UpdateBoardOnPieceMove(Vector2Int newCoords, Vector2Int oldCoords, Piece piece, Piece oldPiece)
+    //This method emulates the state of the board after a move is done
+    public void UpdateBoardOnPieceMove(Vector2Int newCoords, Vector2Int oldCoords, Piece piece, Piece oldPiece)
     {
         grid[oldCoords.x, oldCoords.y] = oldPiece;
         grid[newCoords.x, newCoords.y] = piece;
     }
 
-    private Piece GetPieceOnSquare(Vector2Int coords)
+    public Piece GetPieceOnSquare(Vector2Int coords)
     {
-        if (ChecIfCoordAreOnBoard(coords))
+        if (CheckIfCoordAreOnBoard(coords))
             return grid[coords.x, coords.y];
         return null;
     }
 
-    private bool ChecIfCoordAreOnBoard(Vector2Int coords)
+    public bool CheckIfCoordAreOnBoard(Vector2Int coords)
     {
         if(coords.x < 0 || coords.y < 0 || coords.x>= BOARD_SIZE || coords.y>=BOARD_SIZE)
             return false;
@@ -125,5 +167,17 @@ public class Board : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void PromotePiece(Piece p)
+    {
+        TakePiece(p);
+        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, typeof(Queen));
+    }
+
+    public void OnGameRestarted()
+    {
+        selectedPiece = null;
+        CreateGrid();
     }
 }

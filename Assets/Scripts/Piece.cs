@@ -35,6 +35,18 @@ public abstract class Piece : MonoBehaviour
         materialSetter.SetSingleMaterial(mat);
     }
 
+    internal bool IsAttackingPieceOFType<T>() where T : Piece
+    {
+        foreach(var square in avaliableMoves)
+        {
+            if (board.GetPieceOnSquare(square) is T)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public bool IsFromSameColor (Piece piece)
     {
         return color == piece.color;
@@ -66,4 +78,26 @@ public abstract class Piece : MonoBehaviour
         this.board = board;
         transform.position = board.CalculatePositionFromCoords(coords);
     }
+
+    protected Piece GetPieceInDirection<T>(PieceColor color, Vector2Int direction) where T : Piece
+    {
+        for (int i = 1; i <= Board.BOARD_SIZE; i++)
+        {
+            Vector2Int nextCoords = occupiedSquare + direction * i;
+            Piece piece = board.GetPieceOnSquare(nextCoords);
+            if (!board.CheckIfCoordAreOnBoard(nextCoords))
+                return null;
+            if (piece != null)
+            {
+                if (piece.color != color || !(piece is T))
+                    return null;
+                else if (piece.color == color && piece is T)
+                {
+                    return piece;
+                }
+            }
+        }
+        return null;
+    }
+
 }

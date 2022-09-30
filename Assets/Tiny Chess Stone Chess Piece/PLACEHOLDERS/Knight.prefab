@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2311140}
   - component: {fileID: 3327154481640343691}
   - component: {fileID: -4531877526234432107}
-  - component: {fileID: 9120497377199370753}
+  - component: {fileID: 8011424208016028558}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avaliableMoves: []
---- !u!114 &9120497377199370753
+--- !u!114 &8011424208016028558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,6 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 107724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0b43fb7e8234a845b5432beab4cb579, type: 3}
+  m_Script: {fileID: 11500000, guid: 75dda4f15a324d340812b00a360a12fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  height: 2

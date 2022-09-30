@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2397982}
   - component: {fileID: -2204488862993555582}
   - component: {fileID: 215979773831066725}
-  - component: {fileID: 1849817454406562241}
+  - component: {fileID: -1580058412865408968}
   m_Layer: 0
   m_Name: Rook
   m_TagString: Untagged
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avaliableMoves: []
---- !u!114 &1849817454406562241
+--- !u!114 &-1580058412865408968
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -120,6 +120,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 114028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0b43fb7e8234a845b5432beab4cb579, type: 3}
+  m_Script: {fileID: 11500000, guid: b073f0b9f251c7040aceaa19c934f4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
