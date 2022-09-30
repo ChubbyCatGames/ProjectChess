@@ -7,7 +7,7 @@ public class SquareSelectorCreator : MonoBehaviour
 {
     [SerializeField] private Material freeSquareMat;
     [SerializeField] private Material opponentSquareMat;
-    [SerializeField] private GameObject prefab;
+    [SerializeField] private GameObject markerPrefab;
     private List <GameObject> instantiatedSelectors = new List <GameObject>();
 
     public void ShowSelection(Dictionary<Vector3,bool> squareData)
@@ -16,7 +16,7 @@ public class SquareSelectorCreator : MonoBehaviour
 
         foreach (var data in squareData)
         {
-            GameObject selector = Instantiate(prefab, data.Key ,Quaternion.identity);
+            GameObject selector = Instantiate(markerPrefab, data.Key ,Quaternion.identity);
             instantiatedSelectors.Add(selector);
             foreach (var setter in selector.GetComponentsInChildren<MaterialSetter>())
             {

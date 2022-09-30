@@ -49,6 +49,8 @@ public class Board : MonoBehaviour
 
     public void onSquareSelected(Vector3 inputPosition)
     {
+        if(!controller.IsGameInProgress())
+            return;
         Vector2Int coords= CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
         if (selectedPiece)
@@ -67,10 +69,11 @@ public class Board : MonoBehaviour
         }
     }
 
-
+   
 
     private void SelectPiece(Piece piece)
     {
+        controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
@@ -102,10 +105,30 @@ public class Board : MonoBehaviour
 
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
+        TryToTake(coords);
         UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
         selectedPiece.MovePiece(coords);
         DeselectPiece();
         EndTurn();
+    }
+
+    //******ADD STATE FIGHT**********/////
+    private void TryToTake(Vector2Int coords)
+    {
+
+        //controller.startFight();
+        Piece piece = GetPieceOnSquare(coords);
+        if (piece != null && !selectedPiece.IsFromSameColor(piece))
+            TakePiece(piece);
+    }
+
+    private void TakePiece(Piece piece)
+    {
+        if (piece)
+        {
+            grid[piece.occupiedSquare.x, piece.occupiedSquare.y] = null;
+            controller.OnPieceRemoved(piece);
+        }
     }
 
     private void EndTurn()
@@ -113,7 +136,8 @@ public class Board : MonoBehaviour
         controller.EndTurn();
     }
 
-    private void UpdateBoardOnPieceMove(Vector2Int newCoords, Vector2Int oldCoords, Piece piece, Piece oldPiece)
+    //This method emulates the state of the board after a move is done
+    public void UpdateBoardOnPieceMove(Vector2Int newCoords, Vector2Int oldCoords, Piece piece, Piece oldPiece)
     {
         grid[oldCoords.x, oldCoords.y] = oldPiece;
         grid[newCoords.x, newCoords.y] = piece;
@@ -143,5 +167,17 @@ public class Board : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void PromotePiece(Piece p)
+    {
+        TakePiece(p);
+        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, typeof(Queen));
+    }
+
+    public void OnGameRestarted()
+    {
+        selectedPiece = null;
+        CreateGrid();
     }
 }

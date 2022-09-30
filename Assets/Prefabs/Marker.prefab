@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 2498754069117020732}
   - component: {fileID: 6297502203327672830}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Marker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

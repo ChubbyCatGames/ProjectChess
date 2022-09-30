@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,5 +34,20 @@ public class Pawn : Piece
                     //NOTA DE DESARROLLO: AQUI SE AÑADE EL CODIGO DEL COMBATE
         }
         return avaliableMoves;
+    }
+
+    public override void MovePiece(Vector2Int coords)
+    {
+        base.MovePiece(coords);
+        CheckPromotion();
+    }
+
+    private void CheckPromotion()
+    {
+        int endOfBoardYCoord = color == PieceColor.White ? Board.BOARD_SIZE - 1 : 0;
+        if (occupiedSquare.y == endOfBoardYCoord)
+        {
+            board.PromotePiece(this);
+        }
     }
 }

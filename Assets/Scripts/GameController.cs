@@ -1,13 +1,18 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(PieceCreator))]
 public class GameController : MonoBehaviour
 {
+    private enum GameState { Init, Play, Finished, Fight}
+
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private Board board;
+    public TextMeshProUGUI uiText;
 
     private PieceCreator pieceCreator;
 
@@ -15,6 +20,8 @@ public class GameController : MonoBehaviour
     private Player whitePlayer;
     private Player blackPlayer;
     private Player activePlayer;
+
+    private GameState gameState;
 
 
     private void Awake()
@@ -40,12 +47,23 @@ public class GameController : MonoBehaviour
 
     private void StartNewGame()
     {
+        SetGameState(GameState.Init);
         board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
+        SetGameState(GameState.Play);
     }
 
+    private void SetGameState(GameState state)
+    {
+        this.gameState = state; 
+    }
+
+    public bool IsGameInProgress()
+    {
+        return gameState == GameState.Play;
+    }
 
 
     //Takes the layout from unity and places the pieces down
@@ -65,7 +83,7 @@ public class GameController : MonoBehaviour
 
 
     //Gets called from above and initializes every piece
-    private void CreatePieceAndInitialize(Vector2Int squareCoords, PieceColor pieceColor, Type type)
+    public void CreatePieceAndInitialize(Vector2Int squareCoords, PieceColor pieceColor, Type type)
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
@@ -93,10 +111,48 @@ public class GameController : MonoBehaviour
     {
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
-        ChangeActiveTeam();
-        Debug.Log("cambio");
+        if (CheckIfGameIsFinished())
+            EndGame();
+        else
+            ChangeActiveTeam();
+        
 
     }
+
+    private bool CheckIfGameIsFinished()
+    {
+        Piece[] kingAttackingPieces = activePlayer.GetPieceAttakingPieceOfType<King>();
+        if(kingAttackingPieces.Length > 0)
+        {
+            Player oppositePlayer = GetOpponentToPlayer(activePlayer);
+            Piece attackedKing = oppositePlayer.GetPiecesOfType<King>().FirstOrDefault();
+            oppositePlayer.RemoveMovesEnablingAttackOnPiece<King>(activePlayer, attackedKing);
+
+            int availableKingMoves = attackedKing.avaliableMoves.Count;
+            if (availableKingMoves == 0)
+            {
+                bool canCoverKing = oppositePlayer.CanHidePieceFromAttack<King>(activePlayer);
+                if (!canCoverKing)
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private void EndGame()
+    {
+        uiText.text = activePlayer.team.ToString() + " wins";
+        SetGameState(GameState.Finished); 
+    }
+
+    public void OnPieceRemoved(Piece piece)
+    {
+        Player pieceOwner = (piece.color == PieceColor.White) ? whitePlayer : blackPlayer;
+        pieceOwner.RemovePiece(piece);
+        Destroy(piece.gameObject);
+        
+    }
+
     private Player GetOpponentToPlayer(Player player)
     {
         return player == whitePlayer ? blackPlayer : whitePlayer; 
@@ -104,8 +160,28 @@ public class GameController : MonoBehaviour
 
     private void ChangeActiveTeam()
     {
-        activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer; 
+        activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
 
     }
 
+    public void RemoveMovesEnablingAttackOnPieceOfType<T>(Piece p) where T : Piece
+    {
+        activePlayer.RemoveMovesEnablingAttackOnPiece<T>(GetOpponentToPlayer(activePlayer), p);
+        
+    }
+
+    public void RestartGame()
+    {
+        DestroyPieces();
+        board.OnGameRestarted();
+        whitePlayer.OnGameRestarted();
+        blackPlayer.OnGameRestarted();
+        StartNewGame();
+    }
+
+    private void DestroyPieces()
+    {
+        whitePlayer.activePieces.ForEach(p => Destroy(p.gameObject));
+        blackPlayer.activePieces.ForEach(p => Destroy(p.gameObject));
+    }
 }
