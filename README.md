@@ -24,7 +24,6 @@ Las reglas de siempre: ¿Recuerdas cómo se juega al ajedrez? En Chess: Holy War
 
 * **Nuevas estrategias**: Ahora el poder de las figuras no solo depende de la propia figura, sino que además hay que tener en cuenta su posición en el tablero con respecto a otras piezas, los objetos que tenga equipados, o las baldosas que pisa. El factor de pura estrategia se ve mermado ligeramente y se añade un componente de azar que dotará a las partidas de más variedad e incertidumbre.
 
-##Team ChubbyCat
 
 ***- INTEGRANTES DEL EQUIPO DE DESARROLLO -***
 
