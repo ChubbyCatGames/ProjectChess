@@ -20,7 +20,7 @@ Las reglas de siempre: ¿Recuerdas cómo se juega al ajedrez? En Chess: Holy War
 
 * **Nuevas mecánicas**: A todo esto, se le suman nuevas mecánicas como la posibilidad de subir las piezas de nivel para mejorarlas a nuevas piezas más poderosas, o poder comprar objetos para luego equiparlos a las piezas.
 
-* **Nuevas estrategias: Ahora el poder de las figuras no solo depende de la propia figura, sino que además hay que tener en cuenta su posición en el tablero con respecto a otras piezas, los objetos que tenga equipados, o las baldosas que pisa. El factor de pura estrategia se ve mermado ligeramente y se añade un componente de azar que dotará a las partidas de más variedad e incertidumbre.
+* **Nuevas estrategias**: Ahora el poder de las figuras no solo depende de la propia figura, sino que además hay que tener en cuenta su posición en el tablero con respecto a otras piezas, los objetos que tenga equipados, o las baldosas que pisa. El factor de pura estrategia se ve mermado ligeramente y se añade un componente de azar que dotará a las partidas de más variedad e incertidumbre.
 
 
 ***- INTEGRANTES DEL EQUIPO DE DESARROLLO -***
