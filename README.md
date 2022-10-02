@@ -1,6 +1,11 @@
 # CHESS: HOLY WAR
 
+![image](https://github.com/ChubbyCatGames/ProjectChess/blob/ffd98ccb1ee305b3609de78ade8228a9c59d2fb3/Chess_Holy_War_Background.png)
+
+
+
 ## Grupo B - Team ChubbyCat
+
 
 **- VISIÓN GENERAL DEL JUEGO-**
 
