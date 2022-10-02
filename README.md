@@ -7,6 +7,8 @@
 ## Grupo B - Team ChubbyCat
 
 
+
+
 **- VISIÓN GENERAL DEL JUEGO-**
 
 * El ajedrez es uno de los juegos más antiguos que la humanidad recuerda, sobre todo si hablamos de juegos de mesa en concreto. Con la propuesta de Chess: Holy War, se busca dar un enfoque moderno y más complejo a la idea clásica, con el objetivo de ofrecer un producto divertido, más complejo, apto para todos los públicos, y que a su vez siga deleitando a los amantes del ajedrez.
@@ -22,6 +24,7 @@ Las reglas de siempre: ¿Recuerdas cómo se juega al ajedrez? En Chess: Holy War
 
 * **Nuevas estrategias**: Ahora el poder de las figuras no solo depende de la propia figura, sino que además hay que tener en cuenta su posición en el tablero con respecto a otras piezas, los objetos que tenga equipados, o las baldosas que pisa. El factor de pura estrategia se ve mermado ligeramente y se añade un componente de azar que dotará a las partidas de más variedad e incertidumbre.
 
+##Team ChubbyCat
 
 ***- INTEGRANTES DEL EQUIPO DE DESARROLLO -***
 
@@ -32,6 +35,10 @@ Las reglas de siempre: ¿Recuerdas cómo se juega al ajedrez? En Chess: Holy War
 | Juan Antonio Piña Ramos      |ja.pinar.2017@alumnos.urjc.es    |SouthBarbol            |
 | David López López            |                                 |david-3lm              |
 | Jennifer Sofía Pardo Cepeda  |                                 |                       |
+
+***- LOGO -***
+
+![image](https://github.com/ChubbyCatGames/ProjectChess/blob/629ff8a9ffb785bf7ac6b1a93c26543d06054525/LogoSINFondoHD.png)
 
 **- REDES SOCIALES -**
 
