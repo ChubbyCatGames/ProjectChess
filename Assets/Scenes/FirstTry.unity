@@ -190,8 +190,18 @@ MonoBehaviour:
   - {fileID: 104878, guid: 48d5ea4ff810d0e4ea36af7235dd5fd7, type: 3}
   - {fileID: 103078, guid: 6f38c700bedefe64f8364436528e5c3d, type: 3}
   - {fileID: 114028, guid: 43ef2ba32fda59c42a1410ea490d494b, type: 3}
-  blackMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
-  whiteMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackRookMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whiteRookMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackQueenMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whiteQueenMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackPawnMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whitePawnMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackKnightMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whiteKnightMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackKingMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whiteKingMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackBishopMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whiteBishopMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
 --- !u!1 &154667715
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,9 +499,9 @@ Canvas:
   m_GameObject: {fileID: 288353963}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 1931085116}
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -685,7 +695,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: e861f9c5-ae7a-4fd4-abc8-38d797fa36b6
-      m_Path: <Touchscreen>/primaryTouch
+      m_Path: <Touchscreen>/Press
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -1029,6 +1039,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 154667717}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Reseteado
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &2055762867

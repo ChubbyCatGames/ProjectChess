@@ -6,8 +6,18 @@ using UnityEngine;
 public class PieceCreator : MonoBehaviour
 {
     [SerializeField] private GameObject[] piecesPrefabs;
-    [SerializeField] private Material blackMaterial;
-    [SerializeField] private Material whiteMaterial;
+    [SerializeField] private Material blackRookMaterial;
+    [SerializeField] private Material whiteRookMaterial;
+    [SerializeField] private Material blackQueenMaterial;
+    [SerializeField] private Material whiteQueenMaterial;
+    [SerializeField] private Material blackPawnMaterial;
+    [SerializeField] private Material whitePawnMaterial;
+    [SerializeField] private Material blackKnightMaterial;
+    [SerializeField] private Material whiteKnightMaterial;
+    [SerializeField] private Material blackKingMaterial;
+    [SerializeField] private Material whiteKingMaterial;
+    [SerializeField] private Material blackBishopMaterial;
+    [SerializeField] private Material whiteBishopMaterial;
 
     private Dictionary<string, GameObject> nameToPieceDict = new Dictionary<string, GameObject>();
 
@@ -31,8 +41,52 @@ public class PieceCreator : MonoBehaviour
         return null;
     }
 
-    public Material GetPieceMaterial(PieceColor color)
+    public Material GetPieceMaterial(PieceColor color, Type type)
     {
-        return color==PieceColor.White ? whiteMaterial : blackMaterial;
+        switch (color)
+        {
+            case PieceColor.White:
+                switch (type.ToString())
+                {
+                    case "Rook":
+                        return whiteRookMaterial;
+                    case "Queen":
+                        return whiteQueenMaterial;
+                    case "Pawn":
+                        return whitePawnMaterial;
+                    case "Knight":
+                        return whiteKnightMaterial;
+                    case "King":
+                        return whiteKingMaterial;
+                    case "Bishop":
+                        return whiteBishopMaterial;
+
+                    default:
+                        return null;
+                }
+            case PieceColor.Black:
+                switch (type.ToString())
+                {
+                    case "Rook":
+                        return blackRookMaterial;
+                    case "Queen":
+                        return blackQueenMaterial;
+                    case "Pawn":
+                        return blackPawnMaterial;
+                    case "Knight":
+                        return blackKnightMaterial;
+                    case "King":
+                        return blackKingMaterial;
+                    case "Bishop":
+                        return blackBishopMaterial;
+
+                    default:
+                        return null;
+                }
+            default:
+                return null;
+            
+
+        }
     }
 }
