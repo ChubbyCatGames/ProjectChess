@@ -184,12 +184,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   piecesPrefabs:
-  - {fileID: 190264, guid: cd05c23b470229c44a8d53d6e86225f6, type: 3}
+  - {fileID: 4168013911048711151, guid: 152fe825681bd264f84e36807464e5ba, type: 3}
   - {fileID: 119820, guid: 9e4e635002b6a524ca896adb28e8e388, type: 3}
   - {fileID: 107724, guid: 7248632fb471af143947a88a47eae959, type: 3}
-  - {fileID: 104878, guid: 48d5ea4ff810d0e4ea36af7235dd5fd7, type: 3}
+  - {fileID: 1374203500577382104, guid: 88c712eb9d1594d4f8de2bbce640be9c, type: 3}
   - {fileID: 103078, guid: 6f38c700bedefe64f8364436528e5c3d, type: 3}
   - {fileID: 114028, guid: 43ef2ba32fda59c42a1410ea490d494b, type: 3}
+  - {fileID: 8498366647604346036, guid: a417801a3418e4d4594dde359965497c, type: 3}
+  - {fileID: 7212562431168378106, guid: 9af214489c970d64e8b1ff771bc4f639, type: 3}
   blackRookMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
   whiteRookMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
   blackQueenMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
@@ -202,6 +204,10 @@ MonoBehaviour:
   whiteKingMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
   blackBishopMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
   whiteBishopMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackChurchMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whiteChurchMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
+  blackPopeMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
+  whitePopeMaterial: {fileID: 2100000, guid: 8cba332b2010c1f4992adf6f00ca928c, type: 2}
 --- !u!1 &154667715
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +243,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -775.0099, y: -413.81418}
+  m_AnchoredPosition: {x: -414, y: -409}
   m_SizeDelta: {x: 399.8387, y: 74.0984}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &154667717
@@ -499,10 +505,10 @@ Canvas:
   m_GameObject: {fileID: 288353963}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 1931085116}
   m_PlaneDistance: 1
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -587,7 +593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4820578215151266, guid: c364da1e00b6a954c9da291cba0e718f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.09
       objectReference: {fileID: 0}
     - target: {fileID: 4820578215151266, guid: c364da1e00b6a954c9da291cba0e718f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -595,7 +601,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4820578215151266, guid: c364da1e00b6a954c9da291cba0e718f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: 4820578215151266, guid: c364da1e00b6a954c9da291cba0e718f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -695,6 +701,14 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: e861f9c5-ae7a-4fd4-abc8-38d797fa36b6
+      m_Path: <Touchscreen>/primaryTouch
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Selection
+      m_Flags: 0
+    - m_Name: 
+      m_Id: b768d73e-bdc9-4a93-b0e7-7cd5144c9260
       m_Path: <Touchscreen>/Press
       m_Interactions: 
       m_Processors: 
@@ -982,7 +996,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -775.0099, y: -492.87686}
+  m_AnchoredPosition: {x: -413, y: -483}
   m_SizeDelta: {x: 348.3486, y: 65.3154}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2055762866

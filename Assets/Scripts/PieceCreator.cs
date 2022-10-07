@@ -18,6 +18,10 @@ public class PieceCreator : MonoBehaviour
     [SerializeField] private Material whiteKingMaterial;
     [SerializeField] private Material blackBishopMaterial;
     [SerializeField] private Material whiteBishopMaterial;
+    [SerializeField] private Material blackChurchMaterial;
+    [SerializeField] private Material whiteChurchMaterial;
+    [SerializeField] private Material blackPopeMaterial;
+    [SerializeField] private Material whitePopeMaterial;
 
     private Dictionary<string, GameObject> nameToPieceDict = new Dictionary<string, GameObject>();
 
@@ -60,6 +64,10 @@ public class PieceCreator : MonoBehaviour
                         return whiteKingMaterial;
                     case "Bishop":
                         return whiteBishopMaterial;
+                    case "Church":
+                        return whiteChurchMaterial;
+                    case "Pope":
+                        return whitePopeMaterial;
 
                     default:
                         return null;
@@ -79,6 +87,10 @@ public class PieceCreator : MonoBehaviour
                         return blackKingMaterial;
                     case "Bishop":
                         return blackBishopMaterial;
+                    case "Church":
+                        return blackChurchMaterial;
+                    case "Pope":
+                        return blackPopeMaterial;
 
                     default:
                         return null;
