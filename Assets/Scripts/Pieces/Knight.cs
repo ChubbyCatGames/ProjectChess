@@ -30,4 +30,11 @@ public class Knight : Piece
         }
         return avaliableMoves;
     }
+
+    public override void InitializeValues()
+    {
+        this.life = 35;
+        this.attackDmg = 30;
+        this.richness = 0;
+    }
 }

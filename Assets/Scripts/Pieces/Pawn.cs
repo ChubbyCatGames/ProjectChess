@@ -50,4 +50,11 @@ public class Pawn : Piece
             board.PromotePiece(this);
         }
     }
+
+    public override void InitializeValues()
+    {
+        this.life = 35;
+        this.attackDmg = 20;
+        this.richness = 0;
+    }
 }

@@ -32,5 +32,11 @@ public class Rook : Piece
         return avaliableMoves;
     }
 
- 
+    public override void InitializeValues()
+    {
+        this.life = 45;
+        this.attackDmg = 50;
+        this.richness = 0;
+    }
+
 }

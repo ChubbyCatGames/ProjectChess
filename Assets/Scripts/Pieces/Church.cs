@@ -44,4 +44,11 @@ public class Church : Piece
         return avaliableMoves;
     }
 
+    public override void InitializeValues()
+    {
+        this.life = 65;
+        this.attackDmg = 30;
+        this.richness = 0;
+    }
+
 }

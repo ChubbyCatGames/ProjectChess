@@ -78,19 +78,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 20d7dc53cb439b64887ed4f412c4bb6a, type: 3}
   m_PrefabInstance: {fileID: 3825433226189264574}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6693529171609838504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4168013911048711151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b073f0b9f251c7040aceaa19c934f4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
 --- !u!114 &2808006389593372083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,3 +103,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avaliableMoves: []
+  life: 0
+  attackDmg: 0
+  richness: 0
+--- !u!114 &6693529171609838504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4168013911048711151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b073f0b9f251c7040aceaa19c934f4da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1

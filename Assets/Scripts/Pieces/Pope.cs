@@ -62,4 +62,11 @@ public class Pope : Piece
         }
         return avaliableMoves;
     }
+
+    public override void InitializeValues()
+    {
+        this.life = 80;
+        this.attackDmg = 40;
+        this.richness = 0;
+    }
 }

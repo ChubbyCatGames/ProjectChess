@@ -43,4 +43,11 @@ public class Queen : Piece
         }
         return avaliableMoves;
     }
+
+    public override void InitializeValues()
+    {
+        this.life = 60;
+        this.attackDmg = 60;
+        this.richness = 0;
+    }
 }

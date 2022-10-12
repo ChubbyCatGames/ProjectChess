@@ -91,6 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avaliableMoves: []
+  life: 0
+  attackDmg: 0
+  richness: 0
 --- !u!114 &4195807714974753937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,4 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b073f0b9f251c7040aceaa19c934f4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 1

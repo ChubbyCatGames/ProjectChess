@@ -41,4 +41,11 @@ public class Bishop : Piece
         return avaliableMoves;
 
     }
+
+    public override void InitializeValues()
+    {
+        this.life = 40;
+        this.attackDmg = 25;
+        this.richness = 0;
+    }
 }

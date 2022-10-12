@@ -87,4 +87,11 @@ public class King : Piece
             rightRook.MovePiece(coords+ Vector2Int.left);
         }
     }
+
+    public override void InitializeValues()
+    {
+        this.life = 999;
+        this.attackDmg = 999;
+        this.richness = 0;
+    }
 }

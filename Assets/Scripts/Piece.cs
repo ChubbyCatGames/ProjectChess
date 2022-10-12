@@ -22,12 +22,19 @@ public abstract class Piece : MonoBehaviour
 
     public abstract List<Vector2Int> SelectAvaliableSquares();
 
+    public abstract void InitializeValues();
+
+    public int life;
+    public int attackDmg;
+    public int richness;
+
     private void Awake()
     {
         avaliableMoves = new List<Vector2Int>();
         tweener = GetComponent<IObjectTweener>();
         materialSetter = GetComponent<MaterialSetter>();
         hasMoved = false;
+        InitializeValues();
     }
 
     public void SetMaterial(Material mat)
