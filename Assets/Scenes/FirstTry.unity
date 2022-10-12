@@ -185,11 +185,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piecesPrefabs:
   - {fileID: 4168013911048711151, guid: 152fe825681bd264f84e36807464e5ba, type: 3}
-  - {fileID: 119820, guid: 9e4e635002b6a524ca896adb28e8e388, type: 3}
-  - {fileID: 107724, guid: 7248632fb471af143947a88a47eae959, type: 3}
+  - {fileID: 3592182380332612656, guid: 8f6661d2417082d4d8bd9409f17432a7, type: 3}
+  - {fileID: 3942211962573324438, guid: dc20d01d66cb23a4e8fa45ca299bc657, type: 3}
   - {fileID: 1374203500577382104, guid: 88c712eb9d1594d4f8de2bbce640be9c, type: 3}
-  - {fileID: 103078, guid: 6f38c700bedefe64f8364436528e5c3d, type: 3}
-  - {fileID: 114028, guid: 43ef2ba32fda59c42a1410ea490d494b, type: 3}
+  - {fileID: 7076060925798827187, guid: 01894b40bf11b1f439f5eafe5e79457e, type: 3}
+  - {fileID: 8022872882867204016, guid: 3e99abd83ac66224cab8b6063169901a, type: 3}
   - {fileID: 8498366647604346036, guid: a417801a3418e4d4594dde359965497c, type: 3}
   - {fileID: 7212562431168378106, guid: 9af214489c970d64e8b1ff771bc4f639, type: 3}
   blackRookMaterial: {fileID: 2100000, guid: 6d49818de3650a748aad3caba59c6419, type: 2}
@@ -699,21 +699,22 @@ MonoBehaviour:
       m_Groups: 
       m_Action: Selection
       m_Flags: 0
+    m_Flags: 0
+  selectionTouch:
+    m_Name: Selection Touch
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 41441e76-d31e-4ef6-8b92-d16048814762
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
     - m_Name: 
-      m_Id: e861f9c5-ae7a-4fd4-abc8-38d797fa36b6
-      m_Path: <Touchscreen>/primaryTouch
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Selection
-      m_Flags: 0
-    - m_Name: 
-      m_Id: b768d73e-bdc9-4a93-b0e7-7cd5144c9260
+      m_Id: fe87dedd-2fa7-48e8-ad4a-600dc75283da
       m_Path: <Touchscreen>/Press
       m_Interactions: 
       m_Processors: 
       m_Groups: 
-      m_Action: Selection
+      m_Action: Selection Touch
       m_Flags: 0
     m_Flags: 0
 --- !u!114 &1245744675
