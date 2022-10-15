@@ -51,4 +51,13 @@ public class Church : Piece
         this.richness = 0;
     }
 
+    public override void PromoteFaith()
+    {
+        board.PromotePieceFaith(this, typeof(Pope));
+    }
+
+    public override void PromoteWar()
+    {
+        return;
+    }
 }

@@ -37,4 +37,14 @@ public class Knight : Piece
         this.attackDmg = 30;
         this.richness = 0;
     }
+
+    public override void PromoteFaith()
+    {
+        return;
+    }
+
+    public override void PromoteWar()
+    {
+        board.PromotePieceWar(this, typeof(Rook));
+    }
 }

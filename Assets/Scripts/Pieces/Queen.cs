@@ -50,4 +50,14 @@ public class Queen : Piece
         this.attackDmg = 60;
         this.richness = 0;
     }
+
+    public override void PromoteFaith()
+    {
+        return;
+    }
+
+    public override void PromoteWar()
+    {
+        return;
+    }
 }

@@ -24,6 +24,10 @@ public abstract class Piece : MonoBehaviour
 
     public abstract void InitializeValues();
 
+    public abstract void PromoteFaith();
+
+    public abstract void PromoteWar();
+
     public int life;
     public int attackDmg;
     public int richness;
@@ -71,6 +75,8 @@ public abstract class Piece : MonoBehaviour
         hasMoved = true;
         tweener.MoveTo(transform, targetPosition);
     }
+
+    
 
     public void TryToAddMove(Vector2Int coords)
     {

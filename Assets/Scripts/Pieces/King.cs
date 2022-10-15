@@ -94,4 +94,14 @@ public class King : Piece
         this.attackDmg = 999;
         this.richness = 0;
     }
+
+    public override void PromoteFaith()
+    {
+        return;
+    }
+
+    public override void PromoteWar()
+    {
+        return;
+    }
 }

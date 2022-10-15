@@ -48,4 +48,14 @@ public class Bishop : Piece
         this.attackDmg = 25;
         this.richness = 0;
     }
+
+    public override void PromoteFaith()
+    {
+        board.PromotePieceFaith(this, typeof(Church));
+    }
+
+    public override void PromoteWar()
+    {
+        return;
+    }
 }

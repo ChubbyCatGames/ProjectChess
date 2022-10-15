@@ -39,4 +39,13 @@ public class Rook : Piece
         this.richness = 0;
     }
 
+    public override void PromoteFaith()
+    {
+        return;
+    }
+
+    public override void PromoteWar()
+    {
+        board.PromotePieceWar(this, typeof(Queen));
+    }
 }

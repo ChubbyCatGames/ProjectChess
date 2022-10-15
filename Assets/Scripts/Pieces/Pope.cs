@@ -69,4 +69,14 @@ public class Pope : Piece
         this.attackDmg = 40;
         this.richness = 0;
     }
+
+    public override void PromoteFaith()
+    {
+        return;
+    }
+
+    public override void PromoteWar()
+    {
+        return;
+    }
 }
