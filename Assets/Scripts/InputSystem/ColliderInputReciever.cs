@@ -9,6 +9,8 @@ public class ColliderInputReciever : InputReciever
 
     [SerializeField]
     private InputAction selection;
+    [SerializeField]
+    private InputAction selectionTouch;
     private Camera mainCamera;
 
     InputReciever reciever;
@@ -21,18 +23,23 @@ public class ColliderInputReciever : InputReciever
     private void OnEnable()
     {
         selection.Enable();
+        selectionTouch.Enable();
         selection.performed += OnInputRecieved;
+        selectionTouch.performed += OnInputRecievedTouch;
     }
 
     private void OnDisable()
     {
         selection.performed -= OnInputRecieved;
+        selectionTouch.performed -= OnInputRecievedTouch;
         selection.Disable();
+        selectionTouch.Disable();
     }
 
     public override void OnInputRecieved(InputAction.CallbackContext context)
     {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        
         if (Physics.Raycast(ray, hitInfo: out RaycastHit hit) && hit.collider)
         {
             foreach(var handler in inputHandlers)
@@ -40,5 +47,21 @@ public class ColliderInputReciever : InputReciever
                 handler.ProcessInput(hit.point, null, null);
             }
         }
+
+
+    }
+    public override void OnInputRecievedTouch(InputAction.CallbackContext context)
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.GetTouch(0).position);
+        
+        if (Physics.Raycast(ray, hitInfo: out RaycastHit hit) && hit.collider)
+        {
+            foreach(var handler in inputHandlers)
+            {
+                handler.ProcessInput(hit.point, null, null);
+            }
+        }
+
+
     }
 }

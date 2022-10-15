@@ -7,14 +7,16 @@ using UnityEngine;
 public class MaterialSetter: MonoBehaviour 
 {
     private MeshRenderer _meshRenderer;
+    private MeshRenderer _meshRendererChild;
 
     private MeshRenderer meshRenderer
     {
         get
         {
-            if (_meshRenderer == null)
-                _meshRenderer = GetComponent<MeshRenderer>();
-            return _meshRenderer;
+            if (_meshRendererChild == null)
+                _meshRendererChild = GetComponentInChildren<MeshRenderer>();
+                
+            return _meshRendererChild;
         }
     }
 

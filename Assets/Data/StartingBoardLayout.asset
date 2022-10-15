@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardSetup:
   - position: {x: 1, y: 1}
-    pieceType: 3
+    pieceType: 6
     pieceColor: 1
   - position: {x: 2, y: 1}
-    pieceType: 2
+    pieceType: 7
     pieceColor: 1
   - position: {x: 3, y: 1}
     pieceType: 1

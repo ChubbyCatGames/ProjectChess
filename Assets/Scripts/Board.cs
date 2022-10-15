@@ -169,10 +169,29 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    public void PromotePiece(Piece p)
+    public void OnSelectedPiecePromoteFaith()
+    {
+        selectedPiece.PromoteFaith();
+    }
+    public void OnSelectedPiecePromoteWar()
+    {
+        selectedPiece.PromoteWar();
+    }
+
+    public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, typeof(Queen));
+        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, t);
+        DeselectPiece();
+        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
+    }
+
+    public void PromotePieceWar(Piece p, Type t)
+    {
+        TakePiece(p);
+        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, t);
+        DeselectPiece();
+        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
 
     public void OnGameRestarted()
