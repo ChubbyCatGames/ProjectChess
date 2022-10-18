@@ -140,6 +140,20 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    public Piece startFight(Piece attacker, Piece defensor)
+    {
+        while(attacker.life>0 && defensor.life > 0)
+        {
+            attacker.Attack(defensor);
+            if (defensor.life > 0)
+                defensor.Attack(attacker);
+        }
+        if (defensor.life <= 0)
+            return attacker;
+        else
+            return defensor;
+    }
+
     private void EndGame()
     {
         uiText.text = activePlayer.team.ToString() + " wins";

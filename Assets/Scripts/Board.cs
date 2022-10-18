@@ -105,21 +105,38 @@ public class Board : MonoBehaviour
 
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
-        TryToTake(coords);
-        UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
-        selectedPiece.MovePiece(coords);
-        DeselectPiece();
-        EndTurn();
+        bool success=TryToTake(coords);
+        if (success)
+        {
+            UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
+            selectedPiece.MovePiece(coords);
+            DeselectPiece();
+            EndTurn();
+        }
+        else
+        {
+            DeselectPiece();
+            EndTurn();
+        }
     }
 
     //******ADD STATE FIGHT**********/////
-    private void TryToTake(Vector2Int coords)
+    private bool TryToTake(Vector2Int coords)
     {
 
-        //controller.startFight();
+        bool winSelectedPiece = true;
         Piece piece = GetPieceOnSquare(coords);
+
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
-            TakePiece(piece);
+        {
+            Piece winner = controller.startFight(selectedPiece, piece);
+            winSelectedPiece = winner.Equals(selectedPiece) ? true : false;
+            if (winSelectedPiece)
+                TakePiece(piece);
+            else
+                TakePiece(selectedPiece);
+        }
+        return winSelectedPiece;
     }
 
     private void TakePiece(Piece piece)
@@ -171,10 +188,12 @@ public class Board : MonoBehaviour
 
     public void OnSelectedPiecePromoteFaith()
     {
+        if (!selectedPiece) return;
         selectedPiece.PromoteFaith();
     }
     public void OnSelectedPiecePromoteWar()
     {
+        if (!selectedPiece) return;
         selectedPiece.PromoteWar();
     }
 

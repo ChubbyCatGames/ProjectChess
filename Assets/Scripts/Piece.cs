@@ -113,4 +113,8 @@ public abstract class Piece : MonoBehaviour
         return null;
     }
 
+    internal void Attack(Piece defensor)
+    {
+        defensor.life -= attackDmg;
+    }
 }
