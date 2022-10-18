@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public TextMeshProUGUI uiText;
 
     private PieceCreator pieceCreator;
+    private CameraManager cameraManager;
 
     //Instances of the players and the active player
     private Player whitePlayer;
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour
     private void SetDependencies()
     {
         pieceCreator = GetComponent<PieceCreator>();
+        cameraManager = GetComponent<CameraManager>();
     }
 
     private void CreatePLayers()
@@ -176,6 +178,7 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
+        cameraManager.ChangeCam();
 
     }
 
