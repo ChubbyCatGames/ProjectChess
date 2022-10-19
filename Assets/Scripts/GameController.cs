@@ -178,7 +178,7 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
-        cameraManager.ChangeCam();
+        //cameraManager.ChangeCam();
 
     }
 

@@ -18,6 +18,8 @@ public class Board : MonoBehaviour
     private GameController controller;
     private SquareSelectorCreator squareSelector;
 
+    [SerializeField] UIManager uIManager;
+
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
@@ -77,6 +79,7 @@ public class Board : MonoBehaviour
         selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
+        uIManager.UpdateUI();
     }
 
     private void ShowSelectionSquares(List<Vector2Int> selection)
@@ -101,6 +104,7 @@ public class Board : MonoBehaviour
     {
         selectedPiece = null;
         squareSelector.ClearSelection();
+        uIManager.UpdateUI();
     }
 
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
@@ -217,5 +221,10 @@ public class Board : MonoBehaviour
     {
         selectedPiece = null;
         CreateGrid();
+    }
+
+    public Piece getSelectedPiece()
+    {
+        return selectedPiece;
     }
 }
