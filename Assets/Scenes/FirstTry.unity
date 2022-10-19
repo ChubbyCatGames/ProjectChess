@@ -1042,7 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomLeftSquareTransform: {fileID: 1923438929}
   squareSize: -2
-  uIManager: {fileID: 1407640895}
+  uIManager: {fileID: 1724731513}
 --- !u!114 &1245744674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1129,7 +1129,6 @@ GameObject:
   - component: {fileID: 1407640894}
   - component: {fileID: 1407640897}
   - component: {fileID: 1407640896}
-  - component: {fileID: 1407640895}
   m_Layer: 5
   m_Name: InterfazPlaceholder
   m_TagString: Untagged
@@ -1157,19 +1156,6 @@ RectTransform:
   m_AnchoredPosition: {x: 345, y: 221}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1407640895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1407640893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9421d9c05eb2b5247b3c96cb31dccd59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  board: {fileID: 1245744673}
 --- !u!114 &1407640896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,6 +1388,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1435947650}
   m_CullTransparentMesh: 1
+--- !u!1 &1724731512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1724731514}
+  - component: {fileID: 1724731513}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1724731513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724731512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9421d9c05eb2b5247b3c96cb31dccd59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info: {fileID: 1407640896}
+  board: {fileID: 1245744673}
+--- !u!4 &1724731514
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724731512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 739.929, y: 192.27818, z: 377.22864}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1867233998
 GameObject:
   m_ObjectHideFlags: 0
