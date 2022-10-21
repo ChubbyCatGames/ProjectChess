@@ -136,7 +136,7 @@ public class Board : MonoBehaviour
 
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
         {
-            StartCoroutine(controller.StartFight(selectedPiece, piece));
+            controller.StartFight(selectedPiece, piece);
             if (winSelectedPiece)
                 TakePiece(piece);
             else

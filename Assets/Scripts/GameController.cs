@@ -143,27 +143,33 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    public IEnumerator StartFight(Piece attacker, Piece defensor)
+    public void StartFight(Piece attacker, Piece defensor)
     {
-        while(attacker.life>0 && defensor.life > 0)
+        //Start a coroutine to make an animation
+        
+        int hitsAtck = 0;
+        int hitsDef = 0;
+        while (attacker.life>0 && defensor.life > 0)
         {
-            uiManager.StartFightUI();
+
             attacker.Attack(defensor);
+            hitsAtck++;
             if (defensor.life > 0)
+            {
                 defensor.Attack(attacker);
+                hitsDef++;
+            }
         }
+        StartCoroutine(uiManager.StartFightUI(hitsAtck,hitsDef));
         if (defensor.life <= 0)
         { 
             board.winSelectedPiece = true;
             uiManager.StopFight();
-            yield return null;
-        }
-
-        else
+;
+        }else
         {
             board.winSelectedPiece = false;
             uiManager.StopFight();
-            yield return null;
         }
             
     }
