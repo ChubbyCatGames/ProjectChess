@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private Board board;
+    [SerializeField] private UIManager uiManager;
     public TextMeshProUGUI uiText;
 
     private PieceCreator pieceCreator;
@@ -142,18 +143,29 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    public Piece startFight(Piece attacker, Piece defensor)
+    public IEnumerator StartFight(Piece attacker, Piece defensor)
     {
         while(attacker.life>0 && defensor.life > 0)
         {
+            uiManager.StartFightUI();
             attacker.Attack(defensor);
             if (defensor.life > 0)
                 defensor.Attack(attacker);
         }
         if (defensor.life <= 0)
-            return attacker;
+        { 
+            board.winSelectedPiece = true;
+            uiManager.StopFight();
+            yield return null;
+        }
+
         else
-            return defensor;
+        {
+            board.winSelectedPiece = false;
+            uiManager.StopFight();
+            yield return null;
+        }
+            
     }
 
     private void EndGame()

@@ -18,6 +18,8 @@ public class Board : MonoBehaviour
     private GameController controller;
     private SquareSelectorCreator squareSelector;
 
+    public bool winSelectedPiece = true;
+
     [SerializeField] UIManager uIManager;
 
     private void Awake()
@@ -128,13 +130,13 @@ public class Board : MonoBehaviour
     private bool TryToTake(Vector2Int coords)
     {
 
-        bool winSelectedPiece = true;
+        
         Piece piece = GetPieceOnSquare(coords);
+        winSelectedPiece = true;
 
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
         {
-            Piece winner = controller.startFight(selectedPiece, piece);
-            winSelectedPiece = winner.Equals(selectedPiece) ? true : false;
+            StartCoroutine(controller.StartFight(selectedPiece, piece));
             if (winSelectedPiece)
                 TakePiece(piece);
             else

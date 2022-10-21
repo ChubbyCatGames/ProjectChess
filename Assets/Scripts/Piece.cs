@@ -117,4 +117,9 @@ public abstract class Piece : MonoBehaviour
     {
         defensor.life -= attackDmg;
     }
+
+    public string GetData()
+    {
+        return "Name: " + GetType().ToString() + "<br>Vida: " + life.ToString() + "<br>Atack: " + attackDmg.ToString();
+    }
 }
