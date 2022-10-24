@@ -29,11 +29,11 @@ Las reglas de siempre: ¿Recuerdas cómo se juega al ajedrez? En Chess: Holy War
 
 |Nombre y Apellidos            |Correo de la universidad         |Cuenta de GitHub       |
 |------------------------------|---------------------------------|-----------------------|
-| Elisa Barba Oritz            |                                 |                       |
-| Raul de Miguel Martín        |                                 |SoulsRels              |
+| Elisa Barba Oritz            |e.barba.2019@alumnos.urjc.es     |elibo09                |
+| Raul de Miguel Martín        |r.demiguel.2019@alumnos.urjc.es  |RelSouls               |
 | Juan Antonio Piña Ramos      |ja.pinar.2017@alumnos.urjc.es    |SouthBarbol            |
-| David López López            |                                 |david-3lm              |
-| Jennifer Sofía Pardo Cepeda  |                                 |                       |
+| David López López            |d.lopezl.2019@alumnos.urjc.es    |david-3lm              |
+| Jennifer Sofía Pardo Cepeda  |js.pardo.2019@alumnos.urjc.es    |NeoTX14                |
 
 ***- LOGO -***
 
