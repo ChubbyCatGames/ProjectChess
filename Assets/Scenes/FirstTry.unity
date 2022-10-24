@@ -1536,6 +1536,7 @@ MonoBehaviour:
   info: {fileID: 1407640896}
   fightUI: {fileID: 1262733707}
   board: {fileID: 1245744673}
+  cardsPrefabs: []
 --- !u!4 &1724731514
 Transform:
   m_ObjectHideFlags: 0

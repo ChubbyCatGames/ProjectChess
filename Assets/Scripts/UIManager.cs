@@ -8,7 +8,12 @@ public class UIManager : MonoBehaviour
     [SerializeField]TextMeshProUGUI info;
     [SerializeField]GameObject fightUI;
     [SerializeField] Board board;
+    //cards prefabs
+    [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
+
+    //Dictionary with game cards and game objects
+    private Dictionary<string, GameObject> CardsDict = new Dictionary<string, GameObject>();
 
     private void Awake()
     {

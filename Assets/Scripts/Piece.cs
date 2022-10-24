@@ -122,4 +122,20 @@ public abstract class Piece : MonoBehaviour
     {
         return "Name: " + GetType().ToString() + "<br>Vida: " + life.ToString() + "<br>Atack: " + attackDmg.ToString();
     }
+
+    //methods for in game interfacer
+
+    public string GetName()
+    {
+        return GetType().ToString();
+    }
+    public string GetLife()
+    {
+        return life.ToString();
+    }
+
+    public string GetAttack()
+    {
+        return attackDmg.ToString();
+    }
 }
