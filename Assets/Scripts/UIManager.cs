@@ -6,11 +6,17 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]TextMeshProUGUI info;
+    [SerializeField] TextMeshProUGUI attackAndLife;
     [SerializeField]GameObject fightUI;
     [SerializeField] Board board;
+    //game object interfaz in game
+    [SerializeField] GameObject inGameUi;
+    //one Card
+    [SerializeField] GameObject churchCard;
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
+
 
     //Dictionary with game cards and game objects
     private Dictionary<string, GameObject> CardsDict = new Dictionary<string, GameObject>();
@@ -24,7 +30,10 @@ public class UIManager : MonoBehaviour
         if (board.getSelectedPiece() != null)
         {
             Piece piece = board.getSelectedPiece();
-            info.text = piece.GetData();
+            //info.text = piece.GetData();
+            attackAndLife.text = piece.GetAttack() + " " + " " + " " + piece.GetLife();
+            inGameUi.SetActive(false); 
+            churchCard.SetActive(true);
         }
         else
         {
@@ -42,6 +51,7 @@ public class UIManager : MonoBehaviour
         //Hacer un diccionario de prefabs de cartas, llamarlas aqui y ejecutar su animacion.
 
         fightUI.SetActive(false);
+    
     }
 
     public void StopFight()
