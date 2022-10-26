@@ -1357,7 +1357,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6157163619041581504, guid: fb1e11d686683174d970e01f1a72ea48, type: 3}
       propertyPath: m_Name
-      value: ChurchCard
+      value: Church
       objectReference: {fileID: 0}
     - target: {fileID: 6157163619041581504, guid: fb1e11d686683174d970e01f1a72ea48, type: 3}
       propertyPath: m_IsActive
@@ -1907,7 +1907,8 @@ MonoBehaviour:
   board: {fileID: 1245744673}
   inGameUi: {fileID: 121489599}
   churchCard: {fileID: 661246226}
-  cardsPrefabs: []
+  cardsPrefabs:
+  - {fileID: 661246226}
 --- !u!4 &1724731514
 Transform:
   m_ObjectHideFlags: 0
