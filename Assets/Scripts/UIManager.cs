@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
+    private GameObject card;
 
 
     //Dictionary with game cards and game objects
@@ -24,6 +25,12 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         fightUI.SetActive(false);
+        
+        foreach (var concreteCard in cardsPrefabs)
+        {
+            CardsDict.Add(concreteCard.name, concreteCard);
+            Debug.Log(concreteCard.name);
+        }
     }
     public void UpdateUI()
     {
@@ -31,9 +38,22 @@ public class UIManager : MonoBehaviour
         {
             Piece piece = board.getSelectedPiece();
             //info.text = piece.GetData();
-            attackAndLife.text = piece.GetAttack() + " " + " " + " " + piece.GetLife();
-            inGameUi.SetActive(false); 
-            churchCard.SetActive(true);
+            //attackAndLife.text = piece.GetAttack() + " " + " " + " " + piece.GetLife();
+
+            //Debug.Log(piece.GetName());
+            //Debug.Log(CardsDict);
+            if (CardsDict.ContainsKey(piece.GetName()))
+            {
+                card = CardsDict[piece.GetName()];
+            }
+            //churchCard.SetActive(true);
+            if(card != null) 
+            {
+                inGameUi.SetActive(false);
+                card.SetActive(true);
+                attackAndLife.text = piece.GetAttack() + " " + " " + " " + piece.GetLife();
+            }
+
         }
         else
         {
@@ -59,4 +79,5 @@ public class UIManager : MonoBehaviour
         //fightUI.SetActive(false);
         //Devolver a la corutina
     }
+
 }
