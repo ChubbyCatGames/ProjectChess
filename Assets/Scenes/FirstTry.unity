@@ -1375,6 +1375,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3318027613526600357, guid: fb1e11d686683174d970e01f1a72ea48, type: 3}
   m_PrefabInstance: {fileID: 661246225}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &705840014 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3636626580676988482, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+  m_PrefabInstance: {fileID: 500776479}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1245744670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1634452787968558, guid: c364da1e00b6a954c9da291cba0e718f, type: 3}
@@ -1526,6 +1537,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1369281661 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8465385790595197351, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+  m_PrefabInstance: {fileID: 500776479}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1407640893
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,6 +1928,8 @@ MonoBehaviour:
   fightUI: {fileID: 1262733707}
   board: {fileID: 1245744673}
   inGameUi: {fileID: 121489599}
+  goldText: {fileID: 1369281661}
+  blessingText: {fileID: 705840014}
   churchCard: {fileID: 661246226}
   cardsPrefabs:
   - {fileID: 661246226}

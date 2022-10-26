@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] Board board;
     //game object interfaz in game
     [SerializeField] GameObject inGameUi;
+    [SerializeField] TextMeshProUGUI goldText;
+    [SerializeField] TextMeshProUGUI blessingText;
     //one Card
     [SerializeField] GameObject churchCard;
     //cards prefabs
@@ -32,6 +34,12 @@ public class UIManager : MonoBehaviour
             Debug.Log(concreteCard.name);
         }
     }
+    public void ChangePlayerUI(Player player)
+    {
+        goldText.text= player.gold.ToString();
+        blessingText.text= player.blessing.ToString();
+    }
+
     public void UpdateUI()
     {
         if (board.getSelectedPiece() != null)

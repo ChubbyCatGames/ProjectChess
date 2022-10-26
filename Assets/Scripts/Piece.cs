@@ -32,6 +32,9 @@ public abstract class Piece : MonoBehaviour
     public int attackDmg;
     public int richness;
 
+    public int blessingDevelopCost;
+    public int goldDevelopCost;
+
     private void Awake()
     {
         avaliableMoves = new List<Vector2Int>();

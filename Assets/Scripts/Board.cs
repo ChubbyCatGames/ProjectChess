@@ -194,12 +194,20 @@ public class Board : MonoBehaviour
 
     public void OnSelectedPiecePromoteFaith()
     {
-        if (!selectedPiece) return;
+        //Check if is possible to develop a piece
+        if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold 
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+        controller.activePlayer.PieceDeveloped(selectedPiece);
+        uIManager.ChangePlayerUI(controller.activePlayer);
         selectedPiece.PromoteFaith();
     }
     public void OnSelectedPiecePromoteWar()
     {
-        if (!selectedPiece) return;
+        //Check if is possible to develop a piece
+        if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+        controller.activePlayer.PieceDeveloped(selectedPiece);
+        uIManager.ChangePlayerUI(controller.activePlayer);
         selectedPiece.PromoteWar();
     }
 

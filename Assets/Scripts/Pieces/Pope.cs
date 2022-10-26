@@ -67,7 +67,9 @@ public class Pope : Piece
     {
         this.life = 80;
         this.attackDmg = 40;
-        this.richness = 0;
+        this.richness = 35;
+        this.blessingDevelopCost = 9999;
+        this.goldDevelopCost = 9999;
     }
 
     public override void PromoteFaith()

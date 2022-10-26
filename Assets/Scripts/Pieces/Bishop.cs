@@ -46,7 +46,9 @@ public class Bishop : Piece
     {
         this.life = 40;
         this.attackDmg = 25;
-        this.richness = 0;
+        this.richness = 20;
+        this.blessingDevelopCost = 3;
+        this.goldDevelopCost = 140;
     }
 
     public override void PromoteFaith()

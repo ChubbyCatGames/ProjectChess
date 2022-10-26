@@ -26,6 +26,8 @@ public class GameController : MonoBehaviour
     private GameState gameState;
 
 
+
+
     private void Awake()
     {
         SetDependencies();
@@ -196,8 +198,15 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
-        //cameraManager.ChangeCam();
+        GetTitheAndBlessing();
+        uiManager.ChangePlayerUI(activePlayer);
 
+    }
+
+    private void GetTitheAndBlessing()
+    {
+        activePlayer.UpdateGold();
+        activePlayer.blessing += 1;
     }
 
     public void RemoveMovesEnablingAttackOnPieceOfType<T>(Piece p) where T : Piece

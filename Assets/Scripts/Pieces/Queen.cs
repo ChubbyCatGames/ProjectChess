@@ -48,7 +48,9 @@ public class Queen : Piece
     {
         this.life = 60;
         this.attackDmg = 60;
-        this.richness = 0;
+        this.richness = 40;
+        this.blessingDevelopCost = 9999;
+        this.goldDevelopCost = 9999;
     }
 
     public override void PromoteFaith()

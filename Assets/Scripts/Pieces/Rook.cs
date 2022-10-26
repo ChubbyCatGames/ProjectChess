@@ -36,7 +36,9 @@ public class Rook : Piece
     {
         this.life = 45;
         this.attackDmg = 50;
-        this.richness = 0;
+        this.richness = 30;
+        this.blessingDevelopCost = 5;
+        this.goldDevelopCost = 300;
     }
 
     public override void PromoteFaith()

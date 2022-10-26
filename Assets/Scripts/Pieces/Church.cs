@@ -48,7 +48,9 @@ public class Church : Piece
     {
         this.life = 65;
         this.attackDmg = 30;
-        this.richness = 0;
+        this.richness = 25;
+        this.blessingDevelopCost = 6;
+        this.goldDevelopCost = 220;
     }
 
     public override void PromoteFaith()
