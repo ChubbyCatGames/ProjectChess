@@ -214,7 +214,7 @@ public class Board : MonoBehaviour
     public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, t);
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
@@ -222,7 +222,7 @@ public class Board : MonoBehaviour
     public void PromotePieceWar(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, t);
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }

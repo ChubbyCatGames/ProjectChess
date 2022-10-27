@@ -65,7 +65,9 @@ public class Pope : Piece
 
     public override void InitializeValues()
     {
-        this.life = 80;
+
+        this.maxLife = 80;
+        this.life = this.maxLife;
         this.attackDmg = 40;
         this.richness = 35;
         this.blessingDevelopCost = 9999;

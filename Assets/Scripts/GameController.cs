@@ -58,6 +58,7 @@ public class GameController : MonoBehaviour
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
+        GetTitheAndBlessing();
     }
 
     private void SetGameState(GameState state)
@@ -92,6 +93,22 @@ public class GameController : MonoBehaviour
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
+
+        Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
+        newPiece.SetMaterial(colorMaterial);
+
+        board.SetPieceOnBoard(squareCoords, newPiece);
+
+        Player currentPlayer = pieceColor == PieceColor.White ? whitePlayer : blackPlayer;
+        currentPlayer.AddPiece(newPiece);
+
+    }
+
+    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, int life)
+    {
+        Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
+        newPiece.SetData(squareCoords, pieceColor, board);
+        newPiece.life = life;
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
@@ -156,6 +173,7 @@ public class GameController : MonoBehaviour
 
             attacker.Attack(defensor);
             hitsAtck++;
+            
             if (defensor.life > 0)
             {
                 defensor.Attack(attacker);
@@ -199,14 +217,13 @@ public class GameController : MonoBehaviour
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
         GetTitheAndBlessing();
-        uiManager.ChangePlayerUI(activePlayer);
-
     }
 
     private void GetTitheAndBlessing()
     {
         activePlayer.UpdateGold();
         activePlayer.blessing += 1;
+        uiManager.ChangePlayerUI(activePlayer);
     }
 
     public void RemoveMovesEnablingAttackOnPieceOfType<T>(Piece p) where T : Piece
