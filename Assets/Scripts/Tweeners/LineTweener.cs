@@ -10,7 +10,7 @@ public class LineTweener : MonoBehaviour, IObjectTweener
     void IObjectTweener.MoveTo(Transform transform, Vector3 targetPosition)
     {
         float distance = Vector3.Distance(targetPosition, transform.position);
-        transform.DOMove(targetPosition, distance/speed);
+        transform.DOMove(targetPosition, speed/Mathf.Log(distance));
     }
 
     

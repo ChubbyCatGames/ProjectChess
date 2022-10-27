@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
     //Instances of the players and the active player
     private Player whitePlayer;
     private Player blackPlayer;
-    private Player activePlayer;
+    public Player activePlayer;
 
     private GameState gameState;
 
@@ -88,16 +88,17 @@ public class GameController : MonoBehaviour
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
 
-        Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor);
+        Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
 
         board.SetPieceOnBoard(squareCoords, newPiece);
 
         Player currentPlayer = pieceColor == PieceColor.White ? whitePlayer : blackPlayer;
         currentPlayer.AddPiece(newPiece);
+
     }
 
-    private void GenerateAllPossiblePlayerMoves(Player player)
+    public void GenerateAllPossiblePlayerMoves(Player player)
     {
         player.GenerateAllPosibleMoves();
     }

@@ -8,6 +8,7 @@ public abstract class InputReciever : MonoBehaviour
     protected IInputHandler[] inputHandlers;
 
     public abstract void OnInputRecieved(InputAction.CallbackContext context);
+    public abstract void OnInputRecievedTouch(InputAction.CallbackContext context);
 
     private void Awake()
     {

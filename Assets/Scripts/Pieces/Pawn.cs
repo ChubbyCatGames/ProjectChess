@@ -47,7 +47,24 @@ public class Pawn : Piece
         int endOfBoardYCoord = color == PieceColor.White ? Board.BOARD_SIZE - 1 : 0;
         if (occupiedSquare.y == endOfBoardYCoord)
         {
-            board.PromotePiece(this);
+            //board.PromotePiece(this);
         }
+    }
+
+    public override void InitializeValues()
+    {
+        this.life = 35;
+        this.attackDmg = 20;
+        this.richness = 0;
+    }
+
+    public override void PromoteFaith()
+    {
+        board.PromotePieceFaith(this, typeof(Bishop));
+    }
+
+    public override void PromoteWar()
+    {
+        board.PromotePieceWar(this, typeof(Knight));
     }
 }

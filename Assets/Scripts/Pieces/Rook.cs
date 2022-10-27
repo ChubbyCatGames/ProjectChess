@@ -32,5 +32,20 @@ public class Rook : Piece
         return avaliableMoves;
     }
 
- 
+    public override void InitializeValues()
+    {
+        this.life = 45;
+        this.attackDmg = 50;
+        this.richness = 0;
+    }
+
+    public override void PromoteFaith()
+    {
+        return;
+    }
+
+    public override void PromoteWar()
+    {
+        board.PromotePieceWar(this, typeof(Queen));
+    }
 }
