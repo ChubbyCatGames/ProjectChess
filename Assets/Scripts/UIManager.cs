@@ -6,7 +6,9 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [SerializeField]TextMeshProUGUI info;
-    [SerializeField] TextMeshProUGUI attackAndLife;
+    [SerializeField] TextMeshProUGUI attack;
+    [SerializeField] TextMeshProUGUI life;
+    [SerializeField] TextMeshProUGUI richness;
     [SerializeField]GameObject fightUI;
     [SerializeField] Board board;
     //game object interfaz in game
@@ -19,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
     private GameObject card;
+    [SerializeField] GameObject[] icons;
 
 
     //Dictionary with game cards and game objects
@@ -27,7 +30,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         fightUI.SetActive(false);
-        
+
         foreach (var concreteCard in cardsPrefabs)
         {
             CardsDict.Add(concreteCard.name, concreteCard);
@@ -59,7 +62,11 @@ public class UIManager : MonoBehaviour
             {
                 inGameUi.SetActive(false);
                 card.SetActive(true);
-                attackAndLife.text = piece.GetAttack() + " " + " " + " " + piece.GetLife();
+                activateIcons();
+
+                attack.text = piece.GetAttack();
+                life.text = piece.GetLife();
+                richness.text = piece.GetRichness();
             }
 
         }
@@ -86,6 +93,14 @@ public class UIManager : MonoBehaviour
     {
         //fightUI.SetActive(false);
         //Devolver a la corutina
+    }
+
+    public void activateIcons()
+    {
+        foreach (var i in icons)
+        {
+            i.SetActive(true);
+        }
     }
 
 }

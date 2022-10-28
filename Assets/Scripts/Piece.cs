@@ -147,14 +147,20 @@ public abstract class Piece : MonoBehaviour
     }
     public string GetLife()
     {
-        return life.ToString();
+        string cadena = life.ToString() + "/" + maxLife.ToString();
+        return cadena;
     }
 
     public string GetAttack()
     {
         return attackDmg.ToString();
     }
-    
+
+    public string GetRichness()
+    {
+        return richness.ToString();
+    }
+
     private void UpdateLifeUI()
     {
         if (life < maxLife)
