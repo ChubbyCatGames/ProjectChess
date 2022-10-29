@@ -11,9 +11,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI richness;
     [SerializeField] TextMeshProUGUI fractionBlessing;
     [SerializeField] TextMeshProUGUI fractionGold;
+
     [SerializeField]GameObject fightUI;
-    [SerializeField]GameObject attackerCard;
-    [SerializeField]GameObject defensorCard;
+    [SerializeField]Transform attackerCardPos;
+    [SerializeField]Transform defensorCardPos;
+    private GameObject attackerCard;
+    private GameObject defensorCard;
 
 
     [SerializeField] Board board;
@@ -34,8 +37,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         fightUI.SetActive(false);
-        attackerCard.SetActive(false);
-        defensorCard.SetActive(false);
+
 
         foreach (var concreteCard in cardsPrefabs)
         {
@@ -98,15 +100,19 @@ public class UIManager : MonoBehaviour
     public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef)
     {
 
-        /* NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
+        // NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
         fightUI.SetActive(true);
-        attackerCard = CardsDict[attacker.GetName()];
-        defensorCard = CardsDict[defensor.GetName()];
+        attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos );
+        defensorCard = Instantiate( CardsDict[defensor.GetName()], defensorCardPos);
+        attackerCard.transform.position = attackerCardPos.position;
+        defensorCard.transform.position = defensorCardPos.position;
+        attackerCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
+        defensorCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
+
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
-        */
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);
         //Ejecutar animaciones de pegarse
