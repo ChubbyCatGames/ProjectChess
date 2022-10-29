@@ -180,7 +180,7 @@ public class GameController : MonoBehaviour
                 hitsDef++;
             }
         }
-        StartCoroutine(uiManager.StartFightUI(hitsAtck,hitsDef));
+        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));
         if (defensor.life <= 0)
         { 
             board.winSelectedPiece = true;

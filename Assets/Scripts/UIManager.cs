@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI life;
     [SerializeField] TextMeshProUGUI richness;
     [SerializeField]GameObject fightUI;
+    [SerializeField]GameObject attackerCard;
+    [SerializeField]GameObject defensorCard;
+
+
     [SerializeField] Board board;
     //game object interfaz in game
     [SerializeField] GameObject inGameUi;
@@ -30,6 +34,8 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         fightUI.SetActive(false);
+        attackerCard.SetActive(false);
+        defensorCard.SetActive(false);
 
         foreach (var concreteCard in cardsPrefabs)
         {
@@ -76,16 +82,26 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public IEnumerator StartFightUI(int hitsAtck,int hitsDef)
+    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef)
     {
+
+        /* NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
         fightUI.SetActive(true);
-        yield return new WaitForSeconds(.4f);
-        animation.Play();
-        yield return new WaitUntil(()=>!animation.isPlaying);
+        attackerCard = CardsDict[attacker.GetName()];
+        defensorCard = CardsDict[defensor.GetName()];
+        attackerCard.SetActive(true);
+        defensorCard.SetActive(true);
+        */
+
+        yield return new WaitForSeconds(1f);
+        //animation.Play();
+        //yield return new WaitUntil(()=>!animation.isPlaying);
         //Ejecutar animaciones de pegarse
         //Hacer un diccionario de prefabs de cartas, llamarlas aqui y ejecutar su animacion.
 
         fightUI.SetActive(false);
+        attackerCard.SetActive(false);
+        defensorCard.SetActive(false);
     
     }
 
