@@ -161,6 +161,16 @@ public abstract class Piece : MonoBehaviour
         return richness.ToString();
     }
 
+    public string GetBlessingDevelopCost()
+    {
+        return blessingDevelopCost.ToString();
+    }
+
+    public string GetGoldDevelopCost()
+    {
+        return goldDevelopCost.ToString();
+    }
+
     private void UpdateLifeUI()
     {
         if (life < maxLife)

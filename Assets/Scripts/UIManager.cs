@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI attack;
     [SerializeField] TextMeshProUGUI life;
     [SerializeField] TextMeshProUGUI richness;
+    [SerializeField] TextMeshProUGUI fractionBlessing;
+    [SerializeField] TextMeshProUGUI fractionGold;
     [SerializeField]GameObject fightUI;
     [SerializeField]GameObject attackerCard;
     [SerializeField]GameObject defensorCard;
@@ -19,8 +21,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject inGameUi;
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] TextMeshProUGUI blessingText;
-    //one Card
-    [SerializeField] GameObject churchCard;
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
@@ -68,17 +68,30 @@ public class UIManager : MonoBehaviour
             {
                 inGameUi.SetActive(false);
                 card.SetActive(true);
-                activateIcons();
+                //activateIcons();
 
                 attack.text = piece.GetAttack();
                 life.text = piece.GetLife();
                 richness.text = piece.GetRichness();
+                fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
+                fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
             }
 
         }
         else
         {
             info.text = "";
+
+            if (card != null)
+            {
+                card.SetActive(false);
+                attack.text = "";
+                life.text = "";
+                richness.text = "";
+                fractionGold.text = "";
+                fractionBlessing.text = "";
+                inGameUi.SetActive(true);
+            }
         }
     }
 
