@@ -46,9 +46,12 @@ public class Church : Piece
 
     public override void InitializeValues()
     {
-        this.life = 65;
+        this.maxLife = 65;
+        this.life = this.maxLife;
         this.attackDmg = 30;
-        this.richness = 0;
+        this.richness = 25;
+        this.blessingDevelopCost = 6;
+        this.goldDevelopCost = 220;
     }
 
     public override void PromoteFaith()

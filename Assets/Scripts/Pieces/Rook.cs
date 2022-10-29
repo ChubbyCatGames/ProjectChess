@@ -34,9 +34,12 @@ public class Rook : Piece
 
     public override void InitializeValues()
     {
-        this.life = 45;
+        this.maxLife = 45;
+        this.life = this.maxLife;
         this.attackDmg = 50;
-        this.richness = 0;
+        this.richness = 30;
+        this.blessingDevelopCost = 5;
+        this.goldDevelopCost = 300;
     }
 
     public override void PromoteFaith()

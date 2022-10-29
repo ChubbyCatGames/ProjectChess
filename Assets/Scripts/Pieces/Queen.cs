@@ -46,9 +46,12 @@ public class Queen : Piece
 
     public override void InitializeValues()
     {
-        this.life = 60;
+        this.maxLife = 60;
+        this.life = this.maxLife;
         this.attackDmg = 60;
-        this.richness = 0;
+        this.richness = 40;
+        this.blessingDevelopCost = 9999;
+        this.goldDevelopCost = 9999;
     }
 
     public override void PromoteFaith()

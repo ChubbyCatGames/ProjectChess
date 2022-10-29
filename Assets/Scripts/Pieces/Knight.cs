@@ -33,9 +33,12 @@ public class Knight : Piece
 
     public override void InitializeValues()
     {
-        this.life = 35;
+        this.maxLife = 35;
+        this.life = this.maxLife;
         this.attackDmg = 30;
-        this.richness = 0;
+        this.richness = 20;
+        this.blessingDevelopCost = 3;
+        this.goldDevelopCost = 140;
     }
 
     public override void PromoteFaith()

@@ -14,28 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardSetup:
   - position: {x: 1, y: 1}
-    pieceType: 6
+    pieceType: 0
     pieceColor: 1
   - position: {x: 2, y: 1}
-    pieceType: 7
+    pieceType: 0
     pieceColor: 1
   - position: {x: 3, y: 1}
-    pieceType: 1
+    pieceType: 0
     pieceColor: 1
   - position: {x: 4, y: 1}
-    pieceType: 4
+    pieceType: 0
     pieceColor: 1
   - position: {x: 5, y: 1}
     pieceType: 5
     pieceColor: 1
   - position: {x: 6, y: 1}
-    pieceType: 1
+    pieceType: 0
     pieceColor: 1
   - position: {x: 7, y: 1}
-    pieceType: 2
+    pieceType: 0
     pieceColor: 1
   - position: {x: 8, y: 1}
-    pieceType: 3
+    pieceType: 0
     pieceColor: 1
   - position: {x: 1, y: 2}
     pieceType: 0
@@ -62,28 +62,28 @@ MonoBehaviour:
     pieceType: 0
     pieceColor: 1
   - position: {x: 1, y: 8}
-    pieceType: 3
+    pieceType: 0
     pieceColor: 0
   - position: {x: 2, y: 8}
-    pieceType: 2
+    pieceType: 0
     pieceColor: 0
   - position: {x: 3, y: 8}
-    pieceType: 1
+    pieceType: 0
     pieceColor: 0
   - position: {x: 4, y: 8}
-    pieceType: 4
+    pieceType: 0
     pieceColor: 0
   - position: {x: 5, y: 8}
     pieceType: 5
     pieceColor: 0
   - position: {x: 6, y: 8}
-    pieceType: 1
+    pieceType: 0
     pieceColor: 0
   - position: {x: 7, y: 8}
-    pieceType: 2
+    pieceType: 0
     pieceColor: 0
   - position: {x: 8, y: 8}
-    pieceType: 3
+    pieceType: 0
     pieceColor: 0
   - position: {x: 1, y: 7}
     pieceType: 0

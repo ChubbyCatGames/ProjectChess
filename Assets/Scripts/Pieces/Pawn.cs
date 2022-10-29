@@ -36,26 +36,15 @@ public class Pawn : Piece
         return avaliableMoves;
     }
 
-    public override void MovePiece(Vector2Int coords)
-    {
-        base.MovePiece(coords);
-        CheckPromotion();
-    }
-
-    private void CheckPromotion()
-    {
-        int endOfBoardYCoord = color == PieceColor.White ? Board.BOARD_SIZE - 1 : 0;
-        if (occupiedSquare.y == endOfBoardYCoord)
-        {
-            //board.PromotePiece(this);
-        }
-    }
-
     public override void InitializeValues()
     {
-        this.life = 35;
+
+        this.maxLife = 35;
+        this.life= this.maxLife;
         this.attackDmg = 20;
-        this.richness = 0;
+        this.richness = 10;
+        this.blessingDevelopCost = 2;
+        this.goldDevelopCost = 75;
     }
 
     public override void PromoteFaith()

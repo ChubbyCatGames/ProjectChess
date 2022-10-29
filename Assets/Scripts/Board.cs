@@ -18,6 +18,10 @@ public class Board : MonoBehaviour
     private GameController controller;
     private SquareSelectorCreator squareSelector;
 
+    public bool winSelectedPiece = true;
+
+    [SerializeField] UIManager uIManager;
+
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
@@ -77,6 +81,7 @@ public class Board : MonoBehaviour
         selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;
         ShowSelectionSquares(selection);
+        uIManager.UpdateUI();
     }
 
     private void ShowSelectionSquares(List<Vector2Int> selection)
@@ -101,25 +106,43 @@ public class Board : MonoBehaviour
     {
         selectedPiece = null;
         squareSelector.ClearSelection();
+        uIManager.UpdateUI();
     }
 
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
-        TryToTake(coords);
-        UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
-        selectedPiece.MovePiece(coords);
-        DeselectPiece();
-        EndTurn();
+        bool success=TryToTake(coords);
+        if (success)
+        {
+            UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
+            selectedPiece.MovePiece(coords);
+            DeselectPiece();
+            EndTurn();
+        }
+        else
+        {
+            DeselectPiece();
+            EndTurn();
+        }
     }
 
     //******ADD STATE FIGHT**********/////
-    private void TryToTake(Vector2Int coords)
+    private bool TryToTake(Vector2Int coords)
     {
 
-        //controller.startFight();
+        
         Piece piece = GetPieceOnSquare(coords);
+        winSelectedPiece = true;
+
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
-            TakePiece(piece);
+        {
+            controller.StartFight(selectedPiece, piece);
+            if (winSelectedPiece)
+                TakePiece(piece);
+            else
+                TakePiece(selectedPiece);
+        }
+        return winSelectedPiece;
     }
 
     private void TakePiece(Piece piece)
@@ -171,17 +194,27 @@ public class Board : MonoBehaviour
 
     public void OnSelectedPiecePromoteFaith()
     {
+        //Check if is possible to develop a piece
+        if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold 
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+        controller.activePlayer.PieceDeveloped(selectedPiece);
+        uIManager.ChangePlayerUI(controller.activePlayer);
         selectedPiece.PromoteFaith();
     }
     public void OnSelectedPiecePromoteWar()
     {
+        //Check if is possible to develop a piece
+        if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+        controller.activePlayer.PieceDeveloped(selectedPiece);
+        uIManager.ChangePlayerUI(controller.activePlayer);
         selectedPiece.PromoteWar();
     }
 
     public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, t);
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
@@ -189,7 +222,7 @@ public class Board : MonoBehaviour
     public void PromotePieceWar(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitialize(p.occupiedSquare, p.color, t);
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
@@ -198,5 +231,10 @@ public class Board : MonoBehaviour
     {
         selectedPiece = null;
         CreateGrid();
+    }
+
+    public Piece getSelectedPiece()
+    {
+        return selectedPiece;
     }
 }

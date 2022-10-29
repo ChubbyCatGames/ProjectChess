@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Callbacks;
 
 [RequireComponent(typeof(IObjectTweener))]
 [RequireComponent (typeof(MaterialSetter))]
@@ -29,8 +30,14 @@ public abstract class Piece : MonoBehaviour
     public abstract void PromoteWar();
 
     public int life;
+    public int maxLife;
     public int attackDmg;
     public int richness;
+
+    public int blessingDevelopCost;
+    public int goldDevelopCost;
+
+    public Action OnLifeChanged;
 
     private void Awake()
     {
@@ -39,8 +46,16 @@ public abstract class Piece : MonoBehaviour
         materialSetter = GetComponent<MaterialSetter>();
         hasMoved = false;
         InitializeValues();
+        OnLifeChanged += UpdateLifeUI;
+        
     }
 
+    private void OnDisable()
+    {
+        OnLifeChanged -= UpdateLifeUI;
+    }
+
+    
     public void SetMaterial(Material mat)
     {
         materialSetter.SetSingleMaterial(mat);
@@ -113,4 +128,49 @@ public abstract class Piece : MonoBehaviour
         return null;
     }
 
+    internal void Attack(Piece defensor)
+    {
+        defensor.life -= attackDmg;
+        defensor.OnLifeChanged();
+    }
+
+    public string GetData()
+    {
+        return "Name: " + GetType().ToString() + "<br>Vida: " + life.ToString() + "<br>Atack: " + attackDmg.ToString();
+    }
+
+    //methods for in game interfacer
+
+    public string GetName()
+    {
+        return GetType().ToString();
+    }
+    public string GetLife()
+    {
+        string cadena = life.ToString() + "/" + maxLife.ToString();
+        return cadena;
+    }
+
+    public string GetAttack()
+    {
+        return attackDmg.ToString();
+    }
+
+    public string GetRichness()
+    {
+        return richness.ToString();
+    }
+
+    private void UpdateLifeUI()
+    {
+        if (life < maxLife)
+        {
+            //MOSTRAR DAÑO EN EL PREFAB DE LA PIEZA UN ICONO DE DAÑADO
+            
+        }
+        else
+        {
+            //DESACTIVAR EL DAÑO
+        }
+    }
 }

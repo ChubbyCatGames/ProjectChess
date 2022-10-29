@@ -11,7 +11,7 @@ public class ColliderInputReciever : InputReciever
     private InputAction selection;
     [SerializeField]
     private InputAction selectionTouch;
-    private Camera mainCamera;
+    public Camera mainCamera;
 
     InputReciever reciever;
 

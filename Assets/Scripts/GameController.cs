@@ -12,9 +12,11 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private Board board;
+    [SerializeField] private UIManager uiManager;
     public TextMeshProUGUI uiText;
 
     private PieceCreator pieceCreator;
+    private CameraManager cameraManager;
 
     //Instances of the players and the active player
     private Player whitePlayer;
@@ -22,6 +24,8 @@ public class GameController : MonoBehaviour
     public Player activePlayer;
 
     private GameState gameState;
+
+
 
 
     private void Awake()
@@ -33,6 +37,7 @@ public class GameController : MonoBehaviour
     private void SetDependencies()
     {
         pieceCreator = GetComponent<PieceCreator>();
+        cameraManager = GetComponent<CameraManager>();
     }
 
     private void CreatePLayers()
@@ -53,6 +58,7 @@ public class GameController : MonoBehaviour
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
+        GetTitheAndBlessing();
     }
 
     private void SetGameState(GameState state)
@@ -87,6 +93,22 @@ public class GameController : MonoBehaviour
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
+
+        Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
+        newPiece.SetMaterial(colorMaterial);
+
+        board.SetPieceOnBoard(squareCoords, newPiece);
+
+        Player currentPlayer = pieceColor == PieceColor.White ? whitePlayer : blackPlayer;
+        currentPlayer.AddPiece(newPiece);
+
+    }
+
+    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, int life)
+    {
+        Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
+        newPiece.SetData(squareCoords, pieceColor, board);
+        newPiece.life = life;
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
@@ -140,6 +162,38 @@ public class GameController : MonoBehaviour
         return false;
     }
 
+    public void StartFight(Piece attacker, Piece defensor)
+    {
+        //Start a coroutine to make an animation
+        
+        int hitsAtck = 0;
+        int hitsDef = 0;
+        while (attacker.life>0 && defensor.life > 0)
+        {
+
+            attacker.Attack(defensor);
+            hitsAtck++;
+            
+            if (defensor.life > 0)
+            {
+                defensor.Attack(attacker);
+                hitsDef++;
+            }
+        }
+        StartCoroutine(uiManager.StartFightUI(hitsAtck,hitsDef));
+        if (defensor.life <= 0)
+        { 
+            board.winSelectedPiece = true;
+            uiManager.StopFight();
+;
+        }else
+        {
+            board.winSelectedPiece = false;
+            uiManager.StopFight();
+        }
+            
+    }
+
     private void EndGame()
     {
         uiText.text = activePlayer.team.ToString() + " wins";
@@ -162,7 +216,14 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
+        GetTitheAndBlessing();
+    }
 
+    private void GetTitheAndBlessing()
+    {
+        activePlayer.UpdateGold();
+        activePlayer.blessing += 1;
+        uiManager.ChangePlayerUI(activePlayer);
     }
 
     public void RemoveMovesEnablingAttackOnPieceOfType<T>(Piece p) where T : Piece

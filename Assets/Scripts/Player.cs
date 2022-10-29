@@ -9,12 +9,16 @@ public class Player
     public PieceColor team {  get; set; }
     public Board board { get; set; }
     public List<Piece> activePieces { get; set; }
+    public int gold { get; set; }
+    public int blessing { get; set; }
 
     public Player(PieceColor team, Board board)
     {
         this.team = team;
         this.board = board;
         activePieces = new List<Piece>();
+        gold = 0;
+        blessing = 0;
     }
 
     public void AddPiece(Piece p)
@@ -98,8 +102,24 @@ public class Player
         return false;
     }
 
-    internal void OnGameRestarted()
+    public void OnGameRestarted()
     {
         activePieces.Clear();
+        gold = 0;
+        blessing= 0;
+    }
+
+    public void UpdateGold()
+    {
+        foreach (var piece in activePieces)
+        {
+            gold += piece.richness;
+        }
+    }
+
+    public void PieceDeveloped(Piece piece)
+    {
+        gold -= piece.goldDevelopCost;
+        blessing -= piece.blessingDevelopCost;
     }
 }

@@ -44,9 +44,12 @@ public class Bishop : Piece
 
     public override void InitializeValues()
     {
-        this.life = 40;
+        this.maxLife = 40;
+        this.life = this.maxLife;
         this.attackDmg = 25;
-        this.richness = 0;
+        this.richness = 20;
+        this.blessingDevelopCost = 3;
+        this.goldDevelopCost = 140;
     }
 
     public override void PromoteFaith()
