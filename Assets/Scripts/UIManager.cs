@@ -102,8 +102,8 @@ public class UIManager : MonoBehaviour
 
         // NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
         fightUI.SetActive(true);
-        attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos );
-        defensorCard = Instantiate( CardsDict[defensor.GetName()], defensorCardPos);
+        attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
+        defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
         attackerCard.transform.position = attackerCardPos.position;
         defensorCard.transform.position = defensorCardPos.position;
         attackerCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);

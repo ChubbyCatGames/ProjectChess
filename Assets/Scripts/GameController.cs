@@ -216,6 +216,7 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
+        uiText.text = activePlayer.team.ToString() + "'s turn";
         GetTitheAndBlessing();
     }
 
