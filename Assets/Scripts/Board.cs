@@ -77,6 +77,7 @@ public class Board : MonoBehaviour
 
     private void SelectPiece(Piece piece)
     {
+        DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
         List<Vector2Int> selection = selectedPiece.avaliableMoves;

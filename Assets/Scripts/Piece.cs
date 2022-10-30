@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Callbacks;
 
 [RequireComponent(typeof(IObjectTweener))]
 [RequireComponent (typeof(MaterialSetter))]
@@ -159,6 +158,16 @@ public abstract class Piece : MonoBehaviour
     public string GetRichness()
     {
         return richness.ToString();
+    }
+
+    public string GetBlessingDevelopCost()
+    {
+        return blessingDevelopCost.ToString();
+    }
+
+    public string GetGoldDevelopCost()
+    {
+        return goldDevelopCost.ToString();
     }
 
     private void UpdateLifeUI()

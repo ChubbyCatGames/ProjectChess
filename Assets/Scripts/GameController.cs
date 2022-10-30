@@ -180,7 +180,7 @@ public class GameController : MonoBehaviour
                 hitsDef++;
             }
         }
-        StartCoroutine(uiManager.StartFightUI(hitsAtck,hitsDef));
+        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));
         if (defensor.life <= 0)
         { 
             board.winSelectedPiece = true;
@@ -216,6 +216,7 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
+        uiText.text = activePlayer.team.ToString() + "'s turn";
         GetTitheAndBlessing();
     }
 

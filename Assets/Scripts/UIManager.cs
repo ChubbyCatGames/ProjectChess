@@ -9,14 +9,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI attack;
     [SerializeField] TextMeshProUGUI life;
     [SerializeField] TextMeshProUGUI richness;
+    [SerializeField] TextMeshProUGUI fractionBlessing;
+    [SerializeField] TextMeshProUGUI fractionGold;
+
     [SerializeField]GameObject fightUI;
+    [SerializeField]Transform attackerCardPos;
+    [SerializeField]Transform defensorCardPos;
+    private GameObject attackerCard;
+    private GameObject defensorCard;
+
+
     [SerializeField] Board board;
     //game object interfaz in game
     [SerializeField] GameObject inGameUi;
     [SerializeField] TextMeshProUGUI goldText;
     [SerializeField] TextMeshProUGUI blessingText;
-    //one Card
-    [SerializeField] GameObject churchCard;
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
@@ -30,6 +37,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         fightUI.SetActive(false);
+
 
         foreach (var concreteCard in cardsPrefabs)
         {
@@ -62,30 +70,57 @@ public class UIManager : MonoBehaviour
             {
                 inGameUi.SetActive(false);
                 card.SetActive(true);
-                activateIcons();
+                //activateIcons();
 
                 attack.text = piece.GetAttack();
                 life.text = piece.GetLife();
                 richness.text = piece.GetRichness();
+                fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
+                fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
             }
 
         }
         else
         {
             info.text = "";
+
+            if (card != null)
+            {
+                card.SetActive(false);
+                attack.text = "";
+                life.text = "";
+                richness.text = "";
+                fractionGold.text = "";
+                fractionBlessing.text = "";
+                inGameUi.SetActive(true);
+            }
         }
     }
 
-    public IEnumerator StartFightUI(int hitsAtck,int hitsDef)
+    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef)
     {
+
+        // NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
         fightUI.SetActive(true);
-        yield return new WaitForSeconds(.4f);
-        animation.Play();
-        yield return new WaitUntil(()=>!animation.isPlaying);
+        attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
+        defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
+        attackerCard.transform.position = attackerCardPos.position;
+        defensorCard.transform.position = defensorCardPos.position;
+        attackerCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
+        defensorCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
+
+        attackerCard.SetActive(true);
+        defensorCard.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        //animation.Play();
+        //yield return new WaitUntil(()=>!animation.isPlaying);
         //Ejecutar animaciones de pegarse
         //Hacer un diccionario de prefabs de cartas, llamarlas aqui y ejecutar su animacion.
 
         fightUI.SetActive(false);
+        attackerCard.SetActive(false);
+        defensorCard.SetActive(false);
     
     }
 
