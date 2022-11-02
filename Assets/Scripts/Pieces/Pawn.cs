@@ -27,9 +27,7 @@ public class Pawn : Piece
         {
             Vector2Int nextCoords = occupiedSquare + takeDirections[i];
             Piece piece = board.GetPieceOnSquare(nextCoords);
-            if (!board.CheckIfCoordAreOnBoard(nextCoords))
-                break;
-            if (piece != null && !piece.IsFromSameColor(this))
+            if (piece != null && !piece.IsFromSameColor(this) && board.CheckIfCoordAreOnBoard(nextCoords))
                 TryToAddMove(nextCoords);
                     //NOTA DE DESARROLLO: AQUI SE AÑADE EL CODIGO DEL COMBATE
         }

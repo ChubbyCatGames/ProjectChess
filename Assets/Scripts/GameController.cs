@@ -145,6 +145,11 @@ public class GameController : MonoBehaviour
     private bool CheckIfGameIsFinished()
     {
         Piece[] kingAttackingPieces = activePlayer.GetPieceAttakingPieceOfType<King>();
+        bool kingAlive = GetOpponentToPlayer(activePlayer).GetPiecesOfType<King>().Any();
+        if (!kingAlive)
+        {
+            return true;
+        }
         if(kingAttackingPieces.Length > 0)
         {
             Player oppositePlayer = GetOpponentToPlayer(activePlayer);

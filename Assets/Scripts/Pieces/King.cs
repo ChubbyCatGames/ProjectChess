@@ -90,7 +90,7 @@ public class King : Piece
 
     public override void InitializeValues()
     {
-        this.maxLife = 999;
+        this.maxLife = 10;
         this.life = this.maxLife;
         this.attackDmg = 999;
         this.richness = 0;
