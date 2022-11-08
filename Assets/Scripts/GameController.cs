@@ -104,7 +104,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, int life)
+    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, float life)
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
@@ -168,22 +168,82 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    public void StartFight(Piece attacker, Piece defensor)
+    public void StartFight(Piece attacker, Piece defensor, Vector2Int coords)
     {
         //Start a coroutine to make an animation
         
         int hitsAtck = 0;
         int hitsDef = 0;
+
+        List<Piece> attackerChurches = new List<Piece>();
+        List<Piece> defensorChurches = new List<Piece>();
+
+        List<Piece> piecesPerpendicular = board.GetPiecesOnPerpendicular(coords);
+        foreach(Piece piece in piecesPerpendicular)
+        {
+            if (piece.IsFromSameColor(attacker))
+            {
+                if (piece.GetType() == typeof(Church))
+                {
+                    attackerChurches.Add(piece);
+
+                }
+                else
+                {
+                    piece.PassiveAbility(attacker, coords);
+                }
+
+
+            }
+            else if (piece.IsFromSameColor(defensor))
+            {
+                if (piece.GetType() == typeof(Church))
+                {
+                    defensorChurches.Add(piece);
+
+                }
+                else
+                {
+                    piece.PassiveAbility(defensor, coords);
+                }
+            }
+
+            
+        }
+
         while (attacker.life>0 && defensor.life > 0)
         {
 
-            attacker.Attack(defensor);
-            hitsAtck++;
-            
+            if (defensor.ignoreFirstAttack)
+            {
+                defensor.ignoreFirstAttack = false;
+            }
+            else
+            {
+                attacker.Attack(defensor);
+                hitsAtck++;
+            }
+            for (int i = 0; i < attackerChurches.Count; i++)
+            {
+                attackerChurches[i].PassiveAbility(attacker, coords);
+            }
+
+
             if (defensor.life > 0)
             {
-                defensor.Attack(attacker);
-                hitsDef++;
+                if (defensor.ignoreFirstAttack)
+                {
+                    defensor.ignoreFirstAttack = false;
+                }
+                else
+                {
+                    defensor.Attack(attacker);
+                    hitsDef++;
+                }
+                for (int i = 0; i < attackerChurches.Count; i++)
+                {
+                    defensorChurches[i].PassiveAbility(defensor, coords);
+                }
             }
         }
         StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));

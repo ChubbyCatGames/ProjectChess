@@ -30,15 +30,17 @@ public abstract class Piece : MonoBehaviour
 
     public abstract void PromoteWar();
 
-    public int life;
-    public int maxLife;
-    public int attackDmg;
+    public float life;
+    public float maxLife;
+    public float attackDmg;
     public int richness;
 
     public int blessingDevelopCost;
     public int goldDevelopCost;
 
     public Action OnLifeChanged;
+
+    public bool ignoreFirstAttack;
 
     private void Awake()
     {
@@ -48,6 +50,8 @@ public abstract class Piece : MonoBehaviour
         hasMoved = false;
         InitializeValues();
         OnLifeChanged += UpdateLifeUI;
+
+        ignoreFirstAttack = false;
         
     }
 
@@ -78,7 +82,7 @@ public abstract class Piece : MonoBehaviour
     {
         return color == piece.color;
     }
-    
+
     public bool CanMoveTo(Vector2Int coords)
     {
         return avaliableMoves.Contains(coords);
@@ -90,6 +94,11 @@ public abstract class Piece : MonoBehaviour
         occupiedSquare = coords;
         hasMoved = true;
         tweener.MoveTo(transform, targetPosition);
+    }
+
+    public virtual void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        return;
     }
 
     

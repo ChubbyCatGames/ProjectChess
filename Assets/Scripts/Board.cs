@@ -137,7 +137,7 @@ public class Board : MonoBehaviour
 
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
         {
-            controller.StartFight(selectedPiece, piece);
+            controller.StartFight(selectedPiece, piece, coords);
             if (winSelectedPiece)
                 TakePiece(piece);
             else
@@ -172,6 +172,17 @@ public class Board : MonoBehaviour
         if (CheckIfCoordAreOnBoard(coords))
             return grid[coords.x, coords.y];
         return null;
+    }
+
+    public List<Piece> GetPiecesOnPerpendicular(Vector2Int coords)
+    {
+        List <Piece> pieces = new List<Piece>();
+        Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+        for (int i = 0; i < directions.Length; i++)
+        {
+            pieces.Add(GetPieceOnSquare(coords + directions[i]));
+        }
+        return pieces;
     }
 
     public bool CheckIfCoordAreOnBoard(Vector2Int coords)

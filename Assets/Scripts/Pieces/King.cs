@@ -129,6 +129,7 @@ public class King : Piece
         return;
     }
 
+<<<<<<< Updated upstream
     public override bool CheckThreatNextTurn()
     {
         PieceColor pc = this.color == PieceColor.White? PieceColor.Black : PieceColor.White;
@@ -159,5 +160,10 @@ public class King : Piece
         Debug.Log("cuidado Caballo" + pc.ToString());
         
         return true;
+=======
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        return;
+>>>>>>> Stashed changes
     }
 }

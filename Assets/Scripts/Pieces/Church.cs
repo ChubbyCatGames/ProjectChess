@@ -64,8 +64,14 @@ public class Church : Piece
         return;
     }
 
+<<<<<<< Updated upstream
     public override bool CheckThreatNextTurn()
     {
         return false;
+=======
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        piece.life += 5;
+>>>>>>> Stashed changes
     }
 }

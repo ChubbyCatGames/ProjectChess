@@ -51,8 +51,15 @@ public class Knight : Piece
         board.PromotePieceWar(this, typeof(Rook));
     }
 
+<<<<<<< Updated upstream
     public override bool CheckThreatNextTurn()
     {
         return false;
+=======
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+
+        //ORO OBTENIDO + 30%
+>>>>>>> Stashed changes
     }
 }

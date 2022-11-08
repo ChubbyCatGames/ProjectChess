@@ -64,8 +64,14 @@ public class Queen : Piece
         return;
     }
 
+<<<<<<< Updated upstream
     public override bool CheckThreatNextTurn()
     {
         return false;
+=======
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        board.GetPiecesOnPerpendicular(coords);
+>>>>>>> Stashed changes
     }
 }
