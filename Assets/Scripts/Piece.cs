@@ -22,6 +22,8 @@ public abstract class Piece : MonoBehaviour
 
     public abstract List<Vector2Int> SelectAvaliableSquares();
 
+    public abstract bool CheckThreatNextTurn();
+
     public abstract void InitializeValues();
 
     public abstract void PromoteFaith();
@@ -124,6 +126,25 @@ public abstract class Piece : MonoBehaviour
                 }
             }
         }
+        return null;
+    }
+    protected Piece GetPieceInJumps<T>(PieceColor color, Vector2Int jump) where T : Piece
+    {
+
+        Vector2Int nextCoords = occupiedSquare + jump;
+        Piece piece = board.GetPieceOnSquare(nextCoords);
+        if (!board.CheckIfCoordAreOnBoard(nextCoords))
+            return null;
+        if (piece != null)
+        {
+            if (piece.color != color || !(piece is T))
+                return null;
+            else if (piece.color == color && piece is T)
+            {
+                return piece;
+            }
+        }
+        
         return null;
     }
 

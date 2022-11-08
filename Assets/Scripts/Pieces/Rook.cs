@@ -51,4 +51,9 @@ public class Rook : Piece
     {
         board.PromotePieceWar(this, typeof(Queen));
     }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
 }

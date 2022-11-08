@@ -83,4 +83,9 @@ public class Pope : Piece
     {
         return;
     }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
 }

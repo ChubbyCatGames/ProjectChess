@@ -52,6 +52,11 @@ public class Player
         return activePieces.Where(p => p is T).ToArray();
     }
 
+    public Piece[] GetTheratNextMove<T>() where T : Piece
+    {
+        return activePieces.Where(p => p.CheckThreatNextTurn()).ToArray();
+    }
+
     internal void RemoveMovesEnablingAttackOnPiece<T>(Player opponent, Piece selectedPiece) where T : Piece
     {
         List<Vector2Int> coordsToRemove = new List<Vector2Int>();

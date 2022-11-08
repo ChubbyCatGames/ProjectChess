@@ -134,6 +134,7 @@ public class GameController : MonoBehaviour
     {
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
+        
         if (CheckIfGameIsFinished())
             EndGame();
         else
@@ -222,6 +223,7 @@ public class GameController : MonoBehaviour
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
         uiText.text = activePlayer.team.ToString() + "'s turn";
+        activePlayer.GetTheratNextMove<King>();
         GetTitheAndBlessing();
     }
 

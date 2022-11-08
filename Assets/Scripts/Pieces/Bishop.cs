@@ -61,4 +61,9 @@ public class Bishop : Piece
     {
         return;
     }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
 }

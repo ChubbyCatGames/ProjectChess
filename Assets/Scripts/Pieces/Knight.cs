@@ -50,4 +50,9 @@ public class Knight : Piece
     {
         board.PromotePieceWar(this, typeof(Rook));
     }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
 }
