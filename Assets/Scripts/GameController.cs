@@ -132,6 +132,8 @@ public class GameController : MonoBehaviour
 
     internal void EndTurn()
     {
+        TakeAllPiecesWithoutLife(activePlayer);
+        TakeAllPiecesWithoutLife(GetOpponentToPlayer(activePlayer));
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
         
@@ -143,6 +145,14 @@ public class GameController : MonoBehaviour
 
     }
 
+    private void TakeAllPiecesWithoutLife(Player p)
+    {
+        foreach (var piece in p.activePieces)
+        {
+            if (piece.life <= 0) board.TakePiece(piece);
+                
+        }
+    }
     private bool CheckIfGameIsFinished()
     {
         Piece[] kingAttackingPieces = activePlayer.GetPieceAttakingPieceOfType<King>();
@@ -177,16 +187,21 @@ public class GameController : MonoBehaviour
 
         List<Piece> attackerChurches = new List<Piece>();
         List<Piece> defensorChurches = new List<Piece>();
+        List<Piece> attackerKnights = new List<Piece>();
+        List<Piece> defensorKnights = new List<Piece>();
 
         List<Piece> piecesPerpendicular = board.GetPiecesOnPerpendicular(coords);
-        foreach(Piece piece in piecesPerpendicular)
+        foreach(Piece piece in piecesPerpendicular) 
         {
             if (piece.IsFromSameColor(attacker))
             {
                 if (piece.GetType() == typeof(Church))
                 {
                     attackerChurches.Add(piece);
-
+                }
+                else if (piece.GetType() == typeof(Knight))
+                {
+                    attackerKnights.Add(piece);
                 }
                 else
                 {
@@ -200,16 +215,20 @@ public class GameController : MonoBehaviour
                 if (piece.GetType() == typeof(Church))
                 {
                     defensorChurches.Add(piece);
-
+                }
+                else if (piece.GetType() == typeof(Knight))
+                {
+                    defensorKnights.Add(piece);
                 }
                 else
                 {
                     piece.PassiveAbility(defensor, coords);
                 }
             }
-
+            
             
         }
+        
 
         while (attacker.life>0 && defensor.life > 0)
         {
@@ -231,16 +250,16 @@ public class GameController : MonoBehaviour
 
             if (defensor.life > 0)
             {
-                if (defensor.ignoreFirstAttack)
+                if (attacker.ignoreFirstAttack)
                 {
-                    defensor.ignoreFirstAttack = false;
+                    attacker.ignoreFirstAttack = false;
                 }
                 else
                 {
                     defensor.Attack(attacker);
                     hitsDef++;
                 }
-                for (int i = 0; i < attackerChurches.Count; i++)
+                for (int i = 0; i < defensorChurches.Count; i++)
                 {
                     defensorChurches[i].PassiveAbility(defensor, coords);
                 }
@@ -251,11 +270,17 @@ public class GameController : MonoBehaviour
         { 
             board.winSelectedPiece = true;
             uiManager.StopFight();
-;
-        }else
+            Debug.Log(activePlayer.gold);
+            activePlayer.gold += defensor.richness + Mathf.FloorToInt(attacker.richness * (0.3f * attackerKnights.Count));
+            Debug.Log(activePlayer.gold);
+
+        }
+        else
         {
             board.winSelectedPiece = false;
             uiManager.StopFight();
+            
+            GetOpponentToPlayer(activePlayer).gold += attacker.richness + Mathf.FloorToInt(attacker.richness * (0.3f * defensorKnights.Count));
         }
             
     }

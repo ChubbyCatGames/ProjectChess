@@ -30,7 +30,22 @@ public abstract class Piece : MonoBehaviour
 
     public abstract void PromoteWar();
 
-    public float life;
+    private float m_life= 0;
+
+    public float life
+    {
+        get { return m_life; }
+        set
+        {
+            if (m_life == value) return;
+            m_life = value;
+            if (OnLifeChanged != null)
+                OnLifeChanged();
+        }
+    }
+
+
+
     public float maxLife;
     public float attackDmg;
     public int richness;
@@ -160,7 +175,6 @@ public abstract class Piece : MonoBehaviour
     internal void Attack(Piece defensor)
     {
         defensor.life -= attackDmg;
-        defensor.OnLifeChanged();
     }
 
     public string GetData()
@@ -205,6 +219,10 @@ public abstract class Piece : MonoBehaviour
         if (life < maxLife)
         {
             //MOSTRAR DAÑO EN EL PREFAB DE LA PIEZA UN ICONO DE DAÑADO
+            if(life <= 0)
+            {
+                board.TakePiece(this);
+            }
             
         }
         else

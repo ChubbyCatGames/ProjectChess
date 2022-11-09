@@ -64,14 +64,23 @@ public class Queen : Piece
         return;
     }
 
-<<<<<<< Updated upstream
+
     public override bool CheckThreatNextTurn()
     {
         return false;
-=======
+    }
+    
     public override void PassiveAbility(Piece piece, Vector2Int coords)
     {
-        board.GetPiecesOnPerpendicular(coords);
->>>>>>> Stashed changes
+        List<Piece> pieces = board.GetPiecesOnPerpendicular(coords);
+        foreach (var p in pieces)
+        {
+            if (!IsFromSameColor(p))
+            {
+                p.life -= 10;
+            }
+        }
+        
+
     }
 }

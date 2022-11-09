@@ -146,7 +146,7 @@ public class Board : MonoBehaviour
         return winSelectedPiece;
     }
 
-    private void TakePiece(Piece piece)
+    public void TakePiece(Piece piece)
     {
         if (piece)
         {
@@ -180,7 +180,8 @@ public class Board : MonoBehaviour
         Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
         for (int i = 0; i < directions.Length; i++)
         {
-            pieces.Add(GetPieceOnSquare(coords + directions[i]));
+            Piece p = GetPieceOnSquare(coords + directions[i]);
+            if(p!=null) pieces.Add(p);
         }
         return pieces;
     }

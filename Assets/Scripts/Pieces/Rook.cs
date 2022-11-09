@@ -52,14 +52,13 @@ public class Rook : Piece
         board.PromotePieceWar(this, typeof(Queen));
     }
 
-<<<<<<< Updated upstream
     public override bool CheckThreatNextTurn()
     {
         return false;
-=======
+    }
     public override void PassiveAbility(Piece piece, Vector2Int coords)
     {
         piece.attackDmg = piece.attackDmg * 1.1f;
->>>>>>> Stashed changes
+
     }
 }
