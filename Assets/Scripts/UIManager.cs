@@ -72,6 +72,8 @@ public class UIManager : MonoBehaviour
                 card.SetActive(true);
                 //activateIcons();
 
+                card.GetComponentInChildren<TextMeshProUGUI>().SetText("xd");
+
                 attack.text = piece.GetAttack();
                 life.text = piece.GetLife();
                 richness.text = piece.GetRichness();
