@@ -73,22 +73,20 @@ public class UIManager : MonoBehaviour
                 //activateIcons();
 
                 //card.GetComponentInChildren<TextMeshProUGUI>().SetText("xd");
-                if(card.name == "Pawn")
-                {
+               
                     GameObject.Find("cardAttack").GetComponent<TextMeshProUGUI>().SetText(piece.GetAttack());
                     GameObject.Find("cardLife").GetComponent<TextMeshProUGUI>().SetText(piece.GetLife());
                     GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
                     GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
                     GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
-                }
-                else
-                {
+                
+                /*
                     attack.text = piece.GetAttack();
                     life.text = piece.GetLife();
                     richness.text = piece.GetRichness();
                     fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
                     fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
-                } 
+                */
             }
 
         }

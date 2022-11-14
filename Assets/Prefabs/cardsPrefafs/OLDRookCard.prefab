@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9124726180900915674}
   - component: {fileID: 6575006665400117825}
   m_Layer: 0
-  m_Name: OLDChurchCard
+  m_Name: OLDRookCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8c63e3d13ca321940b0a178de2d9c9f4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b3433b4e8e7dbd41955c01d725052bd, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
