@@ -22,8 +22,14 @@ public class PhotonMaster : MonoBehaviourPunCallbacks
         Debug.Log("Se va a conectar");
 
 
+        punTurn = new PunTurnManager();
 
-       
+        
+    }
+
+    private void Update()
+    {
+        Debug.Log("Tamos conectados");
     }
 
     public override void OnConnectedToMaster()

@@ -116,8 +116,8 @@ public class UIManager : MonoBehaviour
         defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
         attackerCard.transform.position = attackerCardPos.position;
         defensorCard.transform.position = defensorCardPos.position;
-        attackerCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
-        defensorCard.transform.localScale = new Vector3(0.8f,0.8f,0.8f);
+        attackerCard.transform.localScale = new Vector3(0.25f,0.25f,0.8f);
+        defensorCard.transform.localScale = new Vector3(0.25f,0.25f,0.8f);
 
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
