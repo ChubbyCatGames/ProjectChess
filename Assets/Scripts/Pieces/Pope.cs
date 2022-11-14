@@ -84,6 +84,10 @@ public class Pope : Piece
         return;
     }
 
+    public override void ChangeBranch()
+    {
+        board.PromotePieceWar(this, typeof(Queen));
+    }
 
     public override bool CheckThreatNextTurn()
     {

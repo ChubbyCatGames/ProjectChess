@@ -149,7 +149,7 @@ public class GameController : MonoBehaviour
     {
         foreach (var piece in p.activePieces)
         {
-            if (piece.life <= 0) board.TakePiece(piece);
+            if (piece.life <= 0 || piece.condemned) board.TakePiece(piece);
                 
         }
     }
@@ -271,7 +271,12 @@ public class GameController : MonoBehaviour
             board.winSelectedPiece = true;
             uiManager.StopFight();
             Debug.Log(activePlayer.gold);
-            activePlayer.gold += defensor.richness + Mathf.FloorToInt(attacker.richness * (0.3f * attackerKnights.Count));
+            float extraGold = 0;
+            foreach(Knight k in attackerKnights)
+            {
+                extraGold += k.goldAddition;
+            }
+            activePlayer.gold += defensor.richness + Mathf.FloorToInt(attacker.richness * extraGold);
             Debug.Log(activePlayer.gold);
 
         }
@@ -279,8 +284,12 @@ public class GameController : MonoBehaviour
         {
             board.winSelectedPiece = false;
             uiManager.StopFight();
-            
-            GetOpponentToPlayer(activePlayer).gold += attacker.richness + Mathf.FloorToInt(attacker.richness * (0.3f * defensorKnights.Count));
+            float extraGold = 0;
+            foreach (Knight k in defensorKnights)
+            {
+                extraGold += k.goldAddition;
+            }
+            GetOpponentToPlayer(activePlayer).gold += attacker.richness + Mathf.FloorToInt(attacker.richness * extraGold);
         }
             
     }

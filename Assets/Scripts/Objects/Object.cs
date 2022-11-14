@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Object : MonoBehaviour
 {
+    public int cost;
+    public abstract void OnUse(Piece p);
 
-
-    public abstract void ObjectEffect();
 }

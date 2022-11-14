@@ -55,6 +55,10 @@ public class Pawn : Piece
         board.PromotePieceWar(this, typeof(Knight));
     }
 
+    public override void ChangeBranch()
+    {
+        return;
+    }
     public override bool CheckThreatNextTurn()
     {
         return false;

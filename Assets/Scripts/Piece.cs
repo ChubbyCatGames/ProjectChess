@@ -30,6 +30,8 @@ public abstract class Piece : MonoBehaviour
 
     public abstract void PromoteWar();
 
+    public abstract void ChangeBranch();
+
     private float m_life= 0;
 
     public float life
@@ -50,12 +52,20 @@ public abstract class Piece : MonoBehaviour
     public float attackDmg;
     public int richness;
 
+    public int duplicatePassive = 1;
+
     public int blessingDevelopCost;
     public int goldDevelopCost;
 
     public Action OnLifeChanged;
 
+    //variables needed to apply objects and passives
     public bool ignoreFirstAttack;
+    public bool canMoveNextTurn;
+    public bool canMoveTwice;
+
+    //this variable will make the piece die at the end of the turn
+    public bool condemned;
 
     private void Awake()
     {
@@ -67,8 +77,11 @@ public abstract class Piece : MonoBehaviour
         OnLifeChanged += UpdateLifeUI;
 
         ignoreFirstAttack = false;
-        
-    }
+        canMoveNextTurn = true;
+        canMoveTwice = false;
+        condemned = false;
+
+}
 
     private void OnDisable()
     {

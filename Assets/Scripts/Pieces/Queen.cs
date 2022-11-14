@@ -64,6 +64,10 @@ public class Queen : Piece
         return;
     }
 
+    public override void ChangeBranch()
+    {
+        board.PromotePieceWar(this, typeof(Pope));
+    }
 
     public override bool CheckThreatNextTurn()
     {
@@ -77,7 +81,7 @@ public class Queen : Piece
         {
             if (!IsFromSameColor(p))
             {
-                p.life -= 10;
+                p.life -= 10*duplicatePassive;
             }
         }
         

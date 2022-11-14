@@ -64,6 +64,10 @@ public class Church : Piece
         return;
     }
 
+    public override void ChangeBranch()
+    {
+        board.PromotePieceWar(this, typeof(Rook));
+    }
 
     public override bool CheckThreatNextTurn()
     {
@@ -71,7 +75,7 @@ public class Church : Piece
     }
     public override void PassiveAbility(Piece piece, Vector2Int coords)
     {
-        piece.life += 5;
+        piece.life += 5 *duplicatePassive;
 
     }
 }

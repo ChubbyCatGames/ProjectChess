@@ -62,13 +62,18 @@ public class Bishop : Piece
         return;
     }
 
+    public override void ChangeBranch()
+    {
+        board.PromotePieceWar(this, typeof(Knight));
+    }
+
     public override bool CheckThreatNextTurn()
     {
         return false;
     }
     public override void PassiveAbility(Piece piece, Vector2Int coords)
     {
-        piece.life = piece.life* 1.2f;
+        piece.life += piece.life* (0.2f*duplicatePassive);
 
     }
 }
