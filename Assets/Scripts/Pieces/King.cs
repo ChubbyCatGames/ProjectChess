@@ -129,6 +129,10 @@ public class King : Piece
         return;
     }
 
+    public override void ChangeBranch()
+    {
+        return;
+    }
 
     public override bool CheckThreatNextTurn()
     {

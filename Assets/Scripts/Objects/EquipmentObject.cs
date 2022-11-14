@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Equipment : Object
+public abstract class Equipment : Object
 {
-    public override void ObjectEffect()
-    {
-        return;
-    }
+    public float lifeAddition;
+    public float dmgAddition;
+    public int richnessAddition;
+
+    public abstract void OnUnequip(Piece p);
+
 }

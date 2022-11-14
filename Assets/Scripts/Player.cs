@@ -37,8 +37,14 @@ public class Player
     {
         foreach (var piece in activePieces)
         {
-            if(board.HasPiece(piece))
+            if (board.HasPiece(piece) && piece.canMoveNextTurn)
                 piece.SelectAvaliableSquares();
+            else
+            {
+                piece.avaliableMoves.Clear();
+                piece.canMoveNextTurn= true;
+            }
+
         }
     }
 

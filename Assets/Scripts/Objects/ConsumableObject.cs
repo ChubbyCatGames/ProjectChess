@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Consumable : Object
+public abstract class Consumable : Object
 {
-    public override void ObjectEffect()
-    {
-        return;
-    }
+    
 }
