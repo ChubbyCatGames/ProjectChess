@@ -118,6 +118,8 @@ public class Board : MonoBehaviour
             UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
             selectedPiece.MovePiece(coords);
             DeselectPiece();
+            if (piece.IsAttackingPieceOFType<King>())
+                piece.canMoveTwice = false;
             if (!piece.canMoveTwice)
             {
                 EndTurn();

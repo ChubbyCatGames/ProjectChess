@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(IObjectTweener))]
@@ -64,6 +65,8 @@ public abstract class Piece : MonoBehaviour
     public bool canMoveNextTurn;
     public bool canMoveTwice;
 
+    public Object equipedObject;
+
     //this variable will make the piece die at the end of the turn
     public bool condemned;
 
@@ -80,6 +83,7 @@ public abstract class Piece : MonoBehaviour
         canMoveNextTurn = true;
         canMoveTwice = false;
         condemned = false;
+        equipedObject = null;
 
 }
 
@@ -190,6 +194,16 @@ public abstract class Piece : MonoBehaviour
         defensor.life -= attackDmg;
     }
 
+    public void EquipObject(Object obj)
+    {
+        equipedObject= obj;
+        OnEquip();
+    }
+
+    private void OnEquip()
+    {
+        equipedObject.OnUse(this);
+    }
     public string GetData()
     {
         return "Name: " + GetType().ToString() + "<br>Vida: " + life.ToString() + "<br>Atack: " + attackDmg.ToString();
