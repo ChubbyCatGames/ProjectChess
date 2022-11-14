@@ -103,9 +103,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avaliableMoves: []
-  life: 0
+  maxLife: 0
   attackDmg: 0
   richness: 0
+  duplicatePassive: 1
+  blessingDevelopCost: 0
+  goldDevelopCost: 0
+  ignoreFirstAttack: 0
+  canMoveNextTurn: 0
+  canMoveTwice: 0
+  equipedObject: {fileID: 0}
+  condemned: 0
 --- !u!114 &-2172608016863454583
 MonoBehaviour:
   m_ObjectHideFlags: 0
