@@ -81,13 +81,14 @@ public class UIManager : MonoBehaviour
                     GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
                     GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
                 }
-                
-
-                attack.text = piece.GetAttack();
-                life.text = piece.GetLife();
-                richness.text = piece.GetRichness();
-                fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
-                fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
+                else
+                {
+                    attack.text = piece.GetAttack();
+                    life.text = piece.GetLife();
+                    richness.text = piece.GetRichness();
+                    fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
+                    fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
+                } 
             }
 
         }
