@@ -246,10 +246,23 @@ public class Board : MonoBehaviour
 
     public void PromotePieceWar(Piece p, Type t)
     {
+
         TakePiece(p);
         controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
+    }
+    internal void ChangeTeamOfPiece(Piece piece, PieceColor newColor)
+    {
+        TakePiece(piece);
+        controller.CreatePieceAndInitializeHierLife(piece.occupiedSquare,newColor, piece.GetType(), piece.life);
+        DeselectPiece();
+        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
+    }
+
+    internal void CreatePawn(Vector2Int coords,PieceColor color)
+    {
+        controller.CreatePieceAndInitialize(coords, color, Type.GetType("Pawn"));
     }
 
     public void OnGameRestarted()

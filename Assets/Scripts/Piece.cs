@@ -9,7 +9,7 @@ using UnityEngine;
 public abstract class Piece : MonoBehaviour
 {
     private MaterialSetter materialSetter;
-    public Board board { protected get; set; }
+    public Board board { get; set; }
 
     public Vector2Int occupiedSquare { get; set; }
 
@@ -69,6 +69,7 @@ public abstract class Piece : MonoBehaviour
 
     //this variable will make the piece die at the end of the turn
     public bool condemned;
+    public bool poisoned;
 
     private void Awake()
     {
@@ -83,6 +84,7 @@ public abstract class Piece : MonoBehaviour
         canMoveNextTurn = true;
         canMoveTwice = false;
         condemned = false;
+        poisoned = false;
         equipedObject = null;
 
 }
@@ -257,7 +259,12 @@ public abstract class Piece : MonoBehaviour
             //DESACTIVAR EL DAÑO
         }
     }
+    public void ChangeTeam()
+    {
+        PieceColor newColor = color == PieceColor.White ? PieceColor.Black : PieceColor.White; 
 
+        board.ChangeTeamOfPiece(this, newColor);
+    }
     internal void GetGold(int g)
     {
         board.AddGold(g);
