@@ -254,12 +254,22 @@ public class Board : MonoBehaviour
 
     public void OnGameRestarted()
     {
-        selectedPiece = null;
+        DeselectPiece();
         CreateGrid();
     }
 
     public Piece getSelectedPiece()
     {
         return selectedPiece;
+    }
+
+    public void AddGold(int gold)
+    {
+        controller.activePlayer.gold += gold;
+    }
+
+    public void SubstractGold(int gold)
+    {
+        controller.activePlayer.gold -= gold;
     }
 }

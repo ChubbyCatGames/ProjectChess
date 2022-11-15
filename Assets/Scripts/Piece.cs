@@ -257,4 +257,14 @@ public abstract class Piece : MonoBehaviour
             //DESACTIVAR EL DAÑO
         }
     }
+
+    internal void GetGold(int g)
+    {
+        board.AddGold(g);
+    }
+
+    internal void RemoveGold(int g)
+    {
+        board.SubstractGold(g);
+    }
 }
