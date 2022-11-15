@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject music;
+    [SerializeField] private float waitTime;
 
     private void Awake()
     {
@@ -29,18 +30,29 @@ public class MainMenu : MonoBehaviour
 
     public void GameScene(string nameScene)
     {
-        //------------Music things-------------
-        if (nameScene == "FirstTry") //Change this value according to the name of the Ingame scene
-            if(music != null)
-                music.GetComponent<AudioSource>().Stop();
-        //--------------------------------------
+        StartCoroutine(WaitTimeCoroutine(() => {
 
-        SceneManager.LoadScene(nameScene);
+            //------------Music things-------------
+            if (nameScene == "FirstTry") //Change this value according to the name of the Ingame scene
+                if (music != null)
+                    music.GetComponent<AudioSource>().Stop();
+            //--------------------------------------
+
+            SceneManager.LoadScene(nameScene);
+            }
+        ));
     }
 
     public void QuitGame()
     {
         //UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
+        StartCoroutine(WaitTimeCoroutine(() => Application.Quit()));
+    }
+
+    IEnumerator WaitTimeCoroutine(System.Action functionToCall)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        functionToCall();
     }
 }
