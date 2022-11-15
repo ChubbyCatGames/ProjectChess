@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]Transform defensorCardPos;
     private GameObject attackerCard;
     private GameObject defensorCard;
+    private Animator cardAnimator;
 
 
     [SerializeField] Board board;
@@ -65,7 +66,7 @@ public class UIManager : MonoBehaviour
             {
                 card = CardsDict[piece.GetName()];
             }
-            //churchCard.SetActive(true);
+           
             if(card != null) 
             {
                 inGameUi.SetActive(false);
@@ -79,7 +80,7 @@ public class UIManager : MonoBehaviour
                     GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
                     GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
                     GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
-                
+
                 /*
                     attack.text = piece.GetAttack();
                     life.text = piece.GetLife();
@@ -87,11 +88,19 @@ public class UIManager : MonoBehaviour
                     fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
                     fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
                 */
+
+                if (card.name == "Pawn")
+                {
+                    cardAnimator = card.GetComponent<Animator>();
+                    cardAnimator.SetBool("isFighting", true);
+                }
+
             }
 
         }
         else
         {
+            //borrar?
             info.text = "";
 
             if (card != null)
@@ -122,6 +131,14 @@ public class UIManager : MonoBehaviour
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
 
+        /*
+        //ANIMACION
+        if(attackerCard.name == "Pawn")
+        {
+            cardAnimator = attackerCard.GetComponent<Animator>();
+            cardAnimator.SetBool("isFighting", true);
+        }*/
+
         yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);
@@ -136,6 +153,7 @@ public class UIManager : MonoBehaviour
 
     public void StopFight()
     {
+        //cardAnimator.SetBool("isFighting", false);
         //fightUI.SetActive(false);
         //Devolver a la corutina
     }
