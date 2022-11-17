@@ -8,4 +8,10 @@ public class AncientTreasure : SquareEvent
     {
         p.GetGold(p.richness * 2);
     }
+
+    private void Awake()
+    {
+        squareName = "Ancient Treasure";
+        squareDescription = "Grants as much Gold as the richness value of the piece multiplied by 2";
+    }
 }

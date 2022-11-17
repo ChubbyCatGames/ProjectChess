@@ -8,5 +8,11 @@ public class RickTheMerchant : SquareEvent
     {
         //INSERTAR LA LLAMADA A LA TIENDA
     }
+
+    private void Awake()
+    {
+        squareName = "Rick, the merchant";
+        squareDescription = "Rick is here to sell you the best equipment and every type of odd trinkets. Make a good use of his offers, it's an unique opportunity";
+    }
 }
 

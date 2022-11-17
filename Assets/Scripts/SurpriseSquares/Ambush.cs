@@ -9,4 +9,9 @@ public class Ambush : SquareEvent
         p.life /= 2;
     }
 
+    private void Awake()
+    {
+        squareName = "Unespected ambush";
+        squareDescription = "The unit loses half of its health";
+    }
 }

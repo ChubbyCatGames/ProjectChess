@@ -10,4 +10,9 @@ public class PutridSwamp : SquareEvent
     }
 
 
+    private void Awake()
+    {
+        squareName = "Putrid swamp";
+        squareDescription = "The unit gets poisoned and loses 5 health points each turn";
+    }
 }

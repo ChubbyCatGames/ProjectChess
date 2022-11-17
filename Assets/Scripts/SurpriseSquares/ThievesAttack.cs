@@ -9,5 +9,10 @@ public class ThievesAttack : SquareEvent
         p.RemoveGold(p.richness * 2);
     }
 
+    private void Awake()
+    {
+        squareName = "Thieves attack";
+        squareDescription = "Lose as much Gold as the richness value of the piece multiplied by 2";
+    }
 
 }

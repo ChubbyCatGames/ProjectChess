@@ -9,5 +9,10 @@ public class BearsTrap : SquareEvent
         p.canMoveNextTurn = false;
     }
 
+    private void Awake()
+    {
+        squareName = "Bear Trap";
+        squareDescription = "The unit is locked and can't move during the next turn";
+    }
 
 }

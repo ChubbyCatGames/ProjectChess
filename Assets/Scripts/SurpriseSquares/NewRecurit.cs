@@ -11,4 +11,10 @@ public class NewRecurit : SquareEvent
 
         p.board.CreatePawn(coords, p.color);
     }
+
+    private void Awake()
+    {
+        squareName = "New recruit";
+        squareDescription = "A new pawn is generated in the chosen adjacent square";
+    }
 }

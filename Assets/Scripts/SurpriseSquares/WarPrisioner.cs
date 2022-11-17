@@ -11,4 +11,10 @@ public class WarPrisioner : SquareEvent
 
         p.ChangeTeam();
     }
+
+    private void Awake()
+    {
+        squareName = "War prisoner";
+        squareDescription = "The unit changes the side if the opponent can afford it, which costs 300 Gold";
+    }
 }

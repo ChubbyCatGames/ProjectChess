@@ -28,4 +28,9 @@ public class SecretPath : SquareEvent
         }
     }
 
+    private void Awake()
+    {
+        squareName = "Secret path";
+        squareDescription = "The unit can be moved to the chosen square in the same row. However, this has a cost of 200 Gold";
+    }
 }
