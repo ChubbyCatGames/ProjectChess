@@ -87,13 +87,13 @@ public class UIManager : MonoBehaviour
                     richness.text = piece.GetRichness();
                     fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
                     fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
-                */
+                
 
                 if (card.name == "Pawn")
                 {
                     cardAnimator = card.GetComponent<Animator>();
                     cardAnimator.SetBool("isFighting", true);
-                }
+                }*/
 
             }
 
@@ -131,24 +131,37 @@ public class UIManager : MonoBehaviour
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
 
-        /*
+        Debug.Log("hola" + attackerCard.name);
         //ANIMACION
-        if(attackerCard.name == "Pawn")
+        if(attackerCard.GetComponent<Animator>())
         {
             cardAnimator = attackerCard.GetComponent<Animator>();
             cardAnimator.SetBool("isFighting", true);
-        }*/
+            yield return new WaitForSeconds(0.2f);
 
+            cardAnimator.SetBool("isFighting", false);
+        }
+        yield return new WaitForSeconds(1f);
+        if (defensorCard.GetComponent<Animator>())
+        {
+            defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
+            yield return new WaitForSeconds(0.2f);
+
+            defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
+        }
         yield return new WaitForSeconds(3f);
+        //yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);
         //Ejecutar animaciones de pegarse
-        //Hacer un diccionario de prefabs de cartas, llamarlas aqui y ejecutar su animacion.
+        //Hacer un diccionario de prefabs de cartas, llamarlas aqui y ejecutar su animacion.        
 
         fightUI.SetActive(false);
         attackerCard.SetActive(false);
         defensorCard.SetActive(false);
-    
+
+        
+
     }
 
     public void StopFight()
