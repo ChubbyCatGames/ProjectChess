@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     private enum GameState { Init, Play, Finished, Fight}
 
     [SerializeField] private BoardLayout startingBoardLayout;
+    [SerializeField] private BoardLayoutEvents startingBoardEvents;
     [SerializeField] private Board board;
     [SerializeField] private UIManager uiManager;
     public TextMeshProUGUI uiText;
@@ -55,6 +56,7 @@ public class GameController : MonoBehaviour
         SetGameState(GameState.Init);
         board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
+        CreateEventsFromLayout(startingBoardEvents);
         activePlayer = whitePlayer;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
@@ -83,6 +85,21 @@ public class GameController : MonoBehaviour
 
             Type type= Type.GetType(typeName);
             CreatePieceAndInitialize(squareCoords, pieceColor, type);
+        }
+    }
+
+    private void CreateEventsFromLayout(BoardLayoutEvents layout)
+    {
+        for (int i = 0; i < layout.GetPiecesCount(); i++)
+        {
+
+
+            Vector2Int squareCoords = layout.GetSquareCoordsAtIndex(i);
+            SquareEvent _event = layout.GetSquareEventNameAtIndex(i);
+
+            
+            board.SetEventOnBoard(squareCoords, _event);
+            Debug.Log("evento creado" + _event.name.ToString());
         }
     }
 

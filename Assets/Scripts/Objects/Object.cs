@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class Object : MonoBehaviour
 {
     public int cost;
+    public string objectName;
+    public string objectDescription;
     public abstract void OnUse(Piece p);
 
 }

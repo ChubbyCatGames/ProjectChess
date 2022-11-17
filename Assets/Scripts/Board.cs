@@ -14,6 +14,7 @@ public class Board : MonoBehaviour
 
 
     private Piece[,] grid;
+    private SquareEvent[,] gridEvents; 
     private Piece selectedPiece;
     private GameController controller;
     private SquareSelectorCreator squareSelector;
@@ -36,6 +37,7 @@ public class Board : MonoBehaviour
     private void CreateGrid()
     {
         grid = new Piece[BOARD_SIZE, BOARD_SIZE];
+        gridEvents = new SquareEvent[BOARD_SIZE, BOARD_SIZE];
     }
 
     //Uses the position of the bottom left square to apply the starting position
@@ -101,6 +103,12 @@ public class Board : MonoBehaviour
     {
         if(CheckIfCoordAreOnBoard(coords))
             grid[coords.x,coords.y] = newPiece;
+    }
+
+    internal void SetEventOnBoard(Vector2Int coords, SquareEvent newEvent)
+    {
+        if (CheckIfCoordAreOnBoard(coords))
+            gridEvents[coords.x, coords.y] = newEvent;
     }
 
     private void DeselectPiece()

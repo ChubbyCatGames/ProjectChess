@@ -4,5 +4,7 @@ using UnityEngine;
 
 public abstract class SquareEvent : MonoBehaviour
 {
+    public string squareName;
+    public string squareDescription;
     public abstract void StartEvent(Piece p);
 }
