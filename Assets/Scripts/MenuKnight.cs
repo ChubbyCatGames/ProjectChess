@@ -20,4 +20,9 @@ public class MenuKnight : MonoBehaviour
         hasAlreadySelected = true;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
 }
