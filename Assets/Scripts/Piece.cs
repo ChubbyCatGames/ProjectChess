@@ -41,7 +41,16 @@ public abstract class Piece : MonoBehaviour
         set
         {
             if (m_life == value) return;
+
+            //Check if the unit loses health
+            if (value < m_life)
+            {
+                canvasDamage.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(m_life - value);
+            }
+
+            //Set the value
             m_life = value;
+
             if (OnLifeChanged != null)
                 OnLifeChanged();
         }
@@ -71,6 +80,9 @@ public abstract class Piece : MonoBehaviour
     public bool condemned;
     public bool poisoned;
 
+    //Variable Canvas for the damage number
+    [SerializeField] private Canvas canvasDamage;
+
     private void Awake()
     {
         avaliableMoves = new List<Vector2Int>();
@@ -87,7 +99,9 @@ public abstract class Piece : MonoBehaviour
         poisoned = false;
         equipedObject = null;
 
-}
+        canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, -140.581f, 0);
+        canvasDamage.GetComponent<RectTransform>().localPosition = new Vector3(7.2f, 169.8f, 4.4f);
+    }
 
     private void OnDisable()
     {

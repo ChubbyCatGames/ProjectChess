@@ -1369,7 +1369,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &403738380
 GameObject:
@@ -2115,6 +2115,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasFade
       objectReference: {fileID: 0}
+    - target: {fileID: 1224634260370383120, guid: 0b430bfeb6db0bd41b79880b7cac71d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1224634260370383123, guid: 0b430bfeb6db0bd41b79880b7cac71d7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2206,6 +2210,10 @@ PrefabInstance:
     - target: {fileID: 1224634260370383124, guid: 0b430bfeb6db0bd41b79880b7cac71d7, type: 3}
       propertyPath: m_PlaneDistance
       value: 0.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1224634260370383124, guid: 0b430bfeb6db0bd41b79880b7cac71d7, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b430bfeb6db0bd41b79880b7cac71d7, type: 3}
@@ -2538,13 +2546,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1130476231}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.37, y: 16.69, z: 20.53}
+  m_LocalRotation: {x: 0.12140934, y: -0.8782962, z: 0.33890626, w: -0.31463972}
+  m_LocalPosition: {x: -0.4665085, y: -3.1280882, z: -1.3507141}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 1931085117}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1130476234
 BoxCollider:
@@ -3942,12 +3950,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931085114}
   m_LocalRotation: {x: -0.12140934, y: 0.8782962, z: -0.33890626, w: -0.31463972}
-  m_LocalPosition: {x: 5.04, y: 18.1, z: 18.430002}
+  m_LocalPosition: {x: 5.8, y: 18.1, z: 17.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 281048913}
   - {fileID: 1072333316}
+  - {fileID: 1130476233}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 42.2, y: 219.419, z: 0}
