@@ -11,6 +11,7 @@ public class Player
     public List<Piece> activePieces { get; set; }
     public int gold { get; set; }
     public int blessing { get; set; }
+    public bool alreadyMoved = false;
 
     public Player(PieceColor team, Board board)
     {

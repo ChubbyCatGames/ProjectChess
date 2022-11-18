@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class NewRecurit : SquareEvent
 {
-    private Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+    private Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down,
+        new Vector2Int (-1,1),new Vector2Int (-1,-1),new Vector2Int(1,-1),new Vector2Int(1,1) };
     public override void StartEvent(Piece p)
     {
-        Vector2Int coords = p.occupiedSquare + directions[0];
+        List<Vector2Int> positions = new List<Vector2Int>();
+        foreach (var dir in directions)
+        {
+            Vector2Int coords = p.occupiedSquare + dir;
+            if(p.board.CheckIfCoordAreOnBoard(coords))
+                positions.Add(coords);
 
-        p.board.CreatePawn(coords, p.color);
+        }
+        p.board.ShowSelectionSquares(positions);
+
+        p.board.newRecruit = true;
+
+
     }
 
     private void Awake()

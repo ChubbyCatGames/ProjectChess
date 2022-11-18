@@ -10,6 +10,7 @@ public class SecretPath : SquareEvent
     {
         //if(paga)
         float range = Board.BOARD_SIZE;
+        List<Vector2Int> positions = new List<Vector2Int>();
         foreach (var dir in directions)
         {
             for (int i = 1; i <= range; i++)
@@ -19,13 +20,18 @@ public class SecretPath : SquareEvent
                 if (!p.board.CheckIfCoordAreOnBoard(nextCoords))
                     break;
                 if (piece == null)
+                {
                     p.TryToAddMove(nextCoords);
+                    positions.Add(nextCoords);
+                }
                 else
                 {
                     break;
                 }
             }
         }
+        p.board.SelectPiece(p);
+        p.board.ShowSelectionSquares(positions);
     }
 
     private void Awake()

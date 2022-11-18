@@ -58,6 +58,7 @@ public class GameController : MonoBehaviour
         CreatePiecesFromLayout(startingBoardLayout);
         CreateEventsFromLayout(startingBoardEvents);
         activePlayer = whitePlayer;
+        activePlayer.alreadyMoved= false;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
         GetTitheAndBlessing();
@@ -335,6 +336,7 @@ public class GameController : MonoBehaviour
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
         uiText.text = activePlayer.team.ToString() + "'s turn";
         activePlayer.GetTheratNextMove<King>();
+        activePlayer.alreadyMoved = false;
         GetTitheAndBlessing();
     }
 

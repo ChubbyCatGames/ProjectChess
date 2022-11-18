@@ -21,6 +21,8 @@ public class Board : MonoBehaviour
 
     public bool winSelectedPiece = true;
 
+    public bool newRecruit = false;
+
     [SerializeField] UIManager uIManager;
 
     private void Awake()
@@ -70,6 +72,12 @@ public class Board : MonoBehaviour
         }
         else
         {
+            if (newRecruit)
+            {
+                CreatePawn(coords,controller.activePlayer.team);
+                newRecruit= false;
+                DeselectPiece();
+            }
             if (piece != null && controller.IsTeamTurnActive(piece.color))
                 SelectPiece(piece);
         }
@@ -77,17 +85,20 @@ public class Board : MonoBehaviour
 
    
 
-    private void SelectPiece(Piece piece)
+    public void SelectPiece(Piece piece)
     {
         DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
-        List<Vector2Int> selection = selectedPiece.avaliableMoves;
-        ShowSelectionSquares(selection);
-        uIManager.UpdateUI();
+        if(selectedPiece.canMoveTwice|| !controller.activePlayer.alreadyMoved)
+        {
+            List<Vector2Int> selection = selectedPiece.avaliableMoves;
+            ShowSelectionSquares(selection);
+            uIManager.UpdateUI();
+        }
     }
 
-    private void ShowSelectionSquares(List<Vector2Int> selection)
+    public void ShowSelectionSquares(List<Vector2Int> selection)
     {
         Dictionary<Vector3, bool> squaresData = new Dictionary<Vector3, bool>();
         for (int i = 0; i < selection.Count; i++)
@@ -121,16 +132,19 @@ public class Board : MonoBehaviour
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
         bool success=TryToTake(coords);
+        
         if (success)
         {
             UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
             selectedPiece.MovePiece(coords);
             DeselectPiece();
+            CheckGridEvents(coords, piece);
             if (piece.IsAttackingPieceOFType<King>())
                 piece.canMoveTwice = false;
             if (!piece.canMoveTwice)
             {
-                EndTurn();
+                //EndTurn();
+
             }
             else
                 piece.canMoveTwice= false;
@@ -140,10 +154,22 @@ public class Board : MonoBehaviour
             DeselectPiece();
             if (!piece.canMoveTwice)
             {
-                EndTurn();
+                //EndTurn();
             }
             else
                 piece.canMoveTwice = false;
+        }
+        controller.activePlayer.alreadyMoved = true;
+    }
+
+    private void CheckGridEvents(Vector2Int coords, Piece piece)
+    {
+        SquareEvent _event = gridEvents[coords.x, coords.y];
+        Debug.Log(gridEvents[coords.x, coords.y]);
+        if(_event != null)
+        {
+            _event.StartEvent(piece);
+            gridEvents[coords.x, coords.y] = null;
         }
     }
 
@@ -175,7 +201,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void EndTurn()
+    public void EndTurn()
     {
         controller.EndTurn();
     }
