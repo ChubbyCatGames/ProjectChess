@@ -5,12 +5,6 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]TextMeshProUGUI info;
-    [SerializeField] TextMeshProUGUI attack;
-    [SerializeField] TextMeshProUGUI life;
-    [SerializeField] TextMeshProUGUI richness;
-    [SerializeField] TextMeshProUGUI fractionBlessing;
-    [SerializeField] TextMeshProUGUI fractionGold;
 
     [SerializeField]GameObject fightUI;
     [SerializeField]Transform attackerCardPos;
@@ -86,31 +80,17 @@ public class UIManager : MonoBehaviour
                     life.text = piece.GetLife();
                     richness.text = piece.GetRichness();
                     fractionGold.text = goldText.text + "/" + piece.GetGoldDevelopCost();
-                    fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();
-                
-
-                if (card.name == "Pawn")
-                {
-                    cardAnimator = card.GetComponent<Animator>();
-                    cardAnimator.SetBool("isFighting", true);
-                }*/
+                    fractionBlessing.text = blessingText.text + "/" + piece.GetBlessingDevelopCost();*/
 
             }
 
         }
         else
         {
-            //borrar?
-            info.text = "";
 
             if (card != null)
             {
                 card.SetActive(false);
-                attack.text = "";
-                life.text = "";
-                richness.text = "";
-                fractionGold.text = "";
-                fractionBlessing.text = "";
                 inGameUi.SetActive(true);
             }
         }
@@ -135,17 +115,33 @@ public class UIManager : MonoBehaviour
         //ANIMACION
         if(attackerCard.GetComponent<Animator>())
         {
-            cardAnimator = attackerCard.GetComponent<Animator>();
-            cardAnimator.SetBool("isFighting", true);
-            yield return new WaitForSeconds(0.2f);
+            //bucle para numero de golpes
+            Debug.Log(hitsAtck);
+            int n = hitsAtck;
 
+            while (n > 0)
+            {
+                cardAnimator = attackerCard.GetComponent<Animator>();
+                cardAnimator.SetBool("isFighting", true);
+                yield return new WaitForSeconds(0.2f);
+                n--;
+            }
+            
             cardAnimator.SetBool("isFighting", false);
         }
         yield return new WaitForSeconds(1f);
+
         if (defensorCard.GetComponent<Animator>())
         {
-            defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
-            yield return new WaitForSeconds(0.2f);
+            Debug.Log(hitsDef);
+            int m = hitsDef;
+
+            while (m > 0)
+            {
+                defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
+                yield return new WaitForSeconds(0.2f);
+                m--;
+            }
 
             defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
         }

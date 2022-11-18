@@ -332,7 +332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &123011427
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1864,7 +1864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &526122136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2262,7 +2262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &905858433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3322,7 +3322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1537491699
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3568,7 +3568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1682670480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3715,12 +3715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9421d9c05eb2b5247b3c96cb31dccd59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  info: {fileID: 1407640896}
-  attack: {fileID: 526122137}
-  life: {fileID: 1682670482}
-  richness: {fileID: 1537491701}
-  fractionBlessing: {fileID: 905858435}
-  fractionGold: {fileID: 123011429}
   fightUI: {fileID: 1262733707}
   attackerCardPos: {fileID: 1796525467}
   defensorCardPos: {fileID: 804367156}
