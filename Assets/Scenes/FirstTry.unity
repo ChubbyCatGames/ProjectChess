@@ -1319,6 +1319,58 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &358974420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358974422}
+  - component: {fileID: 358974421}
+  m_Layer: 0
+  m_Name: ParticleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &358974421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358974420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65e1d622f8d6fa41a406b2036c924d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poison: {fileID: 8028794724290994075, guid: b2baab3031b7dc641864b0ee74d6072d, type: 3}
+  arrows: {fileID: 8365095569029966899, guid: 2265bda397be9a944bcf99129cf4d3d6, type: 3}
+  healChurch: {fileID: 9112145668316013976, guid: 1861e123e1078dd46afe93bed203066d, type: 3}
+  healPiece: {fileID: 8629152763285431322, guid: 2a1e5ab8799883a45bba23f888c468ef, type: 3}
+  levelUp: {fileID: 8357952126488164498, guid: 3c6320ca991896a4dbef1ce3a4ee1e08, type: 3}
+  lockParticles: {fileID: 3493781510090288531, guid: b15f1311d4b7231498242c44ed9bf4cc, type: 3}
+  boost: {fileID: 181801809690578643, guid: de57d3f1613ed464b83c3381a264be0a, type: 3}
+  splashDmg: {fileID: 8279892849328037904, guid: 5147d2df35176c4428935a8cd44b70b2, type: 3}
+--- !u!4 &358974422
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358974420}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.71, y: 2.55, z: -1.94}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &403738380
 GameObject:
   m_ObjectHideFlags: 0
@@ -4895,6 +4947,10 @@ PrefabInstance:
       propertyPath: uIManager
       value: 
       objectReference: {fileID: 1724731513}
+    - target: {fileID: 3676260658676803395, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+      propertyPath: particleManager
+      value: 
+      objectReference: {fileID: 358974421}
     - target: {fileID: 3676260658676803395, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
       propertyPath: bottomLeftSquareTransform
       value: 

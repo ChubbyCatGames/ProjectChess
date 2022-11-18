@@ -7,6 +7,8 @@ public class Ambush : SquareEvent
     public override void StartEvent(Piece p)
     {
         p.life /= 2;
+
+        p.board.particleManager.PlayArrowParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
     }
 
     private void Awake()

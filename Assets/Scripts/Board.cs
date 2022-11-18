@@ -12,6 +12,8 @@ public class Board : MonoBehaviour
     [SerializeField] private Transform bottomLeftSquareTransform;
     [SerializeField] private float squareSize;
 
+    [SerializeField] public ParticleManager particleManager;
+
 
     private Piece[,] grid;
     private SquareEvent[,] gridEvents; 
@@ -22,6 +24,7 @@ public class Board : MonoBehaviour
     public bool winSelectedPiece = true;
 
     public bool newRecruit = false;
+    public List<Vector2Int> newRecruitPositions;
 
     [SerializeField] UIManager uIManager;
 
@@ -74,9 +77,13 @@ public class Board : MonoBehaviour
         {
             if (newRecruit)
             {
-                CreatePawn(coords,controller.activePlayer.team);
-                newRecruit= false;
-                DeselectPiece();
+                if (newRecruitPositions.Contains(coords))
+                {
+                    CreatePawn(coords, controller.activePlayer.team);
+                    newRecruit = false;
+                    DeselectPiece();
+                    newRecruitPositions.Clear();
+                }
             }
             if (piece != null && controller.IsTeamTurnActive(piece.color))
                 SelectPiece(piece);
@@ -95,7 +102,8 @@ public class Board : MonoBehaviour
             List<Vector2Int> selection = selectedPiece.avaliableMoves;
             ShowSelectionSquares(selection);
             uIManager.UpdateUI();
-        }
+        }else
+            DeselectPiece();
     }
 
     public void ShowSelectionSquares(List<Vector2Int> selection)

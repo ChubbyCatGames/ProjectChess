@@ -12,12 +12,14 @@ public class NewRecurit : SquareEvent
         foreach (var dir in directions)
         {
             Vector2Int coords = p.occupiedSquare + dir;
-            if(p.board.CheckIfCoordAreOnBoard(coords))
+            if (p.board.CheckIfCoordAreOnBoard(coords) && p.board.GetPieceOnSquare(coords)==null)
+            {
                 positions.Add(coords);
-
+                p.board.newRecruitPositions.Add(coords);
+            }
         }
         p.board.ShowSelectionSquares(positions);
-
+        
         p.board.newRecruit = true;
 
 
