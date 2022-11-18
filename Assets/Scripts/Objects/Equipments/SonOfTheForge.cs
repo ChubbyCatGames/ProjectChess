@@ -20,4 +20,10 @@ public class SonOfTheForge : Equipment
         p.attackDmg -= dmgAddition;
     }
 
+    private void Awake()
+    {
+        objectName = "Daughter of the forge";
+        objectDescription = "(Equipment) Grants 10 attack damage to the unit";
+        cost =350;
+    }
 }

@@ -17,4 +17,11 @@ public class WarBanner : Equipment
     {
         p.duplicatePassive = 1;
     }
+
+    private void Awake()
+    {
+        objectName = "War banner";
+        objectDescription = "(Equipment) The passive ability of the unit has double effectivity";
+        cost = 500;
+    }
 }

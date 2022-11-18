@@ -112,6 +112,11 @@ public class GameController : MonoBehaviour
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
 
+        if (pieceColor == PieceColor.White)
+        {
+            newPiece.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
 

@@ -19,4 +19,10 @@ public class NoblemansBlessing : Equipment
         p.richness/= richnessAddition; 
     }
 
+    private void Awake()
+    {
+        objectName = "Nobleman's Blessing";
+        objectDescription = "(Equipment) The unit gives double tithe";
+        cost =200;
+    }
 }

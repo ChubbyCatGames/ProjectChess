@@ -12,4 +12,11 @@ public class DevoteeBlessing : Consumable
     {
         p.blessingDevelopCost -= 1;
     }
+
+    private void Awake()
+    {
+        objectName = "Devotee's Blessing";
+        objectDescription = "(Consumable) The Blessing cost for the next ascension of the unit is decreased by 1";
+        cost =400;
+    }
 }

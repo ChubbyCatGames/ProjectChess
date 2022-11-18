@@ -13,4 +13,10 @@ public class Curse : Consumable
         p.canMoveNextTurn = false;
     }
 
+    private void Awake()
+    {
+        objectName = "Curse";
+        objectDescription = "(Consumable) An enemy unit selected won't be able to move in the next turn";
+        cost =400;
+    }
 }

@@ -10,4 +10,10 @@ public class MartyrsBlessing : Consumable
         p.condemned = true;
     }
 
+    private void Awake()
+    {
+        objectName = "Martyr's Blessing";
+        objectDescription = "(Consumable) The unit doubles its attack damage until the turn comes back the next time to the player. Then, the unit dies";
+        cost =500;
+    }
 }

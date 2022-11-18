@@ -20,4 +20,11 @@ public class BurnishArmor : Equipment
     {
         p.life -= lifeAddition;
     }
+
+    private void Awake()
+    {
+        objectName = "Burnish armor";
+        objectDescription = "(Equipment) Grants 15 maximum health to the unit";
+        cost = 300;
+    }
 }

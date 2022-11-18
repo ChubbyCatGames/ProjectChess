@@ -17,4 +17,11 @@ public class SacredRelic : Equipment
     {
         p.ignoreFirstAttack= false;
     }
+
+    private void Awake()
+    {
+        objectName = "Sacred Relic";
+        objectDescription = "(Equipment) Grants a shield to the piece that cancels the damage of the first attack received in a duel";
+        cost =700;
+    }
 }
