@@ -155,6 +155,13 @@ public class UIManager : MonoBehaviour
         fightUI.SetActive(false);
         attackerCard.SetActive(false);
         defensorCard.SetActive(false);
+        
+        //For{
+        /*
+         * ejecucion
+         * wait
+         * 
+         */
 
         
 

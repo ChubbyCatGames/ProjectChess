@@ -250,6 +250,7 @@ public class GameController : MonoBehaviour
 
         while (attacker.life>0 && defensor.life > 0)
         {
+            List<IEnumerator> listanim;
 
             if (defensor.ignoreFirstAttack)
             {
@@ -259,6 +260,7 @@ public class GameController : MonoBehaviour
             {
                 attacker.Attack(defensor);
                 hitsAtck++;
+                //list.add(Attackatacker)
             }
             for (int i = 0; i < attackerChurches.Count; i++)
             {
@@ -276,6 +278,7 @@ public class GameController : MonoBehaviour
                 {
                     defensor.Attack(attacker);
                     hitsDef++;
+                    //defensordedasd
                 }
                 for (int i = 0; i < defensorChurches.Count; i++)
                 {
@@ -284,6 +287,7 @@ public class GameController : MonoBehaviour
             }
         }
         StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));
+        //foreach()
         if (defensor.life <= 0)
         { 
             board.winSelectedPiece = true;
