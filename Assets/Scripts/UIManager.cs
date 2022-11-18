@@ -113,12 +113,14 @@ public class UIManager : MonoBehaviour
 
         Debug.Log("hola" + attackerCard.name);
         //ANIMACION
+        /*
         if(attackerCard.GetComponent<Animator>())
         {
             //bucle para numero de golpes
             Debug.Log(hitsAtck);
             int n = hitsAtck;
 
+            
             while (n > 0)
             {
                 cardAnimator = attackerCard.GetComponent<Animator>();
@@ -134,8 +136,9 @@ public class UIManager : MonoBehaviour
         if (defensorCard.GetComponent<Animator>())
         {
             Debug.Log(hitsDef);
-            int m = hitsDef;
 
+            
+           int m = hitsDef;
             while (m > 0)
             {
                 defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
@@ -144,8 +147,48 @@ public class UIManager : MonoBehaviour
             }
 
             defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
+    }*/
+        int n = hitsAtck;
+        int m = hitsDef;
+
+        while (n + m > 0)
+        {
+            if (attackerCard.GetComponent<Animator>())
+            {
+                //bucle para numero de golpes
+                Debug.Log(hitsAtck);
+
+                if (n > 0)
+                {
+                    cardAnimator = attackerCard.GetComponent<Animator>();
+                    cardAnimator.SetBool("isFighting", true);
+                    yield return new WaitForSeconds(0.2f);
+                    n--;
+                }
+
+                cardAnimator.SetBool("isFighting", false);
+            }
+            yield return new WaitForSeconds(1f);
+
+            if (defensorCard.GetComponent<Animator>())
+            {
+                Debug.Log(hitsDef);
+
+                if (m > 0)
+                {
+                    defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
+                    yield return new WaitForSeconds(0.2f);
+                    m--;
+                }
+
+                defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
+            }
+            yield return new WaitForSeconds(1f);
         }
-        yield return new WaitForSeconds(3f);
+
+
+
+            yield return new WaitForSeconds(3f);
         //yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);
@@ -165,6 +208,21 @@ public class UIManager : MonoBehaviour
 
         
 
+    }
+
+    public IEnumerator AttackAnimation()
+    {
+        //attackerCard.GetComponent<Animator>().SetBool("isFighting", true);
+        yield return new WaitForSeconds(0.2f);
+        //attackerCard.GetComponent<Animator>().SetBool("isFighting", false);
+    }
+
+    public IEnumerator DefenseAnimation()
+    {
+        //cardAnimator = defensorCard.GetComponent<Animator>();
+        //cardAnimator.SetBool("isDefending", true);
+        yield return new WaitForSeconds(0.2f);
+        //cardAnimator.SetBool("isDefending", false);
     }
 
     public void StopFight()
