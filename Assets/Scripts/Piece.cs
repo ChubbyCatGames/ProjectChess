@@ -99,8 +99,6 @@ public abstract class Piece : MonoBehaviour
         poisoned = false;
         equipedObject = null;
 
-        canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, -140.581f, 0);
-        canvasDamage.GetComponent<RectTransform>().localPosition = new Vector3(7.2f, 169.8f, 4.4f);
     }
 
     private void OnDisable()
@@ -108,6 +106,19 @@ public abstract class Piece : MonoBehaviour
         OnLifeChanged -= UpdateLifeUI;
     }
 
+    public void InitializeDamageCanvas()
+    {
+        if (this.color == PieceColor.White)
+        {
+            print("HEEELLLOO");
+            canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, 39.419f, 0);
+        }
+        else
+        {
+            canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, -140.581f, 0);
+        }
+        canvasDamage.GetComponent<RectTransform>().localPosition = new Vector3(7.2f, 169.8f, 4.4f);
+    }
     
     public void SetMaterial(Material mat)
     {
