@@ -83,6 +83,8 @@ public abstract class Piece : MonoBehaviour
     //Variable Canvas for the damage number
     [SerializeField] private Canvas canvasDamage;
 
+    [SerializeField] private Canvas canvasHurt;
+
     private void Awake()
     {
         avaliableMoves = new List<Vector2Int>();
@@ -99,6 +101,7 @@ public abstract class Piece : MonoBehaviour
         poisoned = false;
         equipedObject = null;
 
+        canvasHurt.enabled= false;
 
     }
 
@@ -281,11 +284,12 @@ public abstract class Piece : MonoBehaviour
             {
                 board.TakePiece(this);
             }
-            
+            canvasHurt.enabled= true;
         }
         else
         {
             //DESACTIVAR EL DAÑO
+            canvasHurt.enabled= false;
         }
     }
     public void ChangeTeam()

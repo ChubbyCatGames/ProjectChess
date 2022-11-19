@@ -98,8 +98,9 @@ public class GameController : MonoBehaviour
             Vector2Int squareCoords = layout.GetSquareCoordsAtIndex(i);
             SquareEvent _event = layout.GetSquareEventNameAtIndex(i);
 
-            
+            _event.transform.position = board.CalculatePositionFromCoords(squareCoords);
             board.SetEventOnBoard(squareCoords, _event);
+            
         }
     }
 

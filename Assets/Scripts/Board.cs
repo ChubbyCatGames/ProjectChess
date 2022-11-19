@@ -127,7 +127,7 @@ public class Board : MonoBehaviour
     internal void SetEventOnBoard(Vector2Int coords, SquareEvent newEvent)
     {
         if (CheckIfCoordAreOnBoard(coords))
-            gridEvents[coords.x, coords.y] = newEvent;
+            gridEvents[coords.x, coords.y] = Instantiate(newEvent);
     }
 
     private void DeselectPiece()
@@ -172,13 +172,16 @@ public class Board : MonoBehaviour
 
     private void CheckGridEvents(Vector2Int coords, Piece piece)
     {
-        SquareEvent _event = gridEvents[coords.x, coords.y];
         Debug.Log(gridEvents[coords.x, coords.y]);
-        if(_event != null)
+        if(gridEvents[coords.x, coords.y] != null)
         {
-            _event.StartEvent(piece);
-            gridEvents[coords.x, coords.y] = null;
+            gridEvents[coords.x, coords.y].StartEvent(piece);
+            DestroyEvent(gridEvents[coords.x, coords.y]);
+            gridEvents[coords.x, coords.y]=null;
+            
+
         }
+
     }
 
     //******ADD STATE FIGHT**********/////
@@ -206,6 +209,14 @@ public class Board : MonoBehaviour
         {
             grid[piece.occupiedSquare.x, piece.occupiedSquare.y] = null;
             controller.OnPieceRemoved(piece);
+        }
+    }
+
+    public void DestroyEvent(SquareEvent _event)
+    {
+        if (_event)
+        {
+            Destroy(_event.gameObject);
         }
     }
 
