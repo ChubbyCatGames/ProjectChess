@@ -13,47 +13,54 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] ParticleSystem boost;
     [SerializeField] ParticleSystem splashDmg;
 
-    public void PlayPoisonParticles(Vector2Int coords)
+    public void PlayPoisonParticles(Vector3 coords)
     {
-        poison.transform.position = new Vector3(coords.x, coords.y, 0);
-        poison.Play();
+        ParticleSystem p= Instantiate(poison);
+        p.transform.position = coords;
+        p.Play();
     }
 
     public void PlayArrowParticles(Vector3 coords)
     {
-        Instantiate(arrows);
-        arrows.transform.position = coords;
-        arrows.Play();
+        ParticleSystem a= Instantiate(arrows);
+        a.transform.position = coords;
+        a.Play();
     }
-    public void PlayHealChurchParticles(Vector2Int coords)
+    public void PlayHealChurchParticles(Vector3 coords)
     {
-        healChurch.transform.position = new Vector3(coords.x, coords.y, 0);
-        healChurch.Play();
+        ParticleSystem h= Instantiate(healChurch);
+        h.transform.position = coords;
+        h.Play();
     }
-    public void PlayHealPieceParticles(Vector2Int coords)
+    public void PlayHealPieceParticles(Vector3 coords)
     {
-        healPiece.transform.position = new Vector3(coords.x, coords.y, 0);
-        healPiece.Play();
+        ParticleSystem h= Instantiate(healPiece);
+        h.transform.position = coords;
+        h.Play();
     }
-    public void PlayLevelParticles(Vector2Int coords)
+    public void PlayLevelParticles(Vector3 coords)
     {
-        levelUp.transform.position = new Vector3(coords.x, coords.y, 0);
-        levelUp.Play();
+        ParticleSystem l = Instantiate(levelUp);
+        l.transform.position = coords;
+        l.Play();
     }
-    public void PlayLockParticles(Vector2Int coords)
+    public void PlayLockParticles(Vector3 coords)
     {
-        lockParticles.transform.position = new Vector3(coords.x, coords.y, 0);
-        lockParticles.Play();
+        ParticleSystem l= Instantiate(lockParticles);
+        l.transform.position = coords;
+        l.Play();
     }
-    public void PlayBoostParticles(Vector2Int coords)
+    public void PlayBoostParticles(Vector3 coords)
     {
-        boost.transform.position = new Vector3(coords.x, coords.y, 0);
-        boost.Play();
+        ParticleSystem b= Instantiate(boost);
+        b.transform.position = coords;
+        b.Play();
     }
-    public void PlaySplashParticles(Vector2Int coords)
+    public void PlaySplashParticles(Vector3 coords)
     {
-        splashDmg.transform.position = new Vector3(coords.x, coords.y, 0); 
-        splashDmg.Play();
+        ParticleSystem s= Instantiate(splashDmg);
+        s.transform.position = coords; 
+        s.Play();
     }
 
 }

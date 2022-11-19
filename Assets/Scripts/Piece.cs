@@ -153,7 +153,8 @@ public abstract class Piece : MonoBehaviour
 
     public void TryToAddMove(Vector2Int coords)
     {
-        avaliableMoves.Add(coords);
+        if(canMoveNextTurn)
+            avaliableMoves.Add(coords);
     }
 
     //Gets called by the game controller and sets the attributes of the piece

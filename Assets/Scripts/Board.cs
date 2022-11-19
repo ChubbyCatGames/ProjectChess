@@ -97,7 +97,7 @@ public class Board : MonoBehaviour
         DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
-        if(selectedPiece.canMoveTwice|| !controller.activePlayer.alreadyMoved)
+        if(selectedPiece.canMoveTwice || !controller.activePlayer.alreadyMoved)
         {
             List<Vector2Int> selection = selectedPiece.avaliableMoves;
             ShowSelectionSquares(selection);

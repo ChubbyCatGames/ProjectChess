@@ -43,9 +43,17 @@ public class Player
             else
             {
                 piece.avaliableMoves.Clear();
-                piece.canMoveNextTurn= true;
+
             }
 
+        }
+    }
+
+    public void EnableAllPieces()
+    {
+        foreach(var piece in activePieces)
+        {
+            piece.canMoveNextTurn = true;
         }
     }
 

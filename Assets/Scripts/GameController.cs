@@ -172,6 +172,7 @@ public class GameController : MonoBehaviour
     {
         foreach (var piece in p.activePieces)
         {
+            if (piece.poisoned) piece.life -= 5;
             if (piece.life <= 0 || piece.condemned) board.TakePiece(piece);
                 
         }
@@ -304,7 +305,7 @@ public class GameController : MonoBehaviour
             uiManager.StopFight();
             Debug.Log(activePlayer.gold);
             float extraGold = 0;
-            foreach(Knight k in attackerKnights)
+            foreach(Knight k in attackerKnights.Cast<Knight>())
             {
                 extraGold += k.goldAddition;
             }
@@ -351,6 +352,7 @@ public class GameController : MonoBehaviour
         uiText.text = activePlayer.team.ToString() + "'s turn";
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
+        activePlayer.EnableAllPieces();
         GetTitheAndBlessing();
     }
 

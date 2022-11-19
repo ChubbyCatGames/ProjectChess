@@ -7,6 +7,8 @@ public class PutridSwamp : SquareEvent
     public override void StartEvent(Piece p)
     {
         p.poisoned= true;
+
+        p.board.particleManager.PlayPoisonParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
     }
 
 

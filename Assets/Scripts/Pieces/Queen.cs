@@ -82,9 +82,10 @@ public class Queen : Piece
             if (!IsFromSameColor(p))
             {
                 p.life -= 10*duplicatePassive;
+                
             }
         }
-        
+        board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(coords));
 
     }
 }

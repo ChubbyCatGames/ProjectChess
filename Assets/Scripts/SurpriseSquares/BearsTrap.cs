@@ -7,6 +7,8 @@ public class BearsTrap : SquareEvent
     public override void StartEvent(Piece p)
     {
         p.canMoveNextTurn = false;
+
+        p.board.particleManager.PlayLockParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
     }
 
     private void Awake()
