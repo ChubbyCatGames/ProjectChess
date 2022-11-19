@@ -13,6 +13,20 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] ParticleSystem boost;
     [SerializeField] ParticleSystem splashDmg;
 
+    [Header("Turn manager particle")]
+    [SerializeField] private ParticleSystem FireWhite;
+    [SerializeField] private Light LightWhite;
+    [SerializeField] private ParticleSystem FireBlack;
+    [SerializeField] private Light LightBlack;
+
+
+    private void Awake()
+    {
+        LightWhite.enabled = true;
+        FireWhite.Play();
+        LightBlack.enabled = false;
+        FireBlack.Stop();
+    }
     public void PlayPoisonParticles(Vector3 coords)
     {
         ParticleSystem p= Instantiate(poison);
@@ -61,6 +75,26 @@ public class ParticleManager : MonoBehaviour
         ParticleSystem s= Instantiate(splashDmg);
         s.transform.position = coords; 
         s.Play();
+    }
+
+    public void ChangeTurn()
+    {
+        bool isWhiteTurn = LightWhite.isActiveAndEnabled;
+
+        if (isWhiteTurn)
+        {
+            LightBlack.enabled = true;
+            FireBlack.Play();
+            LightWhite.enabled = false;
+            FireWhite.Stop();
+        }
+        else
+        {
+            LightWhite.enabled = true;
+            FireWhite.Play();
+            LightBlack.enabled = false;
+            FireBlack.Stop();
+        }
     }
 
 }

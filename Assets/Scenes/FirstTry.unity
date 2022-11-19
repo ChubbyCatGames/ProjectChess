@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!198 &88575976 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5342869067254050655, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+  m_PrefabInstance: {fileID: 3404481765821359094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &96477512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1361,10 @@ MonoBehaviour:
   lockParticles: {fileID: 3493781510090288531, guid: b15f1311d4b7231498242c44ed9bf4cc, type: 3}
   boost: {fileID: 181801809690578643, guid: de57d3f1613ed464b83c3381a264be0a, type: 3}
   splashDmg: {fileID: 8279892849328037904, guid: 5147d2df35176c4428935a8cd44b70b2, type: 3}
+  FireWhite: {fileID: 88575976}
+  LightWhite: {fileID: 1283473643}
+  FireBlack: {fileID: 1348274382}
+  LightBlack: {fileID: 542598120}
 --- !u!4 &358974422
 Transform:
   m_ObjectHideFlags: 0
@@ -1982,6 +1991,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 526122135}
   m_CullTransparentMesh: 1
+--- !u!108 &542598120 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 235028575, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+  m_PrefabInstance: {fileID: 3404481765821359094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &636802433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2828,6 +2842,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!108 &1283473643 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 4192372542866443599, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+  m_PrefabInstance: {fileID: 3404481765821359094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1323580615
 GameObject:
   m_ObjectHideFlags: 0
@@ -2956,6 +2975,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &1348274382 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6488920919556674011, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+  m_PrefabInstance: {fileID: 3404481765821359094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1369281661 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8465385790595197351, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}

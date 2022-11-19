@@ -212,6 +212,7 @@ public class Board : MonoBehaviour
     public void EndTurn()
     {
         controller.EndTurn();
+        particleManager.ChangeTurn();
     }
 
     //This method emulates the state of the board after a move is done
@@ -326,5 +327,10 @@ public class Board : MonoBehaviour
     public void SubstractGold(int gold)
     {
         controller.activePlayer.gold -= gold;
+    }
+
+    public void OpenShop(List<GameObject> items)
+    {
+        uIManager.OpenShop(items);
     }
 }

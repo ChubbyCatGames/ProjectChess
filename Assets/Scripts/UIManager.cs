@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UIElements;
+using System;
+using Unity.VisualScripting;
 
 public class UIManager : MonoBehaviour
 {
@@ -24,6 +27,45 @@ public class UIManager : MonoBehaviour
     Animation animation;
     private GameObject card;
     [SerializeField] GameObject[] icons;
+
+    [Header("Shop")]
+    [SerializeField] GameObject shopImg;
+
+    [Header("Names")]
+    [SerializeField] TextMeshProUGUI name1;
+    [SerializeField] TextMeshProUGUI name2;
+    [SerializeField] TextMeshProUGUI name3;
+
+    [Header("Descriptions")]
+    [SerializeField] TextMeshProUGUI description1;
+    [SerializeField] TextMeshProUGUI description2;
+    [SerializeField] TextMeshProUGUI description3;
+
+    [Header("Costs")]
+    [SerializeField] TextMeshProUGUI cost1;
+    [SerializeField] TextMeshProUGUI cost2;
+    [SerializeField] TextMeshProUGUI cost3;
+
+    
+    GameObject item1;
+    GameObject item2;
+    GameObject item3;
+    class ShopItem
+    {
+        public string name;
+        public string description;
+        public int cost;
+        
+
+        public ShopItem(string name, string description, int cost)
+        {
+            this.name = name;
+            this.description = description;
+            this.cost = cost;
+        }
+    }
+    
+
 
 
     //Dictionary with game cards and game objects
@@ -240,4 +282,28 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    internal void OpenShop(List<GameObject> items)
+    {
+        shopImg.SetActive(true);
+        item1 = items[0];
+        item2 = items[1];
+        item3 = items[2];
+
+        ShopItem i1 = new ShopItem(item1.GetComponent<Object>().objectName, item1.GetComponent<Object>().objectDescription, item1.GetComponent<Object>().cost);
+        ShopItem i2 = new ShopItem(item2.GetComponent<Object>().objectName, item2.GetComponent<Object>().objectDescription, item2.GetComponent<Object>().cost);
+        ShopItem i3 = new ShopItem(item3.GetComponent<Object>().objectName, item3.GetComponent<Object>().objectDescription, item3.GetComponent<Object>().cost);
+
+        name1.text = i1.name;
+        name2.text = i2.name;
+        name3.text = i3.name;
+
+        description1.text = i1.description;
+        description2.text = i2.description;
+        description3.text = i3.description;
+
+        cost1.text = i1.cost.ToString();
+        cost2.text = i2.cost.ToString();
+        cost3.text = i3.cost.ToString();
+
+    }
 }

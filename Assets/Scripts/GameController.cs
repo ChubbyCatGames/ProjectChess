@@ -100,7 +100,6 @@ public class GameController : MonoBehaviour
 
             
             board.SetEventOnBoard(squareCoords, _event);
-            Debug.Log("evento creado" + _event.name.ToString());
         }
     }
 

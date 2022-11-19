@@ -99,7 +99,10 @@ public abstract class Piece : MonoBehaviour
         poisoned = false;
         equipedObject = null;
 
+
     }
+
+
 
     private void OnDisable()
     {
