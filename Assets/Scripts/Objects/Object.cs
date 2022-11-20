@@ -8,5 +8,9 @@ public abstract class Object : MonoBehaviour
     public string objectName;
     public string objectDescription;
     public abstract void OnUse(Piece p);
+    public virtual void OnUnequip(Piece p)
+    {
+        return;
+    }
 
 }

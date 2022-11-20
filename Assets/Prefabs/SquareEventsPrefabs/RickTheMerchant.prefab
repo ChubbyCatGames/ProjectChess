@@ -47,7 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   squareName: 
   squareDescription: 
-  listObjects: []
+  listObjects:
+  - {fileID: 7539127048321253478, guid: 02e0556b8e54b744f9533edef6823b45, type: 3}
+  - {fileID: 7539127048321253478, guid: 0d636aa278933f0409cf629ccf3bd9d0, type: 3}
+  - {fileID: 7539127048321253478, guid: 6a0a3aef014f0204d9e8340a5b03188b, type: 3}
+  - {fileID: 7539127048321253478, guid: 862417876f4049949860b0d044540a9d, type: 3}
+  - {fileID: 7539127048321253478, guid: 9ae6883d3281e0a468791c53b3d2f55f, type: 3}
+  - {fileID: 7539127048321253478, guid: 01fb9aac3b2d36c4e98dc6978ad9a460, type: 3}
+  - {fileID: 7539127048321253478, guid: f58568cf530d9ac478ab85893c984f72, type: 3}
+  - {fileID: 7539127048321253478, guid: f2f5e6a2e8db5064c93c60b2e0353e32, type: 3}
+  - {fileID: 7539127048321253478, guid: 77865401acdea2c4d912156a8d44a883, type: 3}
+  - {fileID: 7539127048321253478, guid: 5d479ed15e84e6f4b9f6b19566e2207f, type: 3}
+  - {fileID: 7539127048321253478, guid: 548729c778fe67e418cdfdc13aee5fc5, type: 3}
+  - {fileID: 7539127048321253478, guid: ad0579d1bddcd614b9b2a515c5687c63, type: 3}
 --- !u!1 &5225679842444125090
 GameObject:
   m_ObjectHideFlags: 0

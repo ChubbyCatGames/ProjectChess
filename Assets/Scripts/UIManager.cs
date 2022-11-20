@@ -75,6 +75,8 @@ public class UIManager : MonoBehaviour
     {
         fightUI.SetActive(false);
 
+        shopImg.SetActive(false);
+
 
         foreach (var concreteCard in cardsPrefabs)
         {
@@ -87,7 +89,7 @@ public class UIManager : MonoBehaviour
         goldText.text= player.gold.ToString();
         blessingText.text= player.blessing.ToString();
     }
-
+    
     public void UpdateUI()
     {
         if (board.getSelectedPiece() != null)
@@ -288,15 +290,16 @@ public class UIManager : MonoBehaviour
         item1 = items[0];
         item2 = items[1];
         item3 = items[2];
-
+        Debug.Log(item1.GetComponent<Object>().objectName.ToString());
         ShopItem i1 = new ShopItem(item1.GetComponent<Object>().objectName, item1.GetComponent<Object>().objectDescription, item1.GetComponent<Object>().cost);
         ShopItem i2 = new ShopItem(item2.GetComponent<Object>().objectName, item2.GetComponent<Object>().objectDescription, item2.GetComponent<Object>().cost);
         ShopItem i3 = new ShopItem(item3.GetComponent<Object>().objectName, item3.GetComponent<Object>().objectDescription, item3.GetComponent<Object>().cost);
-
+        
         name1.text = i1.name;
         name2.text = i2.name;
         name3.text = i3.name;
 
+        /*
         description1.text = i1.description;
         description2.text = i2.description;
         description3.text = i3.description;
@@ -304,6 +307,7 @@ public class UIManager : MonoBehaviour
         cost1.text = i1.cost.ToString();
         cost2.text = i2.cost.ToString();
         cost3.text = i3.cost.ToString();
+        */
 
     }
 }

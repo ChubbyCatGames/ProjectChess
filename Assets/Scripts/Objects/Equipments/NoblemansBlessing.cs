@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 
-public class NoblemansBlessing : Equipment
+public class NoblemansBlessing : Object
 {
     NoblemansBlessing()
     {
+        objectName = "Nobleman's Blessing";
+        objectDescription = "(Equipment) The unit gives double tithe";
         cost = 200;
-        richnessAddition = 2;
+
     }
     public override void OnUse(Piece p)
     {
-        p.richness *= richnessAddition;
+        p.richness *= 2;
     }
     public override void OnUnequip(Piece p)
     {
-        p.richness/= richnessAddition; 
+        p.richness/= 2; 
     }
 
-    private void Awake()
-    {
-        objectName = "Nobleman's Blessing";
-        objectDescription = "(Equipment) The unit gives double tithe";
-        cost =200;
-    }
+
 }
