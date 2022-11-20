@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
-using WebSocketSharp;
 
 public class UIManager : MonoBehaviour
 {
@@ -395,7 +394,6 @@ public class UIManager : MonoBehaviour
 
     public void EquipItemOnCard(string item)
     {
-        if (item.IsNullOrEmpty()) return;
         Sprite s =ItemsDict[item];
         GameObject go = GameObject.Find("ObjectEquiped");
 
