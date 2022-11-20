@@ -209,8 +209,11 @@ public class GameController : MonoBehaviour
 
     public void StartFight(Piece attacker, Piece defensor, Vector2Int coords)
     {
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().duel.Play();
+
         //Start a coroutine to make an animation
-        
+
         int hitsAtck = 0;
         int hitsDef = 0;
 
@@ -237,7 +240,7 @@ public class GameController : MonoBehaviour
                     piece.PassiveAbility(attacker, coords);
                 }
 
-
+                board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
             }
             else if (piece.IsFromSameColor(defensor))
             {
@@ -254,8 +257,8 @@ public class GameController : MonoBehaviour
                     piece.PassiveAbility(defensor, coords);
                 }
             }
-            
-            
+
+            board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
         }
 
         
@@ -265,6 +268,8 @@ public class GameController : MonoBehaviour
             if (defensor.ignoreFirstAttack)
             {
                 defensor.ignoreFirstAttack = false;
+
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().divineShield.Play();
             }
             else
             {
@@ -283,6 +288,8 @@ public class GameController : MonoBehaviour
                 if (attacker.ignoreFirstAttack)
                 {
                     attacker.ignoreFirstAttack = false;
+
+                    GameObject.Find("AudioManager").GetComponent<AudioManager>().divineShield.Play();
                 }
                 else
                 {
@@ -361,6 +368,8 @@ public class GameController : MonoBehaviour
         uiManager.UpdatePlayerItemsUI(activePlayer);
         activePlayer.EnableAllPieces();
         GetTitheAndBlessing();
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().turnChange.Play();
     }
 
     private void GetTitheAndBlessing()
@@ -400,6 +409,8 @@ public class GameController : MonoBehaviour
             activePlayer.gold -= item.cost;
             uiManager.UpdatePlayerItemsUI(activePlayer);
             uiManager.CloseShop();
+
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().spentMoney.Play();
         }
         else
         {

@@ -9,6 +9,8 @@ public class PutridSwamp : SquareEvent
         p.poisoned= true;
 
         p.board.particleManager.PlayPoisonParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().poisonEvent.Play();
     }
 
 

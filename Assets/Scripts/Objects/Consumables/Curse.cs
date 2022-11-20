@@ -13,5 +13,7 @@ public class Curse : Object
     public override void OnUse(Piece p)
     {
         p.canMoveNextTurn = false;
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().lockEvent.Play();
     }
 }

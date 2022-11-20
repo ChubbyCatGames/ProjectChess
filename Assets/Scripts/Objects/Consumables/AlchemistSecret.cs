@@ -13,6 +13,10 @@ public class AlchemistSecret : Object
     public override void OnUse(Piece p)
     {
         p.life = p.maxLife;
+
+        p.board.particleManager.PlayHealPieceParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().heal.Play();
     }
 
 }

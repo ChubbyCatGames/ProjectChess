@@ -158,6 +158,8 @@ public abstract class Piece : MonoBehaviour
         occupiedSquare = coords;
         hasMoved = true;
         tweener.MoveTo(transform, targetPosition);
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().movePiece.Play();
     }
 
     public virtual void PassiveAbility(Piece piece, Vector2Int coords)
@@ -236,6 +238,8 @@ public abstract class Piece : MonoBehaviour
     private void OnEquip()
     {
         equipedObject.OnUse(this);
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().equip.Play();
     }
     public string GetData()
     {

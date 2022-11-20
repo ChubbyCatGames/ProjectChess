@@ -105,7 +105,10 @@ public class Board : MonoBehaviour
 
             //Call selection animation
             piece.GetComponent<SelectAnimation>().StartSelectAnimation(1.4f);
-        }else
+
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().selectPiece.Play();
+        }
+        else
             DeselectPiece();
     }
 
@@ -181,8 +184,8 @@ public class Board : MonoBehaviour
             gridEvents[coords.x, coords.y].StartEvent(piece);
             DestroyEvent(gridEvents[coords.x, coords.y]);
             gridEvents[coords.x, coords.y]=null;
-            
 
+            uIManager.CallSquareEventAnim();
         }
 
     }
@@ -283,6 +286,8 @@ public class Board : MonoBehaviour
         uIManager.ChangePlayerUI(controller.activePlayer);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteFaith();
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().ascension.Play();
     }
     public void OnSelectedPiecePromoteWar()
     {
@@ -293,6 +298,8 @@ public class Board : MonoBehaviour
         uIManager.ChangePlayerUI(controller.activePlayer);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteWar();
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().ascension.Play();
     }
 
     public void PromotePieceFaith(Piece p, Type t)
@@ -360,6 +367,8 @@ public class Board : MonoBehaviour
     public void OpenShop(List<GameObject> items)
     {
         uIManager.OpenShop(items);
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().store.Play();
     }
 
     public void TryToBuy(Object item)

@@ -33,6 +33,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject blackTurnImg;
     [SerializeField] GameObject whiteTurnImg;
 
+    [Header("Square Events")]
+    [SerializeField] GameObject squareEventImg;
+
     [Header("Shop")]
     [SerializeField] GameObject shopImg;
 
@@ -220,6 +223,8 @@ public class UIManager : MonoBehaviour
                     cardAnimator.SetBool("isFighting", true);
                     //attackerCard.GetComponent<Animator>().SetBool("isFighting", true);
                     //Debug.Log(attackerCard.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Description());
+
+                    GameObject.Find("AudioManager").GetComponent<AudioManager>().hit.Play();
                     yield return new WaitForSeconds(0.2f);
                     n--;
                 }
@@ -244,6 +249,8 @@ public class UIManager : MonoBehaviour
                     //cardAnimatorDef = defensorCard.GetComponent<Animator>();
                     cardAnimatorDef.SetBool("isIddle", false);
                     cardAnimatorDef.SetBool("isDefending", true);
+
+                    GameObject.Find("AudioManager").GetComponent<AudioManager>().hit.Play();
                     yield return new WaitForSeconds(0.2f);
                     m--;
                     
@@ -274,8 +281,6 @@ public class UIManager : MonoBehaviour
          * wait
          * 
          */
-
-        
 
     }
 
@@ -341,32 +346,7 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void CallFirstTurnWindow()
-    {
-        whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-    }
-
-    public void CallTurnWindow(bool white)
-    {
-        StartCoroutine(CallTurnWindowAnim(white));
-    }
-
-
-    IEnumerator CallTurnWindowAnim(bool white)
-    {
-        if (!white)
-        {
-            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.5f);
-            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
-        }
-        else
-        {
-            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.5f);
-            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-        }
-    }
+    
     public void BuyItem()
     {
         switch (selectedItem)
@@ -416,10 +396,47 @@ public class UIManager : MonoBehaviour
         goldWarning.text = "";
         shopImg.SetActive(false);
         inGameUi.SetActive(true);
-        
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().clickMenu.Play();
     }
+
     public void NotEnoughGold()
     {
         goldWarning.text = "Not Enough Gold";
     }
+
+
+
+    public void CallFirstTurnWindow()
+    {
+        whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+    }
+
+    public void CallTurnWindow(bool white)
+    {
+        StartCoroutine(CallTurnWindowAnim(white));
+    }
+
+
+    IEnumerator CallTurnWindowAnim(bool white)
+    {
+        if (!white)
+        {
+            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+            yield return new WaitForSeconds(0.25f);
+            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+        else
+        {
+            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
+            yield return new WaitForSeconds(0.25f);
+            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+    }
+
+    public void CallSquareEventAnim()
+    {
+        squareEventImg.GetComponent<InfoWindow>().StartAnimation();
+    }
+
 }

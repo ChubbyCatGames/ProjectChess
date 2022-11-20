@@ -9,6 +9,8 @@ public class Ambush : SquareEvent
         p.life /= 2;
 
         p.board.particleManager.PlayArrowParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().archers.Play();
     }
 
     private void Awake()

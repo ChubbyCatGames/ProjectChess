@@ -85,7 +85,9 @@ public class Queen : Piece
                 
             }
         }
+
         board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(coords));
 
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().splashDamage.Play();
     }
 }

@@ -9,6 +9,8 @@ public class BearsTrap : SquareEvent
         p.canMoveNextTurn = false;
 
         p.board.particleManager.PlayLockParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().lockEvent.Play();
     }
 
     private void Awake()

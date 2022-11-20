@@ -7,6 +7,10 @@ public class SecretFountain : SquareEvent
     public override void StartEvent(Piece p)
     {
         p.life = p.maxLife;
+
+        p.board.particleManager.PlayHealPieceParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().heal.Play();
     }
 
 
