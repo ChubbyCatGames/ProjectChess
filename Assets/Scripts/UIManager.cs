@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     private GameObject attackerCard;
     private GameObject defensorCard;
     private Animator cardAnimator;
+    private Animator cardAnimatorDef;
 
 
     [SerializeField] Board board;
@@ -154,44 +155,15 @@ public class UIManager : MonoBehaviour
 
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
+        //attackerCard.GetComponent<Animator>().SetBool("isIddle", true);
+        //defensorCard.GetComponent<Animator>().SetBool("isIddle", true);
+        cardAnimatorDef = defensorCard.GetComponent<Animator>();
+        cardAnimatorDef.SetBool("isIddle", true);
+        cardAnimator = attackerCard.GetComponent<Animator>();
+        cardAnimator.SetBool("isIddle", true);
 
         Debug.Log("hola" + attackerCard.name);
-        //ANIMACION
-        /*
-        if(attackerCard.GetComponent<Animator>())
-        {
-            //bucle para numero de golpes
-            Debug.Log(hitsAtck);
-            int n = hitsAtck;
-
-            
-            while (n > 0)
-            {
-                cardAnimator = attackerCard.GetComponent<Animator>();
-                cardAnimator.SetBool("isFighting", true);
-                yield return new WaitForSeconds(0.2f);
-                n--;
-            }
-            
-            cardAnimator.SetBool("isFighting", false);
-        }
-        yield return new WaitForSeconds(1f);
-
-        if (defensorCard.GetComponent<Animator>())
-        {
-            Debug.Log(hitsDef);
-
-            
-           int m = hitsDef;
-            while (m > 0)
-            {
-                defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
-                yield return new WaitForSeconds(0.2f);
-                m--;
-            }
-
-            defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
-    }*/
+        
         int n = hitsAtck;
         int m = hitsDef;
 
@@ -199,33 +171,50 @@ public class UIManager : MonoBehaviour
         {
             if (attackerCard.GetComponent<Animator>())
             {
+                Debug.Log(n);
+                //attackerCard.GetComponent<Animator>().SetBool("isIddle", true);
                 //bucle para numero de golpes
-                Debug.Log(hitsAtck);
+                //Debug.Log(attackerCard.name + "ataco");
 
                 if (n > 0)
                 {
-                    cardAnimator = attackerCard.GetComponent<Animator>();
+                    Debug.Log(attackerCard.name + "ataco");
+                    //cardAnimator = attackerCard.GetComponent<Animator>();
+                    cardAnimator.SetBool("isIddle", false);
                     cardAnimator.SetBool("isFighting", true);
+                    //attackerCard.GetComponent<Animator>().SetBool("isFighting", true);
+                    //Debug.Log(attackerCard.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Description());
                     yield return new WaitForSeconds(0.2f);
                     n--;
                 }
-
+                //attackerCard.GetComponent<Animator>().SetBool("isFighting", false);
                 cardAnimator.SetBool("isFighting", false);
             }
             yield return new WaitForSeconds(1f);
 
             if (defensorCard.GetComponent<Animator>())
             {
-                Debug.Log(hitsDef);
-
+                //defensorCard.GetComponent<Animator>().SetBool("isIddle", true);
+                //defensorCard.SetActive(true);
+                //Debug.Log(defensorCard.name + "defiendo");
+                Debug.Log(m);
                 if (m > 0)
                 {
+                    Debug.Log(defensorCard.name + "defiendo");
+                    /*
                     defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
                     yield return new WaitForSeconds(0.2f);
+                    m--;*/
+                    //cardAnimatorDef = defensorCard.GetComponent<Animator>();
+                    cardAnimatorDef.SetBool("isIddle", false);
+                    cardAnimatorDef.SetBool("isDefending", true);
+                    yield return new WaitForSeconds(0.2f);
                     m--;
+                    
                 }
+                cardAnimatorDef.SetBool("isDefending", false);
 
-                defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
+                //defensorCard.GetComponent<Animator>().SetBool("isDefending", false);
             }
             yield return new WaitForSeconds(1f);
         }
