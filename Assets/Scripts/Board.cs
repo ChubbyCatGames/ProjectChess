@@ -195,6 +195,10 @@ public class Board : MonoBehaviour
         Debug.Log(gridEvents[coords.x, coords.y]);
         if(gridEvents[coords.x, coords.y] != null)
         {
+            //Set the ui info
+            uIManager.UpdateSquareEventInfo(gridEvents[coords.x, coords.y].squareName, gridEvents[coords.x, coords.y].squareDescription);
+
+
             gridEvents[coords.x, coords.y].StartEvent(piece);
             DestroyEvent(gridEvents[coords.x, coords.y]);
             gridEvents[coords.x, coords.y]=null;

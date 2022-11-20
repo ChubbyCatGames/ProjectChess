@@ -36,6 +36,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Square Events")]
     [SerializeField] GameObject squareEventImg;
+    [SerializeField] GameObject squareName;
+    [SerializeField] GameObject squareDescription;
 
     [Header("Shop")]
     [SerializeField] GameObject shopImg;
@@ -463,6 +465,12 @@ public class UIManager : MonoBehaviour
     public void CallSquareEventAnim()
     {
         squareEventImg.GetComponent<InfoWindow>().StartAnimation();
+    }
+
+    public void UpdateSquareEventInfo(string name, string description)
+    {
+        squareName.GetComponent<TextMeshProUGUI>().text = name;
+        squareDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
 }
