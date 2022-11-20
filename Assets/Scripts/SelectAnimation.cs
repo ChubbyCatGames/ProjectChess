@@ -30,7 +30,6 @@ public class SelectAnimation : MonoBehaviour
 
         for (float i = transform.localScale.x; i > originalScale.x; i -= 0.1f * originalScale.x)
         {
-            print("HOLAAA");
             yield return new WaitForSeconds(0.015f);
             gameObject.transform.localScale = new Vector3(i, i, i);
         }

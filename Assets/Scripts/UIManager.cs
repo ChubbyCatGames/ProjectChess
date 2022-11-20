@@ -29,6 +29,10 @@ public class UIManager : MonoBehaviour
     private GameObject card;
     [SerializeField] GameObject[] icons;
 
+    [Header("Turns")]
+    [SerializeField] GameObject blackTurnImg;
+    [SerializeField] GameObject whiteTurnImg;
+
     [Header("Shop")]
     [SerializeField] GameObject shopImg;
 
@@ -307,5 +311,32 @@ public class UIManager : MonoBehaviour
         cost3.text = i3.cost.ToString();
         
 
+    }
+
+    public void CallFirstTurnWindow()
+    {
+        whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+    }
+
+    public void CallTurnWindow(bool white)
+    {
+        StartCoroutine(CallTurnWindowAnim(white));
+    }
+
+
+    IEnumerator CallTurnWindowAnim(bool white)
+    {
+        if (!white)
+        {
+            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+            yield return new WaitForSeconds(0.5f);
+            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+        else
+        {
+            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
+            yield return new WaitForSeconds(0.5f);
+            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+        }
     }
 }

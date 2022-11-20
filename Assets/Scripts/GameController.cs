@@ -58,6 +58,10 @@ public class GameController : MonoBehaviour
         CreatePiecesFromLayout(startingBoardLayout);
         CreateEventsFromLayout(startingBoardEvents);
         activePlayer = whitePlayer;
+
+        //Animation for the turn window
+        uiManager.CallFirstTurnWindow();
+
         activePlayer.alreadyMoved= false;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
@@ -347,6 +351,13 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
+
+        //---Call the turn window---
+
+        uiManager.CallTurnWindow(activePlayer == whitePlayer ? true : false);
+
+        //--------------------
+
         uiText.text = activePlayer.team.ToString() + "'s turn";
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
