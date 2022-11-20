@@ -47,6 +47,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI cost2;
     [SerializeField] TextMeshProUGUI cost3;
 
+    [Header("Shop Images")]
+    [SerializeField] SpriteRenderer img1;
+    [SerializeField] SpriteRenderer img2;
+    [SerializeField] SpriteRenderer img3;
     
     GameObject item1;
     GameObject item2;
@@ -276,27 +280,32 @@ public class UIManager : MonoBehaviour
     internal void OpenShop(List<GameObject> items)
     {
         shopImg.SetActive(true);
+        inGameUi.SetActive(false);
         item1 = items[0];
         item2 = items[1];
         item3 = items[2];
-        Debug.Log(item1.GetComponent<Object>().objectName.ToString());
+
         ShopItem i1 = new ShopItem(item1.GetComponent<Object>().objectName, item1.GetComponent<Object>().objectDescription, item1.GetComponent<Object>().cost);
         ShopItem i2 = new ShopItem(item2.GetComponent<Object>().objectName, item2.GetComponent<Object>().objectDescription, item2.GetComponent<Object>().cost);
         ShopItem i3 = new ShopItem(item3.GetComponent<Object>().objectName, item3.GetComponent<Object>().objectDescription, item3.GetComponent<Object>().cost);
+
+        img1.sprite = item1.GetComponent<SpriteRenderer>().sprite;
+        img2.sprite = item2.GetComponent<SpriteRenderer>().sprite;
+        img3.sprite = item3.GetComponent<SpriteRenderer>().sprite;
         
         name1.text = i1.name;
         name2.text = i2.name;
         name3.text = i3.name;
 
-        /*
+        
         description1.text = i1.description;
         description2.text = i2.description;
         description3.text = i3.description;
-
+        
         cost1.text = i1.cost.ToString();
         cost2.text = i2.cost.ToString();
         cost3.text = i3.cost.ToString();
-        */
+        
 
     }
 }
