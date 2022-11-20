@@ -12,20 +12,29 @@ public class Board : MonoBehaviour
     [SerializeField] private Transform bottomLeftSquareTransform;
     [SerializeField] private float squareSize;
 
+    [SerializeField] public ParticleManager particleManager;
+
 
     private Piece[,] grid;
+    private SquareEvent[,] gridEvents; 
     private Piece selectedPiece;
     private GameController controller;
     private SquareSelectorCreator squareSelector;
 
     public bool winSelectedPiece = true;
 
+    public bool newRecruit = false;
+    public List<Vector2Int> newRecruitPositions;
+
     [SerializeField] UIManager uIManager;
+
+    private Object itemSelected;
 
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
+        itemSelected = null;
     }
 
     public void SetDependencies(GameController controller)
@@ -36,6 +45,7 @@ public class Board : MonoBehaviour
     private void CreateGrid()
     {
         grid = new Piece[BOARD_SIZE, BOARD_SIZE];
+        gridEvents = new SquareEvent[BOARD_SIZE, BOARD_SIZE];
     }
 
     //Uses the position of the bottom left square to apply the starting position
@@ -57,7 +67,15 @@ public class Board : MonoBehaviour
             return;
         Vector2Int coords= CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
-        if (selectedPiece)
+        if (itemSelected != null)
+        {
+
+            piece.EquipObject(itemSelected);
+            controller.activePlayer.RemoveObject(itemSelected);
+            itemSelected= null;
+            uIManager.UpdatePlayerItemsUI(controller.activePlayer);
+        }
+        else if (selectedPiece)
         {
             if (piece != null && selectedPiece == piece)
                 DeselectPiece();
@@ -68,24 +86,47 @@ public class Board : MonoBehaviour
         }
         else
         {
+            if (newRecruit)
+            {
+                if (newRecruitPositions.Contains(coords))
+                {
+                    CreatePawn(coords, controller.activePlayer.team);
+                    newRecruit = false;
+                    DeselectPiece();
+                    newRecruitPositions.Clear();
+                }
+            }
             if (piece != null && controller.IsTeamTurnActive(piece.color))
                 SelectPiece(piece);
+
+            
         }
     }
 
    
 
-    private void SelectPiece(Piece piece)
+    public void SelectPiece(Piece piece)
     {
         DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
-        List<Vector2Int> selection = selectedPiece.avaliableMoves;
-        ShowSelectionSquares(selection);
-        uIManager.UpdateUI();
+
+        if(selectedPiece.canMoveTwice || !controller.activePlayer.alreadyMoved)
+        {
+            List<Vector2Int> selection = selectedPiece.avaliableMoves;
+            ShowSelectionSquares(selection);
+            uIManager.UpdateUI();
+
+            //Call selection animation
+            piece.GetComponent<SelectAnimation>().StartSelectAnimation(1.4f);
+
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().selectPiece.Play();
+        }
+        else
+            DeselectPiece();
     }
 
-    private void ShowSelectionSquares(List<Vector2Int> selection)
+    public void ShowSelectionSquares(List<Vector2Int> selection)
     {
         Dictionary<Vector3, bool> squaresData = new Dictionary<Vector3, bool>();
         for (int i = 0; i < selection.Count; i++)
@@ -103,6 +144,12 @@ public class Board : MonoBehaviour
             grid[coords.x,coords.y] = newPiece;
     }
 
+    internal void SetEventOnBoard(Vector2Int coords, SquareEvent newEvent)
+    {
+        if (CheckIfCoordAreOnBoard(coords))
+            gridEvents[coords.x, coords.y] = Instantiate(newEvent);
+    }
+
     private void DeselectPiece()
     {
         selectedPiece = null;
@@ -113,18 +160,52 @@ public class Board : MonoBehaviour
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
         bool success=TryToTake(coords);
+        
         if (success)
         {
             UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
             selectedPiece.MovePiece(coords);
             DeselectPiece();
-            EndTurn();
+            CheckGridEvents(coords, piece);
+            if (piece.IsAttackingPieceOFType<King>())
+                piece.canMoveTwice = false;
+            if (!piece.canMoveTwice)
+            {
+                //EndTurn();
+
+            }
+            else
+                piece.canMoveTwice= false;
         }
         else
         {
             DeselectPiece();
-            EndTurn();
+            if (!piece.canMoveTwice)
+            {
+                //EndTurn();
+            }
+            else
+                piece.canMoveTwice = false;
         }
+        controller.activePlayer.alreadyMoved = true;
+    }
+
+    private void CheckGridEvents(Vector2Int coords, Piece piece)
+    {
+        Debug.Log(gridEvents[coords.x, coords.y]);
+        if(gridEvents[coords.x, coords.y] != null)
+        {
+            //Set the ui info
+            uIManager.UpdateSquareEventInfo(gridEvents[coords.x, coords.y].squareName, gridEvents[coords.x, coords.y].squareDescription);
+
+
+            gridEvents[coords.x, coords.y].StartEvent(piece);
+            DestroyEvent(gridEvents[coords.x, coords.y]);
+            gridEvents[coords.x, coords.y]=null;
+
+            uIManager.CallSquareEventAnim();
+        }
+
     }
 
     //******ADD STATE FIGHT**********/////
@@ -137,7 +218,7 @@ public class Board : MonoBehaviour
 
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
         {
-            controller.StartFight(selectedPiece, piece);
+            controller.StartFight(selectedPiece, piece, coords);
             if (winSelectedPiece)
                 TakePiece(piece);
             else
@@ -146,7 +227,7 @@ public class Board : MonoBehaviour
         return winSelectedPiece;
     }
 
-    private void TakePiece(Piece piece)
+    public void TakePiece(Piece piece)
     {
         if (piece)
         {
@@ -155,9 +236,18 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void EndTurn()
+    public void DestroyEvent(SquareEvent _event)
+    {
+        if (_event)
+        {
+            Destroy(_event.gameObject);
+        }
+    }
+
+    public void EndTurn()
     {
         controller.EndTurn();
+        particleManager.ChangeTurn();
     }
 
     //This method emulates the state of the board after a move is done
@@ -172,6 +262,18 @@ public class Board : MonoBehaviour
         if (CheckIfCoordAreOnBoard(coords))
             return grid[coords.x, coords.y];
         return null;
+    }
+
+    public List<Piece> GetPiecesOnPerpendicular(Vector2Int coords)
+    {
+        List <Piece> pieces = new List<Piece>();
+        Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+        for (int i = 0; i < directions.Length; i++)
+        {
+            Piece p = GetPieceOnSquare(coords + directions[i]);
+            if(p!=null) pieces.Add(p);
+        }
+        return pieces;
     }
 
     public bool CheckIfCoordAreOnBoard(Vector2Int coords)
@@ -200,7 +302,10 @@ public class Board : MonoBehaviour
             || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
         uIManager.ChangePlayerUI(controller.activePlayer);
+        particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteFaith();
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().ascension.Play();
     }
     public void OnSelectedPiecePromoteWar()
     {
@@ -209,13 +314,21 @@ public class Board : MonoBehaviour
             || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
         uIManager.ChangePlayerUI(controller.activePlayer);
+        particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteWar();
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().ascension.Play();
     }
 
     public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
+
+        //Calculate the new life
+        float ratio = p.life / p.maxLife;
+
+
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
@@ -223,19 +336,66 @@ public class Board : MonoBehaviour
     public void PromotePieceWar(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
+
+        //Calculate the new life
+        float ratio = p.life / p.maxLife;
+
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
+        DeselectPiece();
+        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
+    }
+    internal void ChangeTeamOfPiece(Piece piece, PieceColor newColor)
+    {
+        TakePiece(piece);
+
+        //Calculate life ratio
+        float ratio = piece.life / piece.maxLife;
+
+        controller.CreatePieceAndInitializeHierLife(piece.occupiedSquare,newColor, piece.GetType(), ratio);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
 
+    internal void CreatePawn(Vector2Int coords,PieceColor color)
+    {
+        controller.CreatePieceAndInitialize(coords, color, Type.GetType("Pawn"));
+    }
+
     public void OnGameRestarted()
     {
-        selectedPiece = null;
+        DeselectPiece();
         CreateGrid();
     }
 
     public Piece getSelectedPiece()
     {
         return selectedPiece;
+    }
+
+    public void SelectItem(Object item)
+    {
+        itemSelected = item;
+
+    }
+    public void AddGold(int gold)
+    {
+        controller.activePlayer.gold += gold;
+    }
+
+    public void SubstractGold(int gold)
+    {
+        controller.activePlayer.gold -= gold;
+    }
+
+    public void OpenShop(List<GameObject> items)
+    {
+        uIManager.OpenShop(items);
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().store.Play();
+    }
+
+    public void TryToBuy(Object item)
+    {
+        controller.TryToBuy(item);
     }
 }

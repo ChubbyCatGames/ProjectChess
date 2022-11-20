@@ -11,9 +11,9 @@ public class GameController : MonoBehaviour
     private enum GameState { Init, Play, Finished, Fight}
 
     [SerializeField] private BoardLayout startingBoardLayout;
+    [SerializeField] private BoardLayoutEvents startingBoardEvents;
     [SerializeField] private Board board;
     [SerializeField] private UIManager uiManager;
-    public TextMeshProUGUI uiText;
 
     private PieceCreator pieceCreator;
     private CameraManager cameraManager;
@@ -55,7 +55,13 @@ public class GameController : MonoBehaviour
         SetGameState(GameState.Init);
         board.SetDependencies(this);
         CreatePiecesFromLayout(startingBoardLayout);
+        CreateEventsFromLayout(startingBoardEvents);
         activePlayer = whitePlayer;
+
+        //Animation for the turn window
+        uiManager.CallFirstTurnWindow();
+
+        activePlayer.alreadyMoved= false;
         GenerateAllPossiblePlayerMoves(activePlayer);
         SetGameState(GameState.Play);
         GetTitheAndBlessing();
@@ -86,6 +92,21 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void CreateEventsFromLayout(BoardLayoutEvents layout)
+    {
+        for (int i = 0; i < layout.GetPiecesCount(); i++)
+        {
+
+
+            Vector2Int squareCoords = layout.GetSquareCoordsAtIndex(i);
+            SquareEvent _event = layout.GetSquareEventNameAtIndex(i);
+
+            _event.transform.position = board.CalculatePositionFromCoords(squareCoords);
+            board.SetEventOnBoard(squareCoords, _event);
+            
+        }
+    }
+
 
 
     //Gets called from above and initializes every piece
@@ -93,6 +114,13 @@ public class GameController : MonoBehaviour
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
+
+        newPiece.InitializeDamageCanvas();
+
+        if (pieceColor == PieceColor.White)
+        {
+            newPiece.gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
@@ -104,11 +132,11 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, int life)
+    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, float lifeRatio)
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
-        newPiece.life = life;
+        newPiece.life = lifeRatio * newPiece.maxLife;
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
@@ -132,8 +160,11 @@ public class GameController : MonoBehaviour
 
     internal void EndTurn()
     {
+        TakeAllPiecesWithoutLife(activePlayer);
+        TakeAllPiecesWithoutLife(GetOpponentToPlayer(activePlayer));
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
+        
         if (CheckIfGameIsFinished())
             EndGame();
         else
@@ -142,9 +173,23 @@ public class GameController : MonoBehaviour
 
     }
 
+    private void TakeAllPiecesWithoutLife(Player p)
+    {
+        foreach (var piece in p.activePieces)
+        {
+            if (piece.poisoned) piece.life -= 5;
+            if (piece.life <= 0 || piece.condemned) board.TakePiece(piece);
+                
+        }
+    }
     private bool CheckIfGameIsFinished()
     {
         Piece[] kingAttackingPieces = activePlayer.GetPieceAttakingPieceOfType<King>();
+        bool kingAlive = GetOpponentToPlayer(activePlayer).GetPiecesOfType<King>().Any();
+        if (!kingAlive)
+        {
+            return true;
+        }
         if(kingAttackingPieces.Length > 0)
         {
             Player oppositePlayer = GetOpponentToPlayer(activePlayer);
@@ -162,41 +207,136 @@ public class GameController : MonoBehaviour
         return false;
     }
 
-    public void StartFight(Piece attacker, Piece defensor)
+    public void StartFight(Piece attacker, Piece defensor, Vector2Int coords)
     {
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().duel.Play();
+
         //Start a coroutine to make an animation
-        
+
         int hitsAtck = 0;
         int hitsDef = 0;
+
+        List<Piece> attackerChurches = new List<Piece>();
+        List<Piece> defensorChurches = new List<Piece>();
+        List<Piece> attackerKnights = new List<Piece>();
+        List<Piece> defensorKnights = new List<Piece>();
+
+        List<Piece> piecesPerpendicular = board.GetPiecesOnPerpendicular(coords);
+        foreach(Piece piece in piecesPerpendicular) 
+        {
+            if (piece.IsFromSameColor(attacker))
+            {
+                if (piece.GetType() == typeof(Church))
+                {
+                    attackerChurches.Add(piece);
+                }
+                else if (piece.GetType() == typeof(Knight))
+                {
+                    attackerKnights.Add(piece);
+                }
+                else
+                {
+                    piece.PassiveAbility(attacker, coords);
+                }
+
+                board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
+            }
+            else if (piece.IsFromSameColor(defensor))
+            {
+                if (piece.GetType() == typeof(Church))
+                {
+                    defensorChurches.Add(piece);
+                }
+                else if (piece.GetType() == typeof(Knight))
+                {
+                    defensorKnights.Add(piece);
+                }
+                else
+                {
+                    piece.PassiveAbility(defensor, coords);
+                }
+            }
+
+            board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
+        }
+
+        
         while (attacker.life>0 && defensor.life > 0)
         {
 
-            attacker.Attack(defensor);
-            hitsAtck++;
-            
+            if (defensor.ignoreFirstAttack)
+            {
+                defensor.ignoreFirstAttack = false;
+
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().divineShield.Play();
+            }
+            else
+            {
+                attacker.Attack(defensor);
+                hitsAtck++;
+                
+            }
+            for (int i = 0; i < attackerChurches.Count; i++)
+            {
+                attackerChurches[i].PassiveAbility(attacker, coords);
+            }
+
+
             if (defensor.life > 0)
             {
-                defensor.Attack(attacker);
-                hitsDef++;
+                if (attacker.ignoreFirstAttack)
+                {
+                    attacker.ignoreFirstAttack = false;
+
+                    GameObject.Find("AudioManager").GetComponent<AudioManager>().divineShield.Play();
+                }
+                else
+                {
+                    defensor.Attack(attacker);
+                    hitsDef++;
+                   
+                    //defensordedasd
+                }
+                for (int i = 0; i < defensorChurches.Count; i++)
+                {
+                    defensorChurches[i].PassiveAbility(defensor, coords);
+                }
             }
         }
         StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));
+       
+
         if (defensor.life <= 0)
         { 
             board.winSelectedPiece = true;
             uiManager.StopFight();
-;
-        }else
+            Debug.Log(activePlayer.gold);
+            float extraGold = 0;
+            foreach(Knight k in attackerKnights.Cast<Knight>())
+            {
+                extraGold += k.goldAddition;
+            }
+            activePlayer.gold += defensor.richness + Mathf.FloorToInt(attacker.richness * extraGold);
+            Debug.Log(activePlayer.gold);
+
+        }
+        else
         {
             board.winSelectedPiece = false;
             uiManager.StopFight();
+            float extraGold = 0;
+            foreach (Knight k in defensorKnights)
+            {
+                extraGold += k.goldAddition;
+            }
+            GetOpponentToPlayer(activePlayer).gold += attacker.richness + Mathf.FloorToInt(attacker.richness * extraGold);
         }
             
     }
 
     private void EndGame()
     {
-        uiText.text = activePlayer.team.ToString() + " wins";
         SetGameState(GameState.Finished); 
     }
 
@@ -216,8 +356,20 @@ public class GameController : MonoBehaviour
     private void ChangeActiveTeam()
     {
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
-        uiText.text = activePlayer.team.ToString() + "'s turn";
+
+        //---Call the turn window---
+
+        uiManager.CallTurnWindow(activePlayer == whitePlayer ? true : false);
+
+        //--------------------
+
+        activePlayer.GetTheratNextMove<King>();
+        activePlayer.alreadyMoved = false;
+        uiManager.UpdatePlayerItemsUI(activePlayer);
+        activePlayer.EnableAllPieces();
         GetTitheAndBlessing();
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().turnChange.Play();
     }
 
     private void GetTitheAndBlessing()
@@ -246,5 +398,29 @@ public class GameController : MonoBehaviour
     {
         whitePlayer.activePieces.ForEach(p => Destroy(p.gameObject));
         blackPlayer.activePieces.ForEach(p => Destroy(p.gameObject));
+    }
+
+    public void TryToBuy(Object item)
+    {
+        if(activePlayer.gold >= item.cost)
+        {
+            activePlayer.AddObject(item);
+
+            activePlayer.gold -= item.cost;
+            uiManager.UpdatePlayerItemsUI(activePlayer);
+            uiManager.CloseShop();
+
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().spentMoney.Play();
+        }
+        else
+        {
+            uiManager.NotEnoughGold();
+        }
+    }
+
+    public void SelectItemAtIndex(int idx)
+    {
+        board.SelectItem(activePlayer.playerObjects[idx]);
+        
     }
 }

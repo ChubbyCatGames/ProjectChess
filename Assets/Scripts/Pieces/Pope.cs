@@ -83,4 +83,20 @@ public class Pope : Piece
     {
         return;
     }
+
+    public override void ChangeBranch()
+    {
+        board.PromotePieceWar(this, typeof(Queen));
+    }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        //Set a escudo
+        piece.ignoreFirstAttack = true;
+
+    }
 }

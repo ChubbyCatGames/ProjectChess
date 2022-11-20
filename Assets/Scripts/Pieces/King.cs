@@ -7,15 +7,36 @@ public class King : Piece
 {
     private Vector2Int[] directions = new Vector2Int[]
     {
-        new Vector2Int (-1,1),
-        new Vector2Int (-1,-1),
-        new Vector2Int(1,-1),
-        new Vector2Int(1,1),
         Vector2Int.left,
         Vector2Int.right,
         Vector2Int.up,
-        Vector2Int.down
+        Vector2Int.down,
+        new Vector2Int (-1,1),
+        new Vector2Int (-1,-1),
+        new Vector2Int(1,-1),
+        new Vector2Int(1,1)
 
+
+    };
+
+    private Vector2Int[] directionsPawnThreatofBishop = new Vector2Int[]
+    {
+        new Vector2Int (-1,1),
+        new Vector2Int (-1,-1),
+        new Vector2Int(1,-1),
+        new Vector2Int(1,1)
+    };
+
+    private Vector2Int[] jumpsPawnThreatofKinght = new Vector2Int[]
+    {
+        new Vector2Int(2,1),
+        new Vector2Int(2,-1),
+        new Vector2Int(-2,1),
+        new Vector2Int(-2,-1),
+        new Vector2Int(1,2),
+        new Vector2Int(-1,2),
+        new Vector2Int(1,-2),
+        new Vector2Int(-1,-2),
     };
 
     private Vector2Int leftCastlingMove;
@@ -90,7 +111,7 @@ public class King : Piece
 
     public override void InitializeValues()
     {
-        this.maxLife = 999;
+        this.maxLife = 10;
         this.life = this.maxLife;
         this.attackDmg = 999;
         this.richness = 0;
@@ -106,5 +127,48 @@ public class King : Piece
     public override void PromoteWar()
     {
         return;
+    }
+
+    public override void ChangeBranch()
+    {
+        return;
+    }
+
+    public override bool CheckThreatNextTurn()
+    {
+        PieceColor pc = this.color == PieceColor.White ? PieceColor.Black : PieceColor.White;
+        Piece p = null;
+        for (int i = 0; i < 4; i++)
+        {
+            p = GetPieceInDirection<Knight>(pc, directions[i]);
+            if (p != null) break;
+        }
+        if (!p)
+        {
+            for (int i = 0; i < directionsPawnThreatofBishop.Length; i++)
+            {
+                p = GetPieceInDirection<Pawn>(pc, directionsPawnThreatofBishop[i]);
+                if (p != null) break;
+            }
+        }
+        if (!p)
+        {
+            for (int i = 0; i < jumpsPawnThreatofKinght.Length; i++)
+            {
+                p = GetPieceInJumps<Pawn>(pc, jumpsPawnThreatofKinght[i]);
+                if (p != null) break;
+            }
+        }
+        if (!p)
+            return false;
+        Debug.Log("cuidado Caballo" + pc.ToString());
+
+        return true;
+    }
+
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        return;
+
     }
 }

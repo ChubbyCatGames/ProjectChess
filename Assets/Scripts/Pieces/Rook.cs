@@ -51,4 +51,19 @@ public class Rook : Piece
     {
         board.PromotePieceWar(this, typeof(Queen));
     }
+
+    public override void ChangeBranch()
+    {
+        board.PromotePieceFaith(this, typeof(Church));
+    }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        piece.attackDmg += piece.attackDmg * (0.1f*duplicatePassive);
+
+    }
 }

@@ -9,14 +9,17 @@ public class Player
     public PieceColor team {  get; set; }
     public Board board { get; set; }
     public List<Piece> activePieces { get; set; }
+    public List<Object> playerObjects { get; set; }
     public int gold { get; set; }
     public int blessing { get; set; }
+    public bool alreadyMoved = false;
 
     public Player(PieceColor team, Board board)
     {
         this.team = team;
         this.board = board;
         activePieces = new List<Piece>();
+        playerObjects= new List<Object>();
         gold = 0;
         blessing = 0;
     }
@@ -33,12 +36,38 @@ public class Player
             activePieces.Remove(p);
     }
 
+    public void AddObject(Object o)
+    {
+        if (!playerObjects.Contains(o))
+            playerObjects.Add(o);
+    }
+
+    public void RemoveObject(Object o)
+    {
+        if (playerObjects.Contains(o))
+            playerObjects.Remove(o);
+    }
+
     public void GenerateAllPosibleMoves()
     {
         foreach (var piece in activePieces)
         {
-            if(board.HasPiece(piece))
+            if (board.HasPiece(piece) && piece.canMoveNextTurn)
                 piece.SelectAvaliableSquares();
+            else
+            {
+                piece.avaliableMoves.Clear();
+
+            }
+
+        }
+    }
+
+    public void EnableAllPieces()
+    {
+        foreach(var piece in activePieces)
+        {
+            piece.canMoveNextTurn = true;
         }
     }
 
@@ -50,6 +79,11 @@ public class Player
     public Piece [] GetPiecesOfType<T>()where T: Piece
     {
         return activePieces.Where(p => p is T).ToArray();
+    }
+
+    public Piece[] GetTheratNextMove<T>() where T : Piece
+    {
+        return activePieces.Where(p => p.CheckThreatNextTurn()).ToArray();
     }
 
     internal void RemoveMovesEnablingAttackOnPiece<T>(Player opponent, Piece selectedPiece) where T : Piece

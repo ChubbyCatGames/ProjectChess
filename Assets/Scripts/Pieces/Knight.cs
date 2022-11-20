@@ -16,6 +16,8 @@ public class Knight : Piece
         new Vector2Int(-1,-2),
 
     };
+
+    public float goldAddition = 0.3f;
     public override List<Vector2Int> SelectAvaliableSquares()
     {
         avaliableMoves.Clear();
@@ -49,5 +51,21 @@ public class Knight : Piece
     public override void PromoteWar()
     {
         board.PromotePieceWar(this, typeof(Rook));
+    }
+    public override void ChangeBranch()
+    {
+        board.PromotePieceFaith(this,typeof(Bishop));
+    }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+
+        //ORO OBTENIDO + 30%
+        goldAddition = goldAddition * duplicatePassive;
+
     }
 }

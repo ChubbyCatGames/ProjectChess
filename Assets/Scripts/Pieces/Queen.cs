@@ -63,4 +63,31 @@ public class Queen : Piece
     {
         return;
     }
+
+    public override void ChangeBranch()
+    {
+        board.PromotePieceWar(this, typeof(Pope));
+    }
+
+    public override bool CheckThreatNextTurn()
+    {
+        return false;
+    }
+    
+    public override void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        List<Piece> pieces = board.GetPiecesOnPerpendicular(coords);
+        foreach (var p in pieces)
+        {
+            if (!IsFromSameColor(p))
+            {
+                p.life -= 10*duplicatePassive;
+                
+            }
+        }
+
+        board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(coords));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().splashDamage.Play();
+    }
 }

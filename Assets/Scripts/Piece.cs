@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(IObjectTweener))]
@@ -8,7 +9,7 @@ using UnityEngine;
 public abstract class Piece : MonoBehaviour
 {
     private MaterialSetter materialSetter;
-    public Board board { protected get; set; }
+    public Board board { get; set; }
 
     public Vector2Int occupiedSquare { get; set; }
 
@@ -22,21 +23,67 @@ public abstract class Piece : MonoBehaviour
 
     public abstract List<Vector2Int> SelectAvaliableSquares();
 
+    public abstract bool CheckThreatNextTurn();
+
     public abstract void InitializeValues();
 
     public abstract void PromoteFaith();
 
     public abstract void PromoteWar();
 
-    public int life;
-    public int maxLife;
-    public int attackDmg;
+    public abstract void ChangeBranch();
+
+    private float m_life= 0;
+
+    public float life
+    {
+        get { return m_life; }
+        set
+        {
+            if (m_life == value) return;
+
+            //Check if the unit loses health
+            if (value < m_life)
+            {
+                canvasDamage.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(m_life - value);
+            }
+
+            //Set the value
+            m_life = value;
+
+            if (OnLifeChanged != null)
+                OnLifeChanged();
+        }
+    }
+
+
+
+    public float maxLife;
+    public float attackDmg;
     public int richness;
+
+    public int duplicatePassive = 1;
 
     public int blessingDevelopCost;
     public int goldDevelopCost;
 
     public Action OnLifeChanged;
+
+    //variables needed to apply objects and passives
+    public bool ignoreFirstAttack;
+    public bool canMoveNextTurn;
+    public bool canMoveTwice;
+
+    public Object equipedObject;
+
+    //this variable will make the piece die at the end of the turn
+    public bool condemned;
+    public bool poisoned;
+
+    //Variable Canvas for the damage number
+    [SerializeField] private Canvas canvasDamage;
+
+    [SerializeField] private Canvas canvasHurt;
 
     private void Awake()
     {
@@ -46,14 +93,37 @@ public abstract class Piece : MonoBehaviour
         hasMoved = false;
         InitializeValues();
         OnLifeChanged += UpdateLifeUI;
-        
+
+        ignoreFirstAttack = false;
+        canMoveNextTurn = true;
+        canMoveTwice = false;
+        condemned = false;
+        poisoned = false;
+        equipedObject = null;
+
+        canvasHurt.enabled= false;
+
     }
+
+
 
     private void OnDisable()
     {
         OnLifeChanged -= UpdateLifeUI;
     }
 
+    public void InitializeDamageCanvas()
+    {
+        if (this.color == PieceColor.White)
+        {
+            canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, 39.419f, 0);
+        }
+        else
+        {
+            canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, -140.581f, 0);
+        }
+        canvasDamage.GetComponent<RectTransform>().localPosition = new Vector3(7.2f, 169.8f, 4.4f);
+    }
     
     public void SetMaterial(Material mat)
     {
@@ -76,7 +146,7 @@ public abstract class Piece : MonoBehaviour
     {
         return color == piece.color;
     }
-    
+
     public bool CanMoveTo(Vector2Int coords)
     {
         return avaliableMoves.Contains(coords);
@@ -88,13 +158,21 @@ public abstract class Piece : MonoBehaviour
         occupiedSquare = coords;
         hasMoved = true;
         tweener.MoveTo(transform, targetPosition);
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().movePiece.Play();
+    }
+
+    public virtual void PassiveAbility(Piece piece, Vector2Int coords)
+    {
+        return;
     }
 
     
 
     public void TryToAddMove(Vector2Int coords)
     {
-        avaliableMoves.Add(coords);
+        if(canMoveNextTurn)
+            avaliableMoves.Add(coords);
     }
 
     //Gets called by the game controller and sets the attributes of the piece
@@ -126,13 +204,47 @@ public abstract class Piece : MonoBehaviour
         }
         return null;
     }
+    protected Piece GetPieceInJumps<T>(PieceColor color, Vector2Int jump) where T : Piece
+    {
+
+        Vector2Int nextCoords = occupiedSquare + jump;
+        Piece piece = board.GetPieceOnSquare(nextCoords);
+        if (!board.CheckIfCoordAreOnBoard(nextCoords))
+            return null;
+        if (piece != null)
+        {
+            if (piece.color != color || !(piece is T))
+                return null;
+            else if (piece.color == color && piece is T)
+            {
+                return piece;
+            }
+        }
+        
+        return null;
+    }
 
     internal void Attack(Piece defensor)
     {
         defensor.life -= attackDmg;
-        defensor.OnLifeChanged();
     }
 
+    public void EquipObject(Object obj)
+    {
+        if(equipedObject!= null)
+        {
+            equipedObject.OnUnequip(this);
+        }
+        equipedObject= obj;
+        OnEquip();
+    }
+
+    private void OnEquip()
+    {
+        equipedObject.OnUse(this);
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().equip.Play();
+    }
     public string GetData()
     {
         return "Name: " + GetType().ToString() + "<br>Vida: " + life.ToString() + "<br>Atack: " + attackDmg.ToString();
@@ -175,11 +287,31 @@ public abstract class Piece : MonoBehaviour
         if (life < maxLife)
         {
             //MOSTRAR DAÑO EN EL PREFAB DE LA PIEZA UN ICONO DE DAÑADO
-            
+            if(life <= 0)
+            {
+                board.TakePiece(this);
+            }
+            canvasHurt.enabled= true;
         }
         else
         {
             //DESACTIVAR EL DAÑO
+            canvasHurt.enabled= false;
         }
+    }
+    public void ChangeTeam()
+    {
+        PieceColor newColor = color == PieceColor.White ? PieceColor.Black : PieceColor.White; 
+
+        board.ChangeTeamOfPiece(this, newColor);
+    }
+    internal void GetGold(int g)
+    {
+        board.AddGold(g);
+    }
+
+    internal void RemoveGold(int g)
+    {
+        board.SubstractGold(g);
     }
 }
