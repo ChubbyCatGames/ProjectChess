@@ -281,6 +281,7 @@ public class Board : MonoBehaviour
             || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
         uIManager.ChangePlayerUI(controller.activePlayer);
+        particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteFaith();
     }
     public void OnSelectedPiecePromoteWar()
@@ -290,6 +291,7 @@ public class Board : MonoBehaviour
             || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
         uIManager.ChangePlayerUI(controller.activePlayer);
+        particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteWar();
     }
 

@@ -14,7 +14,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private BoardLayoutEvents startingBoardEvents;
     [SerializeField] private Board board;
     [SerializeField] private UIManager uiManager;
-    public TextMeshProUGUI uiText;
 
     private PieceCreator pieceCreator;
     private CameraManager cameraManager;
@@ -331,7 +330,6 @@ public class GameController : MonoBehaviour
 
     private void EndGame()
     {
-        uiText.text = activePlayer.team.ToString() + " wins";
         SetGameState(GameState.Finished); 
     }
 
@@ -358,7 +356,6 @@ public class GameController : MonoBehaviour
 
         //--------------------
 
-        uiText.text = activePlayer.team.ToString() + "'s turn";
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
         uiManager.UpdatePlayerItemsUI(activePlayer);
