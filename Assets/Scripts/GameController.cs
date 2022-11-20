@@ -350,6 +350,7 @@ public class GameController : MonoBehaviour
         uiText.text = activePlayer.team.ToString() + "'s turn";
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
+        uiManager.UpdatePlayerItemsUI(activePlayer);
         activePlayer.EnableAllPieces();
         GetTitheAndBlessing();
     }
@@ -380,5 +381,21 @@ public class GameController : MonoBehaviour
     {
         whitePlayer.activePieces.ForEach(p => Destroy(p.gameObject));
         blackPlayer.activePieces.ForEach(p => Destroy(p.gameObject));
+    }
+
+    public void TryToBuy(Object item)
+    {
+        if(activePlayer.gold >= item.cost)
+        {
+            activePlayer.AddObject(item);
+
+            activePlayer.gold -= item.cost;
+            uiManager.UpdatePlayerItemsUI(activePlayer);
+            uiManager.CloseShop();
+        }
+        else
+        {
+            uiManager.NotEnoughGold();
+        }
     }
 }

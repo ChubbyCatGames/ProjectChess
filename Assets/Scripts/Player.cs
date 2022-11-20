@@ -9,6 +9,7 @@ public class Player
     public PieceColor team {  get; set; }
     public Board board { get; set; }
     public List<Piece> activePieces { get; set; }
+    public List<Object> playerObjects { get; set; }
     public int gold { get; set; }
     public int blessing { get; set; }
     public bool alreadyMoved = false;
@@ -18,6 +19,7 @@ public class Player
         this.team = team;
         this.board = board;
         activePieces = new List<Piece>();
+        playerObjects= new List<Object>();
         gold = 0;
         blessing = 0;
     }
@@ -32,6 +34,18 @@ public class Player
     {
         if(activePieces.Contains(p))
             activePieces.Remove(p);
+    }
+
+    public void AddObject(Object o)
+    {
+        if (!playerObjects.Contains(o))
+            playerObjects.Add(o);
+    }
+
+    public void RemoveObject(Object o)
+    {
+        if (playerObjects.Contains(o))
+            playerObjects.Remove(o);
     }
 
     public void GenerateAllPosibleMoves()
