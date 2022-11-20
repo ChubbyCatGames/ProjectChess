@@ -347,4 +347,9 @@ public class Board : MonoBehaviour
     {
         uIManager.OpenShop(items);
     }
+
+    public void TryToBuy(Object item)
+    {
+        controller.TryToBuy(item);
+    }
 }

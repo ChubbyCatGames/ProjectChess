@@ -55,6 +55,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] SpriteRenderer img1;
     [SerializeField] SpriteRenderer img2;
     [SerializeField] SpriteRenderer img3;
+
+    [Header("List Object Images")]
+    [SerializeField] List<SpriteRenderer> listImages;
     
     GameObject item1;
     GameObject item2;
@@ -73,6 +76,10 @@ public class UIManager : MonoBehaviour
             this.cost = cost;
         }
     }
+
+    private int selectedItem;
+
+    public TextMeshProUGUI goldWarning;
     
 
 
@@ -86,6 +93,7 @@ public class UIManager : MonoBehaviour
 
         shopImg.SetActive(false);
 
+        goldWarning.text = "";
 
         foreach (var concreteCard in cardsPrefabs)
         {
@@ -97,6 +105,25 @@ public class UIManager : MonoBehaviour
     {
         goldText.text= player.gold.ToString();
         blessingText.text= player.blessing.ToString();
+    }
+
+    public void UpdatePlayerItemsUI(Player player)
+    {
+        ClearSprites();
+        int i = 0;
+        foreach (var item in player.playerObjects)
+        {
+            listImages[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
+            i++;
+        }
+    }
+
+    private void ClearSprites()
+    {
+        foreach (var item in listImages)
+        {
+            item.sprite = null;
+        }
     }
     
     public void UpdateUI()
@@ -145,6 +172,7 @@ public class UIManager : MonoBehaviour
             {
                 card.SetActive(false);
                 inGameUi.SetActive(true);
+
             }
         }
     }
@@ -338,5 +366,60 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
             whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
         }
+    }
+    public void BuyItem()
+    {
+        switch (selectedItem)
+        {
+            case 1:
+                BuyItem1();
+                break;
+            case 2:
+                BuyItem2();
+                break;
+            case 3:
+                BuyItem3();
+                break;
+            default:
+                break;
+
+        }
+    }
+    public void SelectItem1()
+    {
+        selectedItem = 1;
+    }
+    public void SelectItem2()
+    {
+        selectedItem = 2;
+    }
+    public void SelectItem3()
+    {
+        selectedItem = 3;
+    }
+
+    private void BuyItem1()
+    {
+        board.TryToBuy(item1.GetComponent<Object>());
+    }
+
+    private void BuyItem2()
+    {
+        board.TryToBuy(item2.GetComponent<Object>());
+    }
+    private void BuyItem3()
+    {
+        board.TryToBuy(item3.GetComponent<Object>());
+    }
+    public void CloseShop()
+    {
+        goldWarning.text = "";
+        shopImg.SetActive(false);
+        inGameUi.SetActive(true);
+        
+    }
+    public void NotEnoughGold()
+    {
+        goldWarning.text = "Not Enough Gold";
     }
 }
