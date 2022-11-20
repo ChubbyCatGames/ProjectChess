@@ -132,11 +132,11 @@ public class GameController : MonoBehaviour
 
     }
 
-    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, float life)
+    public void CreatePieceAndInitializeHierLife(Vector2Int squareCoords, PieceColor pieceColor, Type type, float lifeRatio)
     {
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
-        newPiece.life = life;
+        newPiece.life = lifeRatio * newPiece.maxLife;
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);

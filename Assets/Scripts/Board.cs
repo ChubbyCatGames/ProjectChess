@@ -298,23 +298,35 @@ public class Board : MonoBehaviour
     public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
-        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
+
+        //Calculate the new life
+        float ratio = p.life / p.maxLife;
+
+
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
 
     public void PromotePieceWar(Piece p, Type t)
     {
-
         TakePiece(p);
-        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, p.life);
+
+        //Calculate the new life
+        float ratio = p.life / p.maxLife;
+
+        controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
     internal void ChangeTeamOfPiece(Piece piece, PieceColor newColor)
     {
         TakePiece(piece);
-        controller.CreatePieceAndInitializeHierLife(piece.occupiedSquare,newColor, piece.GetType(), piece.life);
+
+        //Calculate life ratio
+        float ratio = piece.life / piece.maxLife;
+
+        controller.CreatePieceAndInitializeHierLife(piece.occupiedSquare,newColor, piece.GetType(), ratio);
         DeselectPiece();
         controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
