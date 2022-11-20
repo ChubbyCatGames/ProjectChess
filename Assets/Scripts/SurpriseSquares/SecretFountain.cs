@@ -8,9 +8,11 @@ public class SecretFountain : SquareEvent
     {
         p.life = p.maxLife;
 
+
         p.board.particleManager.PlayHealPieceParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().heal.Play();
+
     }
 
 

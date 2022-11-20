@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
+using WebSocketSharp;
 
 public class UIManager : MonoBehaviour
 {
@@ -90,6 +91,12 @@ public class UIManager : MonoBehaviour
     //Dictionary with game cards and game objects
     private Dictionary<string, GameObject> CardsDict = new Dictionary<string, GameObject>();
 
+
+    [SerializeField] private Sprite[] itemsPrefab;
+    private Dictionary<string, Sprite> ItemsDict = new Dictionary<string, Sprite>();
+
+
+
     private void Awake()
     {
         fightUI.SetActive(false);
@@ -102,6 +109,11 @@ public class UIManager : MonoBehaviour
         {
             CardsDict.Add(concreteCard.name, concreteCard);
             Debug.Log(concreteCard.name);
+        }
+
+        foreach(var item in itemsPrefab)
+        {
+            ItemsDict.Add(item.name, item);
         }
     }
     public void ChangePlayerUI(Player player)
@@ -142,6 +154,7 @@ public class UIManager : MonoBehaviour
             if (CardsDict.ContainsKey(piece.GetName()))
             {
                 card = CardsDict[piece.GetName()];
+
             }
            
             if(card != null) 
@@ -152,11 +165,16 @@ public class UIManager : MonoBehaviour
 
                 //card.GetComponentInChildren<TextMeshProUGUI>().SetText("xd");
                
-                    GameObject.Find("cardAttack").GetComponent<TextMeshProUGUI>().SetText(piece.GetAttack());
-                    GameObject.Find("cardLife").GetComponent<TextMeshProUGUI>().SetText(piece.GetLife());
-                    GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
-                    GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
-                    GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
+                GameObject.Find("cardAttack").GetComponent<TextMeshProUGUI>().SetText(piece.GetAttack());
+                GameObject.Find("cardLife").GetComponent<TextMeshProUGUI>().SetText(piece.GetLife());
+                GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
+                GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
+                GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
+
+                if (piece.equipedObject != null)
+                {
+                    EquipItemOnCard(piece.equipedObject.name);
+                }
 
                 /*
                     attack.text = piece.GetAttack();
@@ -346,7 +364,41 @@ public class UIManager : MonoBehaviour
 
     }
 
-    
+    public void CallFirstTurnWindow()
+    {
+        whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+    }
+
+    public void CallTurnWindow(bool white)
+    {
+        StartCoroutine(CallTurnWindowAnim(white));
+    }
+
+
+    IEnumerator CallTurnWindowAnim(bool white)
+    {
+        if (!white)
+        {
+            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+            yield return new WaitForSeconds(0.5f);
+            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+        else
+        {
+            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
+            yield return new WaitForSeconds(0.5f);
+            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+    }
+
+    public void EquipItemOnCard(string item)
+    {
+        if (item.IsNullOrEmpty()) return;
+        Sprite s =ItemsDict[item];
+        GameObject go = GameObject.Find("ObjectEquiped");
+
+        go.GetComponent<SpriteRenderer>().sprite = s;
+    }
     public void BuyItem()
     {
         switch (selectedItem)
@@ -407,32 +459,6 @@ public class UIManager : MonoBehaviour
 
 
 
-    public void CallFirstTurnWindow()
-    {
-        whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-    }
-
-    public void CallTurnWindow(bool white)
-    {
-        StartCoroutine(CallTurnWindowAnim(white));
-    }
-
-
-    IEnumerator CallTurnWindowAnim(bool white)
-    {
-        if (!white)
-        {
-            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.25f);
-            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
-        }
-        else
-        {
-            blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.25f);
-            whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-        }
-    }
 
     public void CallSquareEventAnim()
     {

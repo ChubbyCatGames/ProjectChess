@@ -231,6 +231,10 @@ public abstract class Piece : MonoBehaviour
 
     public void EquipObject(Object obj)
     {
+        if(equipedObject!= null)
+        {
+            equipedObject.OnUnequip(this);
+        }
         equipedObject= obj;
         OnEquip();
     }

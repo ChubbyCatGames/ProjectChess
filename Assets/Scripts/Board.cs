@@ -28,10 +28,13 @@ public class Board : MonoBehaviour
 
     [SerializeField] UIManager uIManager;
 
+    private Object itemSelected;
+
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
+        itemSelected = null;
     }
 
     public void SetDependencies(GameController controller)
@@ -64,7 +67,15 @@ public class Board : MonoBehaviour
             return;
         Vector2Int coords= CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
-        if (selectedPiece)
+        if (itemSelected != null)
+        {
+
+            piece.EquipObject(itemSelected);
+            controller.activePlayer.RemoveObject(itemSelected);
+            itemSelected= null;
+            uIManager.UpdatePlayerItemsUI(controller.activePlayer);
+        }
+        else if (selectedPiece)
         {
             if (piece != null && selectedPiece == piece)
                 DeselectPiece();
@@ -87,6 +98,8 @@ public class Board : MonoBehaviour
             }
             if (piece != null && controller.IsTeamTurnActive(piece.color))
                 SelectPiece(piece);
+
+            
         }
     }
 
@@ -97,6 +110,7 @@ public class Board : MonoBehaviour
         DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
+
         if(selectedPiece.canMoveTwice || !controller.activePlayer.alreadyMoved)
         {
             List<Vector2Int> selection = selectedPiece.avaliableMoves;
@@ -354,6 +368,11 @@ public class Board : MonoBehaviour
         return selectedPiece;
     }
 
+    public void SelectItem(Object item)
+    {
+        itemSelected = item;
+
+    }
     public void AddGold(int gold)
     {
         controller.activePlayer.gold += gold;

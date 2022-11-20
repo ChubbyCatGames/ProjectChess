@@ -15,5 +15,7 @@ public class Curse : Object
         p.canMoveNextTurn = false;
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().lockEvent.Play();
+
+        p.board.particleManager.PlayLockParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
     }
 }

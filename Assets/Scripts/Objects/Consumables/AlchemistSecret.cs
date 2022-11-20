@@ -14,9 +14,14 @@ public class AlchemistSecret : Object
     {
         p.life = p.maxLife;
 
+
         p.board.particleManager.PlayHealPieceParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().heal.Play();
+
+        p.canMoveNextTurn = true;
+        p.poisoned = false;
+
     }
 
 }

@@ -13,5 +13,6 @@ public class DevoteeBlessing : Object
     public override void OnUse(Piece p)
     {
         p.blessingDevelopCost -= 1;
+        p.board.particleManager.PlayBoostParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
     }
 }

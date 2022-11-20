@@ -417,4 +417,10 @@ public class GameController : MonoBehaviour
             uiManager.NotEnoughGold();
         }
     }
+
+    public void SelectItemAtIndex(int idx)
+    {
+        board.SelectItem(activePlayer.playerObjects[idx]);
+        
+    }
 }

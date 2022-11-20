@@ -14,9 +14,12 @@ public class MercenaryArchers : Object
     {
         p.life -= 40f;
 
+
         p.board.particleManager.PlayArrowParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().archers.Play();
+
+
     }
 
 }

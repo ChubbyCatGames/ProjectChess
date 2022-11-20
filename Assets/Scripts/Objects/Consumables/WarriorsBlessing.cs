@@ -13,6 +13,8 @@ public class WarriorsBlessing : Object
     public override void OnUse(Piece p)
     {
         p.canMoveTwice = true;
+        p.board.particleManager.PlayBoostParticles(p.board.CalculatePositionFromCoords(p.occupiedSquare));
+
     }
 
 }
