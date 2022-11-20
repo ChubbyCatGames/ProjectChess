@@ -102,6 +102,9 @@ public class Board : MonoBehaviour
             List<Vector2Int> selection = selectedPiece.avaliableMoves;
             ShowSelectionSquares(selection);
             uIManager.UpdateUI();
+
+            //Call selection animation
+            piece.GetComponent<SelectAnimation>().StartSelectAnimation(1.4f);
         }else
             DeselectPiece();
     }

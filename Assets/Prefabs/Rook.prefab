@@ -804,6 +804,18 @@ MonoBehaviour:
   poisoned: 0
   canvasDamage: {fileID: 4722154987238505726}
   canvasHurt: {fileID: 7651820998060841272}
+--- !u!114 &2222685612329999783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8022872882867204016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01c9d866a0fa5a4d89139b320aac751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7951924565526884025
 PrefabInstance:
   m_ObjectHideFlags: 0

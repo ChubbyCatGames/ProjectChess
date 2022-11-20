@@ -116,7 +116,6 @@ public abstract class Piece : MonoBehaviour
     {
         if (this.color == PieceColor.White)
         {
-            print("HEEELLLOO");
             canvasDamage.GetComponent<RectTransform>().rotation = Quaternion.Euler(42.2f, 39.419f, 0);
         }
         else

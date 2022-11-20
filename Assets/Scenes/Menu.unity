@@ -1358,6 +1358,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuBoard
       objectReference: {fileID: 0}
+    - target: {fileID: 3679543543197129678, guid: beb4d2c82b4cddb439c50b05ca0b492f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: beb4d2c82b4cddb439c50b05ca0b492f, type: 3}
 --- !u!1 &546442870
@@ -8361,7 +8365,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: KnightMenu
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5715760155556483541, guid: 19221ba4a4d4d6345bb14e3dfbc2ebf8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 19221ba4a4d4d6345bb14e3dfbc2ebf8, type: 3}
 --- !u!114 &7857197105108193250
 MonoBehaviour:

@@ -498,6 +498,18 @@ MonoBehaviour:
   poisoned: 0
   canvasDamage: {fileID: 20577966604392448}
   canvasHurt: {fileID: 3051800223410119848}
+--- !u!114 &3957961981759548928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498366647604346036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01c9d866a0fa5a4d89139b320aac751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9132055242723796494 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1abcfea9be23dd041a5d4cc76479f30d, type: 3}
