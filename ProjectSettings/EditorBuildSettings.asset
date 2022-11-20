@@ -23,4 +23,25 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Contact.unity
     guid: 3c82213f60539bb4f80aac95b7122e0d
+  - enabled: 1
+    path: Assets/Scenes/statsPieza.unity
+    guid: cd4fa792780c6124cbe8e0265e17965d
+  - enabled: 1
+    path: Assets/Scenes/tutorial.unity
+    guid: 4867ba7c907f8b740a5573184ab74d9e
+  - enabled: 1
+    path: Assets/Scenes/piezasUno.unity
+    guid: 3dcbdf5e904ec6840b0136f1ea8bb6c7
+  - enabled: 1
+    path: Assets/Scenes/piezasDos.unity
+    guid: 68675356a88424141ad56969c2252c3c
+  - enabled: 1
+    path: Assets/Scenes/economyTutorial.unity
+    guid: 2fd84d80b47cdb943a53028255c3dba4
+  - enabled: 1
+    path: Assets/Scenes/duelosTutorial.unity
+    guid: 592c5bbf77cf0a943b8ed8b9059465e0
+  - enabled: 1
+    path: Assets/Scenes/Ascensiones.unity
+    guid: 55a9b8efe5c67af45a401b130a7b4b15
   m_configObjects: {}
