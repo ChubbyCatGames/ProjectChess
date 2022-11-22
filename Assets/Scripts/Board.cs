@@ -30,6 +30,8 @@ public class Board : MonoBehaviour
 
     private Object itemSelected;
 
+    private bool readyToPromote = false;
+
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
@@ -94,6 +96,7 @@ public class Board : MonoBehaviour
                     newRecruit = false;
                     DeselectPiece();
                     newRecruitPositions.Clear();
+                    CheckGridEvents(coords,GetPieceOnSquare(coords));
                 }
             }
             if (piece != null && controller.IsTeamTurnActive(piece.color))
@@ -107,6 +110,7 @@ public class Board : MonoBehaviour
 
     public void SelectPiece(Piece piece)
     {
+        if (readyToPromote) return;
         DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
@@ -166,7 +170,10 @@ public class Board : MonoBehaviour
             UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
             selectedPiece.MovePiece(coords);
             DeselectPiece();
-            CheckGridEvents(coords, piece);
+            if(piece.GetType() != typeof(King))
+            {
+                CheckGridEvents(coords, piece);
+            }
             if (piece.IsAttackingPieceOFType<King>())
                 piece.canMoveTwice = false;
             if (!piece.canMoveTwice)
@@ -248,6 +255,7 @@ public class Board : MonoBehaviour
     {
         controller.EndTurn();
         particleManager.ChangeTurn();
+        itemSelected = null;
     }
 
     //This method emulates the state of the board after a move is done
@@ -319,7 +327,14 @@ public class Board : MonoBehaviour
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().ascension.Play();
     }
-
+    public void GetReadyToPromote()
+    {
+        readyToPromote = true;
+    }
+    public void Promoted()
+    {
+        readyToPromote= false;
+    }
     public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
@@ -385,6 +400,7 @@ public class Board : MonoBehaviour
     public void SubstractGold(int gold)
     {
         controller.activePlayer.gold -= gold;
+        uIManager.ChangePlayerUI(controller.activePlayer);
     }
 
     public void OpenShop(List<GameObject> items)

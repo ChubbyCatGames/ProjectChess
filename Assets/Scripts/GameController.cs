@@ -340,6 +340,7 @@ public class GameController : MonoBehaviour
         SetGameState(GameState.Finished); 
     }
 
+
     public void OnPieceRemoved(Piece piece)
     {
         Player pieceOwner = (piece.color == PieceColor.White) ? whitePlayer : blackPlayer;
@@ -362,7 +363,7 @@ public class GameController : MonoBehaviour
         uiManager.CallTurnWindow(activePlayer == whitePlayer ? true : false);
 
         //--------------------
-
+        
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
         uiManager.UpdatePlayerItemsUI(activePlayer);
