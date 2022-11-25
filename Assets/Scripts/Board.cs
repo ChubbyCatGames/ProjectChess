@@ -405,6 +405,7 @@ public class Board : MonoBehaviour
 
     public void OpenShop(List<GameObject> items)
     {
+        uIManager.goldPlayer.text = controller.activePlayer.gold.ToString();
         uIManager.OpenShop(items);
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().store.Play();

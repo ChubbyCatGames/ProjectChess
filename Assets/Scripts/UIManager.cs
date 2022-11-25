@@ -85,6 +85,8 @@ public class UIManager : MonoBehaviour
     private int selectedItem;
 
     public TextMeshProUGUI goldWarning;
+    public TextMeshProUGUI goldPlayer;
+
     
 
 
@@ -169,8 +171,11 @@ public class UIManager : MonoBehaviour
                 GameObject.Find("cardAttack").GetComponent<TextMeshProUGUI>().SetText(piece.GetAttack());
                 GameObject.Find("cardLife").GetComponent<TextMeshProUGUI>().SetText(piece.GetLife());
                 GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
-                GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
-                GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
+                if (piece.GetName() != "King")
+                {
+                    GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
+                    GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
+                }
 
                 if (piece.equipedObject != null)
                 {
