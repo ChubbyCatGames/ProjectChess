@@ -99,4 +99,29 @@ public class Pope : Piece
         piece.ignoreFirstAttack = true;
 
     }
+
+    public override void MovePiece(Vector2Int coords)
+    {
+        base.MovePiece(coords);
+
+        JustMoved(coords);
+    }
+
+    internal void JustMoved(Vector2Int coords)
+    {
+        List<Piece> pieces = board.GetPiecesOnPerpendicular(coords);
+
+        foreach (var p in pieces)
+        {
+            if (!IsFromSameColor(p))
+            {
+                p.life -= 15;// * duplicatePassive;
+
+            }
+        }
+
+        board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(coords));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().splashDamage.Play();
+    }
 }

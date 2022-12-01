@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun.Demo.Cockpit;
 
 [RequireComponent(typeof(PieceCreator))]
 public class GameController : MonoBehaviour
@@ -164,9 +165,12 @@ public class GameController : MonoBehaviour
         TakeAllPiecesWithoutLife(GetOpponentToPlayer(activePlayer));
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
-        
+
         if (CheckIfGameIsFinished())
-            EndGame();
+        {
+            bool whiteWinner = activePlayer.team == PieceColor.White;
+            EndGame(whiteWinner);
+        }
         else
             ChangeActiveTeam();
         
@@ -177,7 +181,7 @@ public class GameController : MonoBehaviour
     {
         foreach (var piece in p.activePieces)
         {
-            if (piece.poisoned) piece.life -= 5;
+            if (piece.poisoned) piece.life -= 3;
             if (piece.life <= 0 || piece.condemned) board.TakePiece(piece);
                 
         }
@@ -335,9 +339,11 @@ public class GameController : MonoBehaviour
             
     }
 
-    private void EndGame()
+    private void EndGame(bool whiteWon)
     {
-        SetGameState(GameState.Finished); 
+        SetGameState(GameState.Finished);
+
+        uiManager.EndGameUI(whiteWon);
     }
 
 
@@ -356,6 +362,12 @@ public class GameController : MonoBehaviour
 
     private void ChangeActiveTeam()
     {
+        Piece [] churches=  activePlayer.GetPiecesOfType<Church>();
+        foreach(Church church in churches)
+        {
+            church.HealAdjacent(church.occupiedSquare);
+        }
+        
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
 
         //---Call the turn window---

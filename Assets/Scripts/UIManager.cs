@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -32,6 +33,11 @@ public class UIManager : MonoBehaviour
     [Header("Turns")]
     [SerializeField] GameObject blackTurnImg;
     [SerializeField] GameObject whiteTurnImg;
+
+    [Header("End Game")]
+    [SerializeField] GameObject endUi;
+    [SerializeField] GameObject blackWins;
+    [SerializeField] GameObject whiteWins;
 
     [Header("Square Events")]
     [SerializeField] GameObject squareEventImg;
@@ -202,6 +208,19 @@ public class UIManager : MonoBehaviour
 
             }
         }
+    }
+
+    public void EndGameUI(bool whiteWon)
+    {
+        inGameUi.SetActive(false);
+        endUi.SetActive(true);
+        whiteWins.SetActive(whiteWon);
+        blackWins.SetActive(!whiteWon);
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("Menu");
     }
 
     public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef)

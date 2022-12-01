@@ -254,6 +254,7 @@ public class Board : MonoBehaviour
     public void EndTurn()
     {
         controller.EndTurn();
+        
         particleManager.ChangeTurn();
         itemSelected = null;
     }
@@ -280,6 +281,18 @@ public class Board : MonoBehaviour
         {
             Piece p = GetPieceOnSquare(coords + directions[i]);
             if(p!=null) pieces.Add(p);
+        }
+        return pieces;
+    }
+    public List<Piece> GetPiecesOnAdjacent(Vector2Int coords)
+    {
+        List<Piece> pieces = new List<Piece>();
+        Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down,
+            new Vector2Int (-1,1),new Vector2Int (-1,-1),new Vector2Int(1,-1),new Vector2Int(1,1) };
+        for (int i = 0; i < directions.Length; i++)
+        {
+            Piece p = GetPieceOnSquare(coords + directions[i]);
+            if (p != null) pieces.Add(p);
         }
         return pieces;
     }

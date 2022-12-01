@@ -78,4 +78,16 @@ public class Church : Piece
         piece.life += 5 *duplicatePassive;
 
     }
+
+    public void HealAdjacent(Vector2Int coords)
+    {
+        List<Piece> pieces = board.GetPiecesOnAdjacent(coords);
+        foreach (Piece piece in pieces) {
+            piece.life += 20;
+        }
+
+        board.particleManager.PlayHealChurchParticles(board.CalculatePositionFromCoords(coords));
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().heal.Play();
+    }
 }
