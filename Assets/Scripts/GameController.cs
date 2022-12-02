@@ -95,6 +95,7 @@ public class GameController : MonoBehaviour
 
     private void CreateEventsFromLayout(BoardLayoutEvents layout)
     {
+        layout.ShuffleEvents();
         for (int i = 0; i < layout.GetPiecesCount(); i++)
         {
 

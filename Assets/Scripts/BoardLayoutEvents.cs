@@ -15,7 +15,7 @@ public class BoardLayoutEvents : ScriptableObject
         public SquareEvent _event;
 
     }
-
+    private SquareEvent tempEvent;
     [SerializeField] BoardSetupEvents[] boardSetupEvents;
 
     public int GetPiecesCount()
@@ -42,6 +42,17 @@ public class BoardLayoutEvents : ScriptableObject
         }
 
         return boardSetupEvents[index]._event;
+    }
+
+    public void ShuffleEvents()
+    {
+        for (int i = 0; i < boardSetupEvents.Length; i++)
+        {
+            int rnd = UnityEngine.Random.Range(0,boardSetupEvents.Length);
+            tempEvent = boardSetupEvents[rnd]._event;
+            boardSetupEvents[rnd]._event = boardSetupEvents[i]._event;
+            boardSetupEvents[i]._event = tempEvent;
+        }
     }
 }
 
