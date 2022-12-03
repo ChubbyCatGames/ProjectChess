@@ -6884,7 +6884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d8caec370d0784f98a30ffed524c27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseText: {fileID: 2800000, guid: daea0e3e0bc271f4f821f1934d3ccbf8, type: 3}
+  mouseText: {fileID: 2800000, guid: 2defccdb931fd4e40bb4e30eb0270d2e, type: 3}
+  mouseObject: {fileID: 2800000, guid: 520b96183f150394f81e77848e4d7cf3, type: 3}
 --- !u!4 &1110568475
 Transform:
   m_ObjectHideFlags: 0

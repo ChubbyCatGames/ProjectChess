@@ -23,12 +23,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] Board board;
     //game object interfaz in game
     [SerializeField] GameObject inGameUi;
-    [SerializeField] TextMeshProUGUI goldText;
-    [SerializeField] TextMeshProUGUI blessingText;
+    [SerializeField] TextMeshProUGUI goldTextWhite;
+    [SerializeField] TextMeshProUGUI blessingTextWhite;
+    [SerializeField] TextMeshProUGUI goldTextBlack;
+    [SerializeField] TextMeshProUGUI blessingTextBlack;
+ 
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
     private GameObject card;
+
+
     [SerializeField] GameObject[] icons;
 
     [Header("Turns")]
@@ -69,7 +74,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] SpriteRenderer img3;
 
     [Header("List Object Images")]
-    [SerializeField] List<SpriteRenderer> listImages;
+    [SerializeField] List<SpriteRenderer> listImagesWhite;
+    [SerializeField] List<SpriteRenderer> listImagesBlack;
     
     GameObject item1;
     GameObject item2;
@@ -126,28 +132,62 @@ public class UIManager : MonoBehaviour
             ItemsDict.Add(item.name, item);
         }
     }
-    public void ChangePlayerUI(Player player)
+    public void ChangePlayerUI(Player player,PieceColor team)
     {
-        goldText.text= player.gold.ToString();
-        blessingText.text= player.blessing.ToString();
+        if(team == PieceColor.White)
+        {
+            goldTextWhite.text= player.gold.ToString();
+            blessingTextWhite.text= player.blessing.ToString();
+        }
+        else
+        {
+            goldTextBlack.text = player.gold.ToString();
+            blessingTextBlack.text= player.blessing.ToString();
+        }
     }
 
     public void UpdatePlayerItemsUI(Player player)
     {
-        ClearSprites();
+        ClearSprites(player.team);
         int i = 0;
-        foreach (var item in player.playerObjects)
+        if(player.team == PieceColor.White)
         {
-            listImages[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
-            i++;
+            foreach (var item in player.playerObjects)
+            {
+                listImagesWhite[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
+                listImagesWhite[i].transform.GetChild(0).gameObject.SetActive(true);
+                i++;
+            }
+        }
+        else
+        {
+            foreach (var item in player.playerObjects)
+            {
+                listImagesBlack[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
+                listImagesBlack[i].transform.GetChild(0).gameObject.SetActive(true);
+                i++;
+            }
         }
     }
 
-    private void ClearSprites()
+    private void ClearSprites(PieceColor team)
     {
-        foreach (var item in listImages)
+        if(team == PieceColor.White)
         {
-            item.sprite = null;
+            foreach (var item in listImagesWhite)
+            {
+                item.sprite = null;
+                item.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (var item in listImagesBlack)
+            {
+                item.sprite = null;
+                item.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
         }
     }
     
@@ -180,8 +220,8 @@ public class UIManager : MonoBehaviour
                 GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
                 if (piece.GetName() != "King")
                 {
-                    GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
-                    GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
+                    GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldTextWhite.text + "/" + piece.GetGoldDevelopCost());
+                    GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingTextWhite.text + "/" + piece.GetBlessingDevelopCost());
                 }
 
                 if (piece.equipedObject != null)
@@ -444,6 +484,7 @@ public class UIManager : MonoBehaviour
                 break;
 
         }
+        
     }
     public void SelectItem1()
     {

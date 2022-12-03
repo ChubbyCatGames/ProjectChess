@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private BoardLayoutEvents startingBoardEvents;
     [SerializeField] private Board board;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private MouseManager mouseManager;
 
     private PieceCreator pieceCreator;
     private CameraManager cameraManager;
@@ -379,7 +380,7 @@ public class GameController : MonoBehaviour
         
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
-        uiManager.UpdatePlayerItemsUI(activePlayer);
+        //uiManager.UpdatePlayerItemsUI(activePlayer);
         activePlayer.EnableAllPieces();
         GetTitheAndBlessing();
 
@@ -390,7 +391,7 @@ public class GameController : MonoBehaviour
     {
         activePlayer.UpdateGold();
         activePlayer.blessing += 1;
-        uiManager.ChangePlayerUI(activePlayer);
+        uiManager.ChangePlayerUI(activePlayer,activePlayer.team);
     }
 
     public void RemoveMovesEnablingAttackOnPieceOfType<T>(Piece p) where T : Piece
@@ -420,7 +421,7 @@ public class GameController : MonoBehaviour
         {
             activePlayer.AddObject(item);
 
-            activePlayer.gold -= item.cost;
+            board.SubstractGold(item.cost);
             uiManager.UpdatePlayerItemsUI(activePlayer);
             uiManager.CloseShop();
 
@@ -430,11 +431,19 @@ public class GameController : MonoBehaviour
         {
             uiManager.NotEnoughGold();
         }
+        
     }
 
     public void SelectItemAtIndex(int idx)
     {
         board.SelectItem(activePlayer.playerObjects[idx]);
+        Cursor.SetCursor(mouseManager.mouseObject, Vector2.zero, CursorMode.ForceSoftware);
         
+    }
+
+    public void setNormalMouse()
+    {
+        Cursor.SetCursor(mouseManager.mouseText, new Vector2(1, 2), CursorMode.ForceSoftware);
+
     }
 }

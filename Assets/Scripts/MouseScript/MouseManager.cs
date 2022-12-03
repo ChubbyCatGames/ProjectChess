@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class MouseManager : MonoBehaviour
 {
-    [SerializeField] private Texture2D mouseText;
+    [SerializeField] public Texture2D mouseText;
+    [SerializeField] public Texture2D mouseObject;
     // Start is called before the first frame update
     void Start()
     {
-        //Cursor.SetCursor(mouseText, Vector2.zero, CursorMode.ForceSoftware);
+        Cursor.SetCursor(mouseText, new Vector2(1,2), CursorMode.ForceSoftware);
+
     }
 
 }

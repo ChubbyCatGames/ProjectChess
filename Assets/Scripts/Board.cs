@@ -76,6 +76,7 @@ public class Board : MonoBehaviour
             controller.activePlayer.RemoveObject(itemSelected);
             itemSelected= null;
             uIManager.UpdatePlayerItemsUI(controller.activePlayer);
+            controller.setNormalMouse();
         }
         else if (selectedPiece)
         {
@@ -345,7 +346,7 @@ public class Board : MonoBehaviour
         if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold 
             || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
-        uIManager.ChangePlayerUI(controller.activePlayer);
+        uIManager.ChangePlayerUI(controller.activePlayer,controller.activePlayer.team);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteFaith();
 
@@ -357,7 +358,7 @@ public class Board : MonoBehaviour
         if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold
             || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
-        uIManager.ChangePlayerUI(controller.activePlayer);
+        uIManager.ChangePlayerUI(controller.activePlayer,controller.activePlayer.team);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteWar();
 
@@ -436,7 +437,7 @@ public class Board : MonoBehaviour
     public void SubstractGold(int gold)
     {
         controller.activePlayer.gold -= gold;
-        uIManager.ChangePlayerUI(controller.activePlayer);
+        uIManager.ChangePlayerUI(controller.activePlayer, controller.activePlayer.team);
     }
 
     public void OpenShop(List<GameObject> items)
