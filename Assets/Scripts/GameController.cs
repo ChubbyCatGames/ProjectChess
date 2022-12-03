@@ -9,7 +9,7 @@ using Photon.Pun.Demo.Cockpit;
 [RequireComponent(typeof(PieceCreator))]
 public class GameController : MonoBehaviour
 {
-    private enum GameState { Init, Play, Finished, Fight}
+    public enum GameState { Init, Play, Finished, Fight}
 
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private BoardLayoutEvents startingBoardEvents;
@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     private Player blackPlayer;
     public Player activePlayer;
 
-    private GameState gameState;
+    public GameState gameState;
 
 
 
@@ -68,7 +68,7 @@ public class GameController : MonoBehaviour
         GetTitheAndBlessing();
     }
 
-    private void SetGameState(GameState state)
+    public void SetGameState(GameState state)
     {
         this.gameState = state; 
     }
@@ -245,7 +245,7 @@ public class GameController : MonoBehaviour
                     piece.PassiveAbility(attacker, coords);
                 }
 
-                board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
+                
             }
             else if (piece.IsFromSameColor(defensor))
             {
@@ -263,7 +263,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
+           
         }
 
         
@@ -309,13 +309,13 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));
+        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef,coords));
        
 
         if (defensor.life <= 0)
         { 
-            board.winSelectedPiece = true;
-            uiManager.StopFight();
+            //board.winSelectedPiece = true;
+            //uiManager.StopFight();
             Debug.Log(activePlayer.gold);
             float extraGold = 0;
             foreach(Knight k in attackerKnights.Cast<Knight>())
@@ -328,8 +328,8 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            board.winSelectedPiece = false;
-            uiManager.StopFight();
+            //board.winSelectedPiece = false;
+            //uiManager.StopFight();
             float extraGold = 0;
             foreach (Knight k in defensorKnights)
             {
@@ -337,7 +337,7 @@ public class GameController : MonoBehaviour
             }
             GetOpponentToPlayer(activePlayer).gold += attacker.richness + Mathf.FloorToInt(attacker.richness * extraGold);
         }
-            
+          
     }
 
     private void EndGame(bool whiteWon)

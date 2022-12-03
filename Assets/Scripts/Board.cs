@@ -18,7 +18,7 @@ public class Board : MonoBehaviour
     private Piece[,] grid;
     private SquareEvent[,] gridEvents; 
     private Piece selectedPiece;
-    private GameController controller;
+    public GameController controller;
     private SquareSelectorCreator squareSelector;
 
     public bool winSelectedPiece = true;
@@ -164,7 +164,7 @@ public class Board : MonoBehaviour
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
         bool success=TryToTake(coords);
-        
+        if (!controller.IsGameInProgress()) return;
         if (success)
         {
             UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
@@ -197,6 +197,27 @@ public class Board : MonoBehaviour
         controller.activePlayer.alreadyMoved = true;
     }
 
+    public void MovePieceAfterFight(Piece winner, Piece loser, Vector2Int coords )
+    {
+
+        UpdateBoardOnPieceMove(coords, selectedPiece.occupiedSquare, selectedPiece, null);
+        selectedPiece.MovePiece(coords);
+        if (selectedPiece.GetType() != typeof(King))
+        {
+            CheckGridEvents(coords, selectedPiece);
+        }
+        if (selectedPiece.IsAttackingPieceOFType<King>())
+            selectedPiece.canMoveTwice = false;
+        if (!selectedPiece.canMoveTwice)
+        {
+            //EndTurn();
+
+        }
+        else
+            selectedPiece.canMoveTwice = false;
+        DeselectPiece();
+    }
+
     private void CheckGridEvents(Vector2Int coords, Piece piece)
     {
         Debug.Log(gridEvents[coords.x, coords.y]);
@@ -221,17 +242,19 @@ public class Board : MonoBehaviour
 
         
         Piece piece = GetPieceOnSquare(coords);
-        winSelectedPiece = true;
+        //winSelectedPiece = true;
 
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
         {
+            controller.SetGameState(GameController.GameState.Fight);
             controller.StartFight(selectedPiece, piece, coords);
-            if (winSelectedPiece)
-                TakePiece(piece);
-            else
-                TakePiece(selectedPiece);
+
+            //if (winSelectedPiece)
+            //    TakePiece(piece);
+            //else
+            //    TakePiece(selectedPiece);
         }
-        return winSelectedPiece;
+        return true;
     }
 
     public void TakePiece(Piece piece)

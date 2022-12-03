@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using static GameController;
 
 public class UIManager : MonoBehaviour
 {
@@ -223,10 +224,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef)
+    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef,Vector2Int coords)
     {
 
-        // NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
         fightUI.SetActive(true);
         attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
         defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
@@ -307,7 +307,7 @@ public class UIManager : MonoBehaviour
 
 
 
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(1f);
         //yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);
@@ -317,14 +317,18 @@ public class UIManager : MonoBehaviour
         fightUI.SetActive(false);
         attackerCard.SetActive(false);
         defensorCard.SetActive(false);
-        
+
         //For{
         /*
          * ejecucion
          * wait
          * 
          */
-
+        if(hitsAtck>hitsDef)
+        {
+            board.MovePieceAfterFight(attacker, defensor, coords); 
+        }
+        board.controller.SetGameState(GameState.Play);
     }
 
     public IEnumerator AttackAnimation()
