@@ -40,8 +40,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject[] icons;
 
     [Header("Turns")]
-    [SerializeField] GameObject blackTurnImg;
-    [SerializeField] GameObject whiteTurnImg;
+    public GameObject blackTurnImg;
+    public GameObject whiteTurnImg;
 
     [Header("End Game")]
     [SerializeField] GameObject endUi;
@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject whiteWins;
 
     [Header("Square Events")]
-    [SerializeField] GameObject squareEventImg;
+    public GameObject squareEventImg;
     [SerializeField] GameObject squareName;
     [SerializeField] GameObject squareDescription;
 
@@ -449,16 +449,23 @@ public class UIManager : MonoBehaviour
 
     IEnumerator CallTurnWindowAnim(bool white)
     {
+        //When the turn is finished, the square info window disappears if it is inside of the view
+        if (squareEventImg.GetComponent<InfoWindow>().WindowState == InfoWindow.State.Inside)
+        {
+            squareEventImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+
+
         if (!white)
         {
             whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
         }
         else
         {
             blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
         }
     }

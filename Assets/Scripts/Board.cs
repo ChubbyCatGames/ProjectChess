@@ -227,12 +227,14 @@ public class Board : MonoBehaviour
             //Set the ui info
             uIManager.UpdateSquareEventInfo(gridEvents[coords.x, coords.y].squareName, gridEvents[coords.x, coords.y].squareDescription);
 
-
             gridEvents[coords.x, coords.y].StartEvent(piece);
             DestroyEvent(gridEvents[coords.x, coords.y]);
             gridEvents[coords.x, coords.y]=null;
 
-            uIManager.CallSquareEventAnim();
+            if (uIManager.squareEventImg.GetComponent<InfoWindow>().WindowState == InfoWindow.State.Outside)
+            {
+                uIManager.CallSquareEventAnim();
+            }
         }
 
     }
@@ -277,6 +279,10 @@ public class Board : MonoBehaviour
 
     public void EndTurn()
     {
+        //return if the windows are still doing the animations-----
+        if (uIManager.whiteTurnImg.GetComponent<InfoWindow>().Animating || uIManager.blackTurnImg.GetComponent<InfoWindow>().Animating) return;
+        //--------
+
         controller.EndTurn();
         
         particleManager.ChangeTurn();

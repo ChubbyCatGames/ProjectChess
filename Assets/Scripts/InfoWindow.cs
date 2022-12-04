@@ -7,8 +7,6 @@ public class InfoWindow : MonoBehaviour
 {
     private RectTransform rt;
 
-    [SerializeField] private bool remain;
-
     [SerializeField] private Vector2 finalPos;
     private Vector2 originalPos;
 
@@ -19,42 +17,41 @@ public class InfoWindow : MonoBehaviour
 
     private State windowState;
 
-    enum State { Outside, MovingIn, Inside, MovingOut };
+    public bool Animating { get => animating; set => animating = value; }
+    public State WindowState { get => windowState; set => windowState = value; }
+
+    public enum State { Outside, MovingIn, Inside, MovingOut };
 
     void Awake()
     {
         rt = GetComponent<RectTransform>();
         originalPos = rt.anchoredPosition;
-        windowState = State.Outside;
-        animating = false;
+        WindowState = State.Outside;
+        Animating = false;
     }
 
     void Update()
     {
-        if (animating)
+        if (Animating)
         {
-            if (windowState == State.MovingIn)
+            if (WindowState == State.MovingIn)
             {
                 rt.anchoredPosition = Vector3.MoveTowards(rt.anchoredPosition, finalPos, Time.deltaTime * 100 * speed);
 
                 if (rt.anchoredPosition == finalPos)
                 {
-                    windowState = State.Inside;
-                    animating = false;
-                    if (!remain)
-                    {
-                        StartCoroutine(WaitAndRemoveWindow());
-                    }
+                    WindowState = State.Inside;
+                    Animating = false;
                 }
             }
-            else if(windowState == State.MovingOut)
+            else if(WindowState == State.MovingOut)
             {
                 rt.anchoredPosition = Vector3.MoveTowards(rt.anchoredPosition, originalPos, Time.deltaTime * 100 * speed);
 
                 if (rt.anchoredPosition == originalPos)
                 {
-                    windowState = State.Outside;
-                    animating = false;
+                    WindowState = State.Outside;
+                    Animating = false;
                 }
             }
         }
@@ -62,23 +59,17 @@ public class InfoWindow : MonoBehaviour
 
     public void StartAnimation()
     {
-        if (animating) return;
-        if (windowState == State.Inside)
+        if (Animating) return;
+        if (WindowState == State.Inside)
         {
-            windowState = State.MovingOut;
-            animating = true;
+            WindowState = State.MovingOut;
+            Animating = true;
         }
-        else if (windowState == State.Outside)
+        else if (WindowState == State.Outside)
         {
-            windowState = State.MovingIn;
-            animating = true;
+            WindowState = State.MovingIn;
+            Animating = true;
         }
     }
 
-    IEnumerator WaitAndRemoveWindow()
-    {
-        yield return new WaitForSeconds(timeShown);
-
-        StartAnimation();
-    }
 }
