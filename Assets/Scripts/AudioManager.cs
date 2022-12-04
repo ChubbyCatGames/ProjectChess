@@ -22,5 +22,6 @@ public class AudioManager : MonoBehaviour
     public AudioSource divineShield;
     public AudioSource hit;
     public AudioSource selectPiece;
+    public AudioSource pieceDeath;
 
 }

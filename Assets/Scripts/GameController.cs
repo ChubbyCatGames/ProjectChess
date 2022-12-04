@@ -354,7 +354,8 @@ public class GameController : MonoBehaviour
         Player pieceOwner = (piece.color == PieceColor.White) ? whitePlayer : blackPlayer;
         pieceOwner.RemovePiece(piece);
         Destroy(piece.gameObject);
-        
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().pieceDeath.Play();
     }
 
     private Player GetOpponentToPlayer(Player player)
