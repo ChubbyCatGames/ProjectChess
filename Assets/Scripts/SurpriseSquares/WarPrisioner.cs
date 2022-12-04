@@ -8,8 +8,8 @@ public class WarPrisioner : SquareEvent
     public override void StartEvent(Piece p)
     {
         //Iniciar ui al otro jugador
-
-        p.ChangeTeam();
+        p.board.WarPrisioner(p);
+        //p.ChangeTeam();
     }
 
     private void Awake()

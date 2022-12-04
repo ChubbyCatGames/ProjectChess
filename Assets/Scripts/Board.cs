@@ -452,4 +452,19 @@ public class Board : MonoBehaviour
     {
         controller.TryToBuy(item);
     }
+
+    Piece prisioner;
+    internal void WarPrisioner(Piece p)
+    {
+        uIManager.WarPrisioner(p);
+        prisioner = p;
+    }
+
+    public void WarPrisionerPaid()
+    {
+        if(controller.WarPrisionerPaid())
+            prisioner.ChangeTeam();
+
+
+    }
 }

@@ -23,10 +23,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] Board board;
     //game object interfaz in game
     [SerializeField] GameObject inGameUi;
+    [SerializeField] GameObject warPrisionerUi;
     [SerializeField] TextMeshProUGUI goldTextWhite;
     [SerializeField] TextMeshProUGUI blessingTextWhite;
     [SerializeField] TextMeshProUGUI goldTextBlack;
     [SerializeField] TextMeshProUGUI blessingTextBlack;
+
+
  
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
@@ -540,4 +543,8 @@ public class UIManager : MonoBehaviour
         squareDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
+    internal void WarPrisioner(Piece p)
+    {
+        warPrisionerUi.SetActive(true);
+    }
 }
