@@ -446,4 +446,17 @@ public class GameController : MonoBehaviour
         Cursor.SetCursor(mouseManager.mouseText, new Vector2(1, 2), CursorMode.ForceSoftware);
 
     }
+
+    internal bool WarPrisionerPaid()
+    {
+
+        int goldPlayer = GetOpponentToPlayer(activePlayer).gold;
+        if(goldPlayer >= 400)
+        {
+            GetOpponentToPlayer(activePlayer).gold -= 400;
+            uiManager.ChangePlayerUI(GetOpponentToPlayer(activePlayer), GetOpponentToPlayer(activePlayer).team);
+            return true;
+        }
+        return false;
+    }
 }
