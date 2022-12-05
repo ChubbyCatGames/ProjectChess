@@ -2507,6 +2507,9 @@ MonoBehaviour:
   lockParticles: {fileID: 3493781510090288531, guid: b15f1311d4b7231498242c44ed9bf4cc, type: 3}
   boost: {fileID: 181801809690578643, guid: de57d3f1613ed464b83c3381a264be0a, type: 3}
   splashDmg: {fileID: 8279892849328037904, guid: 5147d2df35176c4428935a8cd44b70b2, type: 3}
+  deadParticles: {fileID: 4536940175251245929, guid: 6c30783c90791564cb94fe3d9c7c6b89, type: 3}
+  winGoldParticles: {fileID: 3075973602218171279, guid: dd9aef73122b6c440b94050acb3347e6, type: 3}
+  loseGoldParticles: {fileID: 3367162622801358191, guid: 5c337c8000a47674580223b1b72218e2, type: 3}
   FireWhite: {fileID: 88575976}
   LightWhite: {fileID: 1283473643}
   FireBlack: {fileID: 1348274382}
