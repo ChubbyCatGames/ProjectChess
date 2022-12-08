@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 03c230a40ea937841b745cba20874182, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 74394c4c22208fb4dbdb8cfa8674bb93, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 60b18dee8599c6f46a534fad571a0d03, type: 2}
     - target: {fileID: 919132149155446097, guid: 74394c4c22208fb4dbdb8cfa8674bb93, type: 3}
       propertyPath: m_Name
       value: candle
@@ -182,3 +186,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 74394c4c22208fb4dbdb8cfa8674bb93, type: 3}
   m_PrefabInstance: {fileID: 6164509728516751831}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6435033904891264134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 74394c4c22208fb4dbdb8cfa8674bb93, type: 3}
+  m_PrefabInstance: {fileID: 6164509728516751831}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4194778017848438004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435033904891264134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fff89cdfbbcaa24cbae8518c257b75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _quality: 0.5

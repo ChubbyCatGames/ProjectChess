@@ -321,6 +321,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 163967cebc379094896158ca1a46a4b0, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 0515270eea7f98f45bc0e02c5ef20111, type: 2}
     - target: {fileID: 919132149155446097, guid: 163967cebc379094896158ca1a46a4b0, type: 3}
       propertyPath: m_Name
       value: Pawn
@@ -371,6 +375,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 693b8df5f21a18848981fa7e6fe9f9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5831887648202383527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374203500577382104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fff89cdfbbcaa24cbae8518c257b75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _quality: 0.197
 --- !u!114 &8415956598685028224
 MonoBehaviour:
   m_ObjectHideFlags: 0
