@@ -10393,6 +10393,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Chess Battlefield 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3679543543197129678, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4192372542866443599, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
       propertyPath: m_Range
       value: 20
@@ -10413,5 +10417,9 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: 73b667073f0b33c4f8d3d5fe46a7888e, type: 2}
+    - target: {fileID: 9023949109531347115, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
