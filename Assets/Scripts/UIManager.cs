@@ -127,7 +127,6 @@ public class UIManager : MonoBehaviour
         foreach (var concreteCard in cardsPrefabs)
         {
             CardsDict.Add(concreteCard.name, concreteCard);
-            Debug.Log(concreteCard.name);
         }
 
         foreach(var item in itemsPrefab)

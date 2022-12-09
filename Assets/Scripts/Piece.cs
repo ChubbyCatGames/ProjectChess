@@ -80,6 +80,8 @@ public abstract class Piece : MonoBehaviour
     public bool condemned;
     public bool poisoned;
 
+    public bool promotedThisTurn=true;
+
     //Variable Canvas for the damage number
     [SerializeField] private Canvas canvasDamage;
 

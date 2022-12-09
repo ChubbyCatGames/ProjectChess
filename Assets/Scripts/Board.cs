@@ -350,7 +350,7 @@ public class Board : MonoBehaviour
     {
         //Check if is possible to develop a piece
         if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold 
-            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing || selectedPiece.promotedThisTurn) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
         uIManager.ChangePlayerUI(controller.activePlayer,controller.activePlayer.team);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
@@ -362,7 +362,7 @@ public class Board : MonoBehaviour
     {
         //Check if is possible to develop a piece
         if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold
-            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing || selectedPiece.promotedThisTurn) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
         uIManager.ChangePlayerUI(controller.activePlayer,controller.activePlayer.team);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
@@ -388,7 +388,6 @@ public class Board : MonoBehaviour
 
         controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
-        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
 
     public void PromotePieceWar(Piece p, Type t)
@@ -398,9 +397,9 @@ public class Board : MonoBehaviour
         //Calculate the new life
         float ratio = p.life / p.maxLife;
 
+        p.promotedThisTurn = true;
         controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
-        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
     internal void ChangeTeamOfPiece(Piece piece, PieceColor newColor)
     {

@@ -17,7 +17,6 @@ public class SelectAnimation : MonoBehaviour
 
     IEnumerator Animate(float size)
     {
-        print(originalScale.x + ", " + size);
         for(float i=originalScale.x; i<size; i += 0.1f * originalScale.x)
         {
             yield return new WaitForSeconds(0.015f);

@@ -140,6 +140,7 @@ public class GameController : MonoBehaviour
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
         newPiece.life = lifeRatio * newPiece.maxLife;
+        newPiece.promotedThisTurn = true;
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
