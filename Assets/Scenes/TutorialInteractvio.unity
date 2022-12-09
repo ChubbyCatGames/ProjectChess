@@ -6328,7 +6328,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   board: {fileID: 2034384273091265717}
-  popUps: []
+  popUps:
+  - {fileID: 0}
 --- !u!4 &982286243
 Transform:
   m_ObjectHideFlags: 0
