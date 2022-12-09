@@ -290,8 +290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f867a4aae36e2543bc75f30f9e35d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingBoardLayout: {fileID: 11400000, guid: 860cdd8882337cd43b7fe7f28b922faa, type: 2}
-  startingBoardEvents: {fileID: 11400000, guid: 2bad9b49edf90de498c7a0778213a3fa, type: 2}
+  startingBoardLayout: {fileID: 11400000, guid: 643a1cd3c4054054a9bc169131a7cc1d, type: 2}
+  startingBoardEvents: {fileID: 11400000, guid: 82bc58958d205124691f5352c2f9f73e, type: 2}
   board: {fileID: 2034384273091265717}
   uiManager: {fileID: 1724731513}
   mouseManager: {fileID: 451665457}
@@ -2943,7 +2943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &439217826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3472,7 +3472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &475227718
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3759,12 +3759,56 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2034384273091265717}
     - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 982286242}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: EndTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: NextTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: TutorialManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762866, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762867, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_RaycastPadding.w
+      value: 28.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762867, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_RaycastPadding.x
+      value: 22.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762867, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_RaycastPadding.y
+      value: 13.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055762867, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
+      propertyPath: m_RaycastPadding.z
+      value: 10.59
       objectReference: {fileID: 0}
     - target: {fileID: 2121758652, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -6254,6 +6298,52 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2097763164834601452, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
   m_PrefabInstance: {fileID: 500776479}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &982286241
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 982286243}
+  - component: {fileID: 982286242}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &982286242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982286241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27b1c9cd63d2bb54c90b1d27ae58013b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 2034384273091265717}
+  popUps: []
+--- !u!4 &982286243
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982286241}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.7676535, y: 7.2039084, z: 6.6511865}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &985350890 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 6580683343015029205, guid: d563c27f12eda064ca6a0614bb7d0237, type: 3}
@@ -7823,7 +7913,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9a603ef80341d7f439642c3e56869bb2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10453,6 +10543,10 @@ PrefabInstance:
       propertyPath: uIManager
       value: 
       objectReference: {fileID: 1724731513}
+    - target: {fileID: 3676260658676803395, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
+      propertyPath: controller
+      value: 
+      objectReference: {fileID: 96670175}
     - target: {fileID: 3676260658676803395, guid: 1bc84884c2ecfe542b8de914255f440b, type: 3}
       propertyPath: particleManager
       value: 

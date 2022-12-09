@@ -218,6 +218,16 @@ public class Board : MonoBehaviour
             selectedPiece.canMoveTwice = false;
         DeselectPiece();
     }
+    public void MoveAuto(Piece p, Vector2Int coords)
+    {
+        UpdateBoardOnPieceMove(coords, p.occupiedSquare, p, null);
+        p.MovePiece(coords);
+
+        controller.EndTurn();
+
+        particleManager.ChangeTurn();
+        itemSelected = null;
+    }
 
     private void CheckGridEvents(Vector2Int coords, Piece piece)
     {
