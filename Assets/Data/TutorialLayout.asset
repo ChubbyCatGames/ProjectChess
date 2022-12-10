@@ -16,7 +16,7 @@ MonoBehaviour:
   - position: {x: 5, y: 2}
     pieceType: 0
     pieceColor: 1
-  - position: {x: 6, y: 2}
+  - position: {x: 2, y: 3}
     pieceType: 0
     pieceColor: 1
   - position: {x: 5, y: 1}
@@ -25,12 +25,15 @@ MonoBehaviour:
   - position: {x: 5, y: 7}
     pieceType: 0
     pieceColor: 0
-  - position: {x: 6, y: 7}
+  - position: {x: 2, y: 4}
     pieceType: 0
     pieceColor: 0
   - position: {x: 5, y: 8}
     pieceType: 5
     pieceColor: 0
-  - position: {x: 7, y: 2}
+  - position: {x: 3, y: 4}
     pieceType: 0
     pieceColor: 1
+  - position: {x: 3, y: 5}
+    pieceType: 0
+    pieceColor: 0
