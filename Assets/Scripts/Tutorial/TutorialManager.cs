@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,7 @@ public class TutorialManager : MonoBehaviour
     private bool iaTurn;
     [SerializeField] Board board;
     private Piece piece;
-
+    private List<Piece> pieces; 
     public GameObject[] popUps; 
 
     // Start is called before the first frame update
@@ -22,6 +23,7 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        pieces = board.controller.activePlayer.activePieces;
         for (int i = 0; i < popUps.Length; i++)
         {
             //popUp[0]  Mensaje de bienvenida y dice al jugador que mueva una pieza
@@ -50,10 +52,11 @@ public class TutorialManager : MonoBehaviour
         {
           popUpIdx ++;  //HAY QUE LIMITAR QUE EL JUGADOR SOLO PUEDA MOVEZ LA PIEZA DE LA SEGUNDA COLUMNA
         }
-
+        
         else if (popUpIdx == 1)
         {
-            if (/*si esta ready pa promote*/)
+            
+            if (/*si esta ready pa promote*/ board.controller.activePlayer.gold >= 75 && board.controller.activePlayer.blessing >=2)
             {
                 popUpIdx++; 
             }
@@ -63,9 +66,13 @@ public class TutorialManager : MonoBehaviour
 
         else if (popUpIdx == 2)
         {
-            if (/*ya ha ascendido*/)
+            //Si ha promote
+            foreach(var p in pieces)
             {
-                popUpIdx++;
+                if (p.IsType<Bishop>() || p.IsType<Knight>())
+                {
+                    popUpIdx++;
+                }
             }
 
         }
@@ -127,6 +134,7 @@ public class TutorialManager : MonoBehaviour
         Vector2Int pos = new Vector2Int(4, 6);
         piece = board.GetPieceOnSquare(new Vector2Int(4, 6));
         board.MoveAuto(piece, pos - new Vector2Int(0, 1));
+        pieces = board.controller.activePlayer.activePieces;
 
     }
 }

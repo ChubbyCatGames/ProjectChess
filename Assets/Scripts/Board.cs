@@ -222,11 +222,11 @@ public class Board : MonoBehaviour
     {
         UpdateBoardOnPieceMove(coords, p.occupiedSquare, p, null);
         p.MovePiece(coords);
+        EndTurn();
+        //controller.EndTurn();
 
-        controller.EndTurn();
-
-        particleManager.ChangeTurn();
-        itemSelected = null;
+        //particleManager.ChangeTurn();
+        //itemSelected = null;
     }
 
     private void CheckGridEvents(Vector2Int coords, Piece piece)
