@@ -33,14 +33,20 @@ public class TutorialManager : MonoBehaviour
         {
             //popUp[0]  Mensaje de bienvenida
             //popUP[1]  dice al jugador que mueva una pieza
-            //popUp[2]  Bien hecho y aventurate a probar mas casillas sorpresas, quizás tengas suerte
-            //popUp[3]  Explicacion de porque han subido los recursos (economia) y subir pieza a caballo o alfil
-            //popUp[4]  Foto de las posibles ascensiones
-            //popUp[5]  Mensaje de entabla pelea
-            //popUp[6]  Decirte buena pelea y explicar las peleas con foto
-            //popUp[7]  Ganar el combate y aparezca la exlicacion de que hay que matar al rey
-            //Tras el popUp 5 comerse al rey
+            //popUp[2]  Bien hecho, ahora pasa turno y deja que mueva el contrario
+            //popUp[3]  TUS recursos suben con el principio de un nuevo turno!!
+            //popUp[4]  Explicacion de porque han subido los recursos (economia)
+            //popUp[5]  asciende la pieza o que
+            //popUp[6]  subir pieza a caballo o alfil
+            //popUp[7]  Foto de las posibles ascensiones
+            //popUp[8]  Mensaje de entabla pelea
+            //popUp[9]  Decirte buena pelea y explicar las peleas con foto
+            //popUp[10]  Ganar el combate y aparezca la exlicacion de que hay que matar al rey
+            //Tras el popUp 10 comerse al rey
             
+
+            //HACE FALTA INHABILITAR EL MOVIMIENTO DEL REY
+
 
             if (i == popUpIdx)
             {
@@ -67,10 +73,43 @@ public class TutorialManager : MonoBehaviour
 
         else if ((board.GetPieceOnSquare(new Vector2Int(4,2)) != null || board.GetPieceOnSquare(new Vector2Int(5, 2)) != null || board.GetPieceOnSquare(new Vector2Int(4, 1)) != null || board.GetPieceOnSquare(new Vector2Int(5, 1)) != null || board.GetPieceOnSquare(new Vector2Int(5, 3)) != null || board.GetPieceOnSquare(new Vector2Int(4, 3)) != null) && popUpIdx==1)
         {
-          popUpIdx ++;  //HAY QUE LIMITAR QUE EL JUGADOR SOLO PUEDA MOVEZ LA PIEZA DE LA SEGUNDA COLUMNA
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIdx++;  //HAY QUE LIMITAR QUE EL JUGADOR SOLO PUEDA MOVEZ LA PIEZA DE LA SEGUNDA COLUMNA
+                
+            }
+            
         }
-        
+
         else if (popUpIdx == 2)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIdx++;
+            }
+
+        }
+
+        else if (popUpIdx == 3)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIdx++;
+            }
+
+        }
+
+        else if (popUpIdx == 4)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIdx++;
+            }
+
+        }
+
+
+        else if (popUpIdx == 5)
         {
             while (board.controller.activePlayer.gold < 80 && board.controller.activePlayer.blessing < 3)
             {
@@ -81,13 +120,16 @@ public class TutorialManager : MonoBehaviour
             
             if (/*si esta ready pa promote*/ board.controller.activePlayer.gold >= 75 && board.controller.activePlayer.blessing >=2)
             {
-                popUpIdx++; 
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    popUpIdx++;
+                }
             }
 
         }
    
 
-        else if (popUpIdx == 3)
+        else if (popUpIdx == 6)
         {
             //Si ha promote
             foreach(var p in pieces)
@@ -100,7 +142,7 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        else if (popUpIdx == 4)
+        else if (popUpIdx == 7)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -111,9 +153,10 @@ public class TutorialManager : MonoBehaviour
 
         //POPUP de vamos pelea ya ome ya
 
-        else if (popUpIdx == 5)
+        else if (popUpIdx == 8)
         {
-            if (piece.life < piece.maxLife)
+            foreach (var p in pieces)
+                if (p.life < p.maxLife)
             {
                 popUpIdx++;
             }
@@ -124,7 +167,16 @@ public class TutorialManager : MonoBehaviour
 
         //pop up de ole buena pelea er tio ahi
 
-        else if (popUpIdx == 6)
+        else if (popUpIdx == 9)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                popUpIdx++;
+            }
+
+        }
+
+        else if (popUpIdx == 10)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -135,7 +187,7 @@ public class TutorialManager : MonoBehaviour
 
         //fotito de  objetivo de la aprtida
 
-        else if (popUpIdx == 7)
+        else if (popUpIdx == 11)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
@@ -152,12 +204,15 @@ public class TutorialManager : MonoBehaviour
 
     public void NextTurn()
     {
-        iaTurn = true;
-        //popUpIdx += 1;
-        Vector2Int pos = new Vector2Int(4, 6);
-        piece = board.GetPieceOnSquare(new Vector2Int(4, 6));
-        board.MoveAuto(piece, pos - new Vector2Int(0, 1));
-        pieces = board.controller.activePlayer.activePieces;
+        if (popUpIdx == 2)
+        {
+            iaTurn = true;
+            //popUpIdx += 1;
+            Vector2Int pos = new Vector2Int(4, 6);
+            piece = board.GetPieceOnSquare(new Vector2Int(4, 6));
+            board.MoveAuto(piece, pos - new Vector2Int(0, 1));
+            pieces = board.controller.activePlayer.activePieces;
+        }
 
     }
 }
