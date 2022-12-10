@@ -26,7 +26,7 @@ public class Board : MonoBehaviour
     public bool newRecruit = false;
     public List<Vector2Int> newRecruitPositions;
 
-    [SerializeField] UIManager uIManager;
+    [SerializeField]public UIManager uIManager;
 
     private Object itemSelected;
 
@@ -71,12 +71,14 @@ public class Board : MonoBehaviour
         Piece piece = GetPieceOnSquare(coords);
         if (itemSelected != null)
         {
-
-            piece.EquipObject(itemSelected);
-            controller.activePlayer.RemoveObject(itemSelected);
-            itemSelected= null;
-            uIManager.UpdatePlayerItemsUI(controller.activePlayer);
-            controller.setNormalMouse();
+            if (piece.GetType() != typeof(King))
+            {
+                piece.EquipObject(itemSelected);
+                controller.activePlayer.RemoveObject(itemSelected);
+                itemSelected = null;
+                uIManager.UpdatePlayerItemsUI(controller.activePlayer);
+                controller.setNormalMouse();
+            }
         }
         else if (selectedPiece)
         {
@@ -294,7 +296,6 @@ public class Board : MonoBehaviour
         //--------
 
         controller.EndTurn();
-        
         particleManager.ChangeTurn();
         itemSelected = null;
     }

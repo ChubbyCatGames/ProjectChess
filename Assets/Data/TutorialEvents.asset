@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boardSetupEvents:
   - position: {x: 5, y: 4}
-    _event: {fileID: 8737458013017574025, guid: 80a99ef8c0f33a54fa14d9aa14ca1cd0, type: 3}
+    _event: {fileID: 5648965116490614221, guid: a5293827c0a0a934c967e5bbdaa35a26, type: 3}
   - position: {x: 6, y: 3}
-    _event: {fileID: 8737458013017574025, guid: 80a99ef8c0f33a54fa14d9aa14ca1cd0, type: 3}
+    _event: {fileID: 5648965116490614221, guid: a5293827c0a0a934c967e5bbdaa35a26, type: 3}

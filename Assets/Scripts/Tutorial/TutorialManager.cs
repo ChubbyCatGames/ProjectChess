@@ -2,22 +2,24 @@ using ExitGames.Client.Photon.StructWrapping;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
     private int popUpIdx;
-    private bool iaTurn;
+
     [SerializeField] Board board;
     private Piece piece;
     private List<Piece> pieces; 
-    public GameObject[] popUps; 
+    public GameObject[] popUps;
+    float waitTime = 2f;
+    bool pasaTurn = false;
 
     // Start is called before the first frame update
     void Start()
     {
         popUpIdx = 0;
-        iaTurn = false;
         for (int i = 0; i < popUps.Length; i++)
         {
             popUps[i].SetActive(false);
@@ -27,6 +29,16 @@ public class TutorialManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (waitTime <= 0 && pasaTurn)
+        {
+            board.EndTurn();
+            pasaTurn = false;
+        }
+        else
+        {
+            waitTime -= Time.deltaTime;
+        }
+
         pieces = board.controller.activePlayer.activePieces;
         
             for (int i = 0; i < popUps.Length; i++)
@@ -71,27 +83,21 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        else if ((board.GetPieceOnSquare(new Vector2Int(4,2)) != null || board.GetPieceOnSquare(new Vector2Int(5, 2)) != null || board.GetPieceOnSquare(new Vector2Int(4, 1)) != null || board.GetPieceOnSquare(new Vector2Int(5, 1)) != null || board.GetPieceOnSquare(new Vector2Int(5, 3)) != null || board.GetPieceOnSquare(new Vector2Int(4, 3)) != null) && popUpIdx==1)
+        else if ((board.GetPieceOnSquare(new Vector2Int(4,3)) != null || board.GetPieceOnSquare(new Vector2Int(4, 2)) != null) && popUpIdx==1)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                popUpIdx++;  //HAY QUE LIMITAR QUE EL JUGADOR SOLO PUEDA MOVEZ LA PIEZA DE LA SEGUNDA COLUMNA
+
+            Debug.Log(board.GetPieceOnSquare(new Vector2Int(4, 1)));
+            popUpIdx++; //HAY QUE LIMITAR QUE EL JUGADOR SOLO PUEDA MOVEZ LA PIEZA DE LA SEGUNDA COLUMNA
                 
-            }
+            
             
         }
 
-        else if (popUpIdx == 2)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                popUpIdx++;
-            }
-
-        }
 
         else if (popUpIdx == 3)
         {
+            
+
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 popUpIdx++;
@@ -115,6 +121,7 @@ public class TutorialManager : MonoBehaviour
             {
                 board.controller.activePlayer.UpdateGold();
                 board.controller.activePlayer.blessing += 1;
+                board.uIManager.ChangePlayerUI(board.controller.activePlayer,board.controller.activePlayer.team);
             }
             
             
@@ -197,22 +204,50 @@ public class TutorialManager : MonoBehaviour
         }
 
         //Despues de esta pantalla generar pieza y que se coma al rey
+        else if(popUpIdx > 11)
+        {
+            if (waitTime <= 0 && pasaTurn)
+            {
+                board.EndTurn();
+                pasaTurn = false;
+            }
+            else
+            {
+                waitTime -= Time.deltaTime;
+            }
 
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                popUpIdx++;
+            }
+        }
 
     }
 
 
     public void NextTurn()
     {
+
         if (popUpIdx == 2)
         {
-            iaTurn = true;
-            //popUpIdx += 1;
+            
+            popUpIdx++;
             Vector2Int pos = new Vector2Int(4, 6);
             piece = board.GetPieceOnSquare(new Vector2Int(4, 6));
             board.MoveAuto(piece, pos - new Vector2Int(0, 1));
             pieces = board.controller.activePlayer.activePieces;
+            pasaTurn = true;
+            waitTime = 2f;
+
         }
+
+        if(popUpIdx > 11)
+        {
+            board.EndTurn();
+        }
+        pasaTurn = true;
+        waitTime = 2f;
+
 
     }
 }
