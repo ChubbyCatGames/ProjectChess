@@ -6420,8 +6420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Ascend any pawn by the way of war (knight) or by the way of faith (pawn).
-
+  m_text: 'Ascend any pawn by the way of war (knight) or by the way of faith (bishop).
 
 
     This
@@ -8919,9 +8918,9 @@ MonoBehaviour:
     this tutorial.
 
 
-
-    You can only perform one action per turn, move or ascend,
-    you decide.
+    You can only perform one action by piece per turn, move
+    or ascend, you decide. But also you can ascend a piece and move another different
+    piece.
 
 
 
@@ -10539,7 +10538,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'Congratulations, you have promoted your pawn and this increased the strength
-    of your army. Now you must pass turn, only one action allowed per turn.
+    of your army. Now you must pass turn or move another different piece
 
     When
     it is your turn again, try to fight against an enemy piece by selecting your
@@ -13020,7 +13019,7 @@ Transform:
   m_GameObject: {fileID: 2054591223}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -240, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 9}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2110258437}

@@ -76,6 +76,7 @@ public class TutorialManager : MonoBehaviour
 
        if (popUpIdx == 0)
         {
+
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 popUpIdx++;
