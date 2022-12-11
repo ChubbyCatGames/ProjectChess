@@ -21,8 +21,10 @@ public class UIManager : MonoBehaviour
 
     private TextMeshProUGUI textAttacker;
     private TextMeshProUGUI textDefensor;
-    private String startingLifeAtck;
+    private String startingLifeAtck; 
     private String startingLifeDef;
+    [SerializeField] Canvas damageCanvasAttacker;
+    [SerializeField] Canvas damageCanvasDefensor;
 
 
     [SerializeField] Board board;
@@ -321,6 +323,7 @@ public class UIManager : MonoBehaviour
                     float txt = float.Parse(aux[0]);
                     yield return new WaitForSeconds(0.2f);
                     textDefensor.text = (txt - attacker.attackDmg).ToString() + "/" + aux[1];
+                    damageCanvasDefensor.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(attacker.attackDmg);
                     n--;
                 }
                 //attackerCard.GetComponent<Animator>().SetBool("isFighting", false);
@@ -347,8 +350,9 @@ public class UIManager : MonoBehaviour
                     String[] aux = textAttacker.text.Split("/");
 
                     float txt = float.Parse(aux[0]);
-                    textAttacker.text = (txt - defensor.attackDmg).ToString() + "/" + aux[1];
                     yield return new WaitForSeconds(0.2f);
+                    textAttacker.text = (txt - defensor.attackDmg).ToString() + "/" + aux[1];
+                    damageCanvasAttacker.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(defensor.attackDmg);
                     m--;
                     
                 }
@@ -361,7 +365,6 @@ public class UIManager : MonoBehaviour
 
 
 
-            yield return new WaitForSeconds(1f);
         //yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);

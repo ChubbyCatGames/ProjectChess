@@ -27,7 +27,7 @@ public class DamageNumber : MonoBehaviour
 
         for (float i=0; i<2; i+=0.02f)
         {
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.007f);
             rt.offsetMax = new Vector2(rt.offsetMax.x, i);
         }
 
