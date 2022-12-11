@@ -280,9 +280,7 @@ public class UIManager : MonoBehaviour
         fightUI.SetActive(true);
         attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
         defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
-        StartCardAttacker(attacker,atckLife.ToString());
-        StartCardDefensor(defensor, defLife.ToString());
-        Debug.Log(defLife);
+        Debug.Log(defensor.GetName());
         attackerCard.transform.position = attackerCardPos.position;
         defensorCard.transform.position = defensorCardPos.position;
         attackerCard.transform.localScale = new Vector3(0.25f,0.25f,0.8f);
@@ -290,6 +288,8 @@ public class UIManager : MonoBehaviour
 
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
+        StartCardAttacker(attacker,atckLife.ToString());
+        StartCardDefensor(defensor, defLife.ToString());
         //attackerCard.GetComponent<Animator>().SetBool("isIddle", true);
         //defensorCard.GetComponent<Animator>().SetBool("isIddle", true);
         cardAnimatorDef = defensorCard.GetComponent<Animator>();
