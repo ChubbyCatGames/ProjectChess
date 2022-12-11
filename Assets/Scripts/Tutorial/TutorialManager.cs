@@ -84,26 +84,50 @@ public class TutorialManager : MonoBehaviour
 
         }
 
-        else if ((board.GetPieceOnSquare(new Vector2Int(4,3)) != null || board.GetPieceOnSquare(new Vector2Int(4, 2)) != null) && popUpIdx==1)
+        else if (popUpIdx == 0)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
+        }
+
+        else if ((board.GetPieceOnSquare(new Vector2Int(4, 3)) != null || board.GetPieceOnSquare(new Vector2Int(4, 2)) != null) && popUpIdx == 1)
         {
 
             Debug.Log(board.GetPieceOnSquare(new Vector2Int(4, 1)));
             popUpIdx++; //HAY QUE LIMITAR QUE EL JUGADOR SOLO PUEDA MOVEZ LA PIEZA DE LA SEGUNDA COLUMNA
-                
-            
-            
+
+
+
         }
 
 
         else if (popUpIdx == 3)
         {
-            
+
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 popUpIdx++;
             }
 
+        }
+
+        else if (popUpIdx == 3)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
         }
 
         else if (popUpIdx == 4)
@@ -114,6 +138,17 @@ public class TutorialManager : MonoBehaviour
             }
 
         }
+        else if (popUpIdx == 4)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
+        }
 
 
         else if (popUpIdx == 5)
@@ -122,25 +157,34 @@ public class TutorialManager : MonoBehaviour
             {
                 board.controller.activePlayer.UpdateGold();
                 board.controller.activePlayer.blessing += 1;
-                board.uIManager.ChangePlayerUI(board.controller.activePlayer,board.controller.activePlayer.team);
+                board.uIManager.ChangePlayerUI(board.controller.activePlayer, board.controller.activePlayer.team);
             }
-            
-            
-            if (/*si esta ready pa promote*/ board.controller.activePlayer.gold >= 75 && board.controller.activePlayer.blessing >=2)
+
+
+            if (/*si esta ready pa promote*/ board.controller.activePlayer.gold >= 75 && board.controller.activePlayer.blessing >= 2)
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     popUpIdx++;
                 }
+                
+                else if (Input.touchCount > 0)
+                    {
+                        if (Input.GetTouch(0).tapCount == 1)
+                        {
+                            popUpIdx++;
+                        }
+                }
+                
             }
 
         }
-   
+
 
         else if (popUpIdx == 6)
         {
             //Si ha promote
-            foreach(var p in pieces)
+            foreach (var p in pieces)
             {
                 if (p.IsType<Bishop>() || p.IsType<Knight>())
                 {
@@ -158,6 +202,17 @@ public class TutorialManager : MonoBehaviour
             }
 
         }
+        else if (popUpIdx == 7)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
+        }
 
         //POPUP de vamos pelea ya ome ya
 
@@ -165,13 +220,13 @@ public class TutorialManager : MonoBehaviour
         {
             foreach (var p in pieces)
                 if (p.life < p.maxLife)
-            {
-                popUpIdx++;
-            }
+                {
+                    popUpIdx++;
+                }
 
         }
 
-        
+
 
         //pop up de ole buena pelea er tio ahi
 
@@ -183,6 +238,17 @@ public class TutorialManager : MonoBehaviour
             }
 
         }
+        else if (popUpIdx == 9)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
+        }
 
         else if (popUpIdx == 10)
         {
@@ -192,6 +258,17 @@ public class TutorialManager : MonoBehaviour
             }
 
         }
+        else if (popUpIdx == 10)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
+        }
 
         //fotito de  objetivo de la aprtida
 
@@ -200,13 +277,24 @@ public class TutorialManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 popUpIdx++;
-                
+
             }
 
         }
+        else if (popUpIdx == 11)
+        {
+
+            if (Input.touchCount > 0)
+            {
+                if (Input.GetTouch(0).tapCount == 1)
+                {
+                    popUpIdx++;
+                }
+            }
+        }
 
         //Despues de esta pantalla generar pieza y que se coma al rey
-        else if(popUpIdx > 11)
+        else if (popUpIdx > 11)
         {
             if (waitTime <= 0 && pasaTurn)
             {
