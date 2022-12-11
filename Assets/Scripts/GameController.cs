@@ -223,6 +223,8 @@ public class GameController : MonoBehaviour
 
         int hitsAtck = 0;
         int hitsDef = 0;
+        float startingLifeAtck = attacker.life;
+        float startingLifeDef = defensor.life;
 
         List<Piece> attackerChurches = new List<Piece>();
         List<Piece> defensorChurches = new List<Piece>();
@@ -311,21 +313,19 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef,coords));
+        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef,coords , startingLifeAtck, startingLifeDef));
        
 
         if (defensor.life <= 0)
         { 
             //board.winSelectedPiece = true;
             //uiManager.StopFight();
-            Debug.Log(activePlayer.gold);
             float extraGold = 0;
             foreach(Knight k in attackerKnights.Cast<Knight>())
             {
                 extraGold += k.goldAddition;
             }
             activePlayer.gold += defensor.richness + Mathf.FloorToInt(attacker.richness * extraGold);
-            Debug.Log(activePlayer.gold);
 
         }
         else

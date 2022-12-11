@@ -19,6 +19,11 @@ public class UIManager : MonoBehaviour
     private Animator cardAnimator;
     private Animator cardAnimatorDef;
 
+    private TextMeshProUGUI textAttacker;
+    private TextMeshProUGUI textDefensor;
+    private String startingLifeAtck;
+    private String startingLifeDef;
+
 
     [SerializeField] Board board;
     //game object interfaz in game
@@ -219,6 +224,7 @@ public class UIManager : MonoBehaviour
                
                 GameObject.Find("cardAttack").GetComponent<TextMeshProUGUI>().SetText(piece.GetAttack());
                 GameObject.Find("cardLife").GetComponent<TextMeshProUGUI>().SetText(piece.GetLife());
+
                 GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
                 if (piece.GetName() != "King")
                 {
@@ -266,12 +272,15 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef,Vector2Int coords)
+    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef,Vector2Int coords, float atckLife, float defLife)
     {
 
         fightUI.SetActive(true);
         attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
         defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
+        StartCardAttacker(attacker,atckLife.ToString());
+        StartCardDefensor(defensor, defLife.ToString());
+        Debug.Log(defLife);
         attackerCard.transform.position = attackerCardPos.position;
         defensorCard.transform.position = defensorCardPos.position;
         attackerCard.transform.localScale = new Vector3(0.25f,0.25f,0.8f);
@@ -286,7 +295,6 @@ public class UIManager : MonoBehaviour
         cardAnimator = attackerCard.GetComponent<Animator>();
         cardAnimator.SetBool("isIddle", true);
 
-        Debug.Log("hola" + attackerCard.name);
         
         int n = hitsAtck;
         int m = hitsDef;
@@ -294,15 +302,13 @@ public class UIManager : MonoBehaviour
         while (n + m > 0)
         {
             if (attackerCard.GetComponent<Animator>())
-            {
-                Debug.Log(n);
+{
                 //attackerCard.GetComponent<Animator>().SetBool("isIddle", true);
                 //bucle para numero de golpes
                 //Debug.Log(attackerCard.name + "ataco");
 
                 if (n > 0)
                 {
-                    Debug.Log(attackerCard.name + "ataco");
                     //cardAnimator = attackerCard.GetComponent<Animator>();
                     cardAnimator.SetBool("isIddle", false);
                     cardAnimator.SetBool("isFighting", true);
@@ -310,7 +316,11 @@ public class UIManager : MonoBehaviour
                     //Debug.Log(attackerCard.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Description());
 
                     GameObject.Find("AudioManager").GetComponent<AudioManager>().hit.Play();
+                    String[] aux = textDefensor.text.Split("/");
+
+                    float txt = float.Parse(aux[0]);
                     yield return new WaitForSeconds(0.2f);
+                    textDefensor.text = (txt - attacker.attackDmg).ToString() + "/" + aux[1];
                     n--;
                 }
                 //attackerCard.GetComponent<Animator>().SetBool("isFighting", false);
@@ -323,10 +333,8 @@ public class UIManager : MonoBehaviour
                 //defensorCard.GetComponent<Animator>().SetBool("isIddle", true);
                 //defensorCard.SetActive(true);
                 //Debug.Log(defensorCard.name + "defiendo");
-                Debug.Log(m);
                 if (m > 0)
                 {
-                    Debug.Log(defensorCard.name + "defiendo");
                     /*
                     defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
                     yield return new WaitForSeconds(0.2f);
@@ -336,6 +344,10 @@ public class UIManager : MonoBehaviour
                     cardAnimatorDef.SetBool("isDefending", true);
 
                     GameObject.Find("AudioManager").GetComponent<AudioManager>().hit.Play();
+                    String[] aux = textAttacker.text.Split("/");
+
+                    float txt = float.Parse(aux[0]);
+                    textAttacker.text = (txt - defensor.attackDmg).ToString() + "/" + aux[1];
                     yield return new WaitForSeconds(0.2f);
                     m--;
                     
@@ -370,6 +382,12 @@ public class UIManager : MonoBehaviour
         {
             board.MovePieceAfterFight(attacker, defensor, coords); 
         }
+        else
+        {
+            board.PieceDiedFighting();
+        }
+        
+
         board.controller.SetGameState(GameState.Play);
     }
 
@@ -468,7 +486,23 @@ public class UIManager : MonoBehaviour
             whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
         }
     }
+    public void StartCardAttacker(Piece p,String s)
+    {
+        GameObject life = GameObject.Find("AttackerPos/"+p.GetName()+"(Clone)/cardLife");
+        textAttacker= life.GetComponent<TextMeshProUGUI>();
+        startingLifeAtck= s;
+        textAttacker.text = startingLifeAtck + "/" + p.maxLife.ToString();
 
+    }
+    public void StartCardDefensor(Piece p,String s)
+    {
+        GameObject life = GameObject.Find("DefensorPos/" + p.GetName() + "(Clone)/cardLife");
+        textDefensor = life.GetComponent<TextMeshProUGUI>();
+        startingLifeDef= s;
+        textDefensor.text = startingLifeDef + "/" + p.maxLife.ToString();
+
+
+    }
     public void EquipItemOnCard(string item)
     {
         Sprite s =ItemsDict[item];

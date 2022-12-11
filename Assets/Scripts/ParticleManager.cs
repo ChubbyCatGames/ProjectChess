@@ -85,6 +85,7 @@ public class ParticleManager : MonoBehaviour
         ParticleSystem s = Instantiate(deadParticles);
         s.transform.position = coords;
         s.Play();
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().pieceDeath.Play();
     }
 
     public void PlayWinGoldParticles(Vector3 coords)

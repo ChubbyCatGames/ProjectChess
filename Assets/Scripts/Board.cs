@@ -205,6 +205,8 @@ public class Board : MonoBehaviour
 
         UpdateBoardOnPieceMove(coords, selectedPiece.occupiedSquare, selectedPiece, null);
         selectedPiece.MovePiece(coords);
+        particleManager.PlayDeadParticles(CalculatePositionFromCoords(coords));
+
         if (selectedPiece.GetType() != typeof(King))
         {
             CheckGridEvents(coords, selectedPiece);
@@ -233,7 +235,6 @@ public class Board : MonoBehaviour
 
     private void CheckGridEvents(Vector2Int coords, Piece piece)
     {
-        Debug.Log(gridEvents[coords.x, coords.y]);
         if(gridEvents[coords.x, coords.y] != null)
         {
             //Set the ui info
@@ -482,5 +483,12 @@ public class Board : MonoBehaviour
             prisioner.ChangeTeam();
 
 
+    }
+
+    internal void PieceDiedFighting()
+    {
+        particleManager.PlayDeadParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
+        controller.activePlayer.alreadyMoved = true;
+        DeselectPiece();
     }
 }
