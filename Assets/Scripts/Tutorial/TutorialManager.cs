@@ -176,7 +176,7 @@ public class TutorialManager : MonoBehaviour
 
         else if (popUpIdx == 9)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 popUpIdx++;
             }
@@ -185,7 +185,7 @@ public class TutorialManager : MonoBehaviour
 
         else if (popUpIdx == 10)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 popUpIdx++;
             }
@@ -196,9 +196,10 @@ public class TutorialManager : MonoBehaviour
 
         else if (popUpIdx == 11)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Return))
             {
                 popUpIdx++;
+                
             }
 
         }
