@@ -47,7 +47,10 @@ public abstract class Piece : MonoBehaviour
             {
                 canvasDamage.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(Mathf.FloorToInt(m_life - value));
             }
-
+            if(value > maxLife)
+            {
+                value = maxLife;
+            }
             //Set the value
             m_life = Mathf.CeilToInt(value);
 
@@ -300,6 +303,10 @@ public abstract class Piece : MonoBehaviour
         {
             //DESACTIVAR EL DAÑO
             canvasHurt.enabled= false;
+            if(life > maxLife)
+            {
+                life = maxLife;
+            }
 
         }
     }

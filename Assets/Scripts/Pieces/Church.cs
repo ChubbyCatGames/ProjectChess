@@ -83,7 +83,10 @@ public class Church : Piece
     {
         List<Piece> pieces = board.GetPiecesOnAdjacent(coords);
         foreach (Piece piece in pieces) {
-            piece.life += 20;
+            if(piece.color == this.color)
+            {
+                piece.life += 20;
+            }
         }
 
         board.particleManager.PlayHealChurchParticles(board.CalculatePositionFromCoords(coords));
