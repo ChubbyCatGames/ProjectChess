@@ -7,6 +7,7 @@ public class ThievesAttack : SquareEvent
     public override void StartEvent(Piece p)
     {
         p.RemoveGold(p.richness * 2);
+        
     }
 
     private void Awake()

@@ -15,7 +15,7 @@ public class RickTheMerchant : SquareEvent
         //Select 3 objetos random
         SelectThreeObj();
         p.board.OpenShop(objectsOnSale);
-
+        objectsOnSale.Clear();
     }
 
     private void Awake()
@@ -32,5 +32,7 @@ public class RickTheMerchant : SquareEvent
         }
         
     }
+
+
 }
 

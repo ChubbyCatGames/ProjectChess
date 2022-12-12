@@ -211,8 +211,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -736640727
+  m_SortingOrder: -4
   m_TargetDisplay: 0
 --- !u!114 &41648093628111081
 MonoBehaviour:
@@ -435,6 +435,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 1abcfea9be23dd041a5d4cc76479f30d, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 049ac129ad4d7554caec7bfe3f0b5049, type: 2}
     - target: {fileID: 919132149155446097, guid: 1abcfea9be23dd041a5d4cc76479f30d, type: 3}
       propertyPath: m_Name
       value: Church
@@ -498,6 +502,19 @@ MonoBehaviour:
   poisoned: 0
   canvasDamage: {fileID: 20577966604392448}
   canvasHurt: {fileID: 3051800223410119848}
+--- !u!114 &3893293331985683508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498366647604346036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fff89cdfbbcaa24cbae8518c257b75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _quality: 0.5
 --- !u!114 &3957961981759548928
 MonoBehaviour:
   m_ObjectHideFlags: 0

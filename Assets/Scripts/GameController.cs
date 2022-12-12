@@ -4,16 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun.Demo.Cockpit;
 
 [RequireComponent(typeof(PieceCreator))]
 public class GameController : MonoBehaviour
 {
-    private enum GameState { Init, Play, Finished, Fight}
+    public enum GameState { Init, Play, Finished, Fight}
 
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private BoardLayoutEvents startingBoardEvents;
     [SerializeField] private Board board;
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private MouseManager mouseManager;
 
     private PieceCreator pieceCreator;
     private CameraManager cameraManager;
@@ -23,7 +25,7 @@ public class GameController : MonoBehaviour
     private Player blackPlayer;
     public Player activePlayer;
 
-    private GameState gameState;
+    public GameState gameState;
 
 
 
@@ -67,7 +69,7 @@ public class GameController : MonoBehaviour
         GetTitheAndBlessing();
     }
 
-    private void SetGameState(GameState state)
+    public void SetGameState(GameState state)
     {
         this.gameState = state; 
     }
@@ -94,6 +96,7 @@ public class GameController : MonoBehaviour
 
     private void CreateEventsFromLayout(BoardLayoutEvents layout)
     {
+        layout.ShuffleEvents();
         for (int i = 0; i < layout.GetPiecesCount(); i++)
         {
 
@@ -137,6 +140,7 @@ public class GameController : MonoBehaviour
         Piece newPiece = pieceCreator.CreatePiece(type).GetComponent<Piece>();
         newPiece.SetData(squareCoords, pieceColor, board);
         newPiece.life = lifeRatio * newPiece.maxLife;
+        newPiece.promotedThisTurn = true;
 
         Material colorMaterial = pieceCreator.GetPieceMaterial(pieceColor, newPiece.GetType());
         newPiece.SetMaterial(colorMaterial);
@@ -164,9 +168,12 @@ public class GameController : MonoBehaviour
         TakeAllPiecesWithoutLife(GetOpponentToPlayer(activePlayer));
         GenerateAllPossiblePlayerMoves(activePlayer);
         GenerateAllPossiblePlayerMoves(GetOpponentToPlayer(activePlayer));
-        
+
         if (CheckIfGameIsFinished())
-            EndGame();
+        {
+            bool whiteWinner = activePlayer.team == PieceColor.White;
+            EndGame(whiteWinner);
+        }
         else
             ChangeActiveTeam();
         
@@ -177,7 +184,7 @@ public class GameController : MonoBehaviour
     {
         foreach (var piece in p.activePieces)
         {
-            if (piece.poisoned) piece.life -= 5;
+            if (piece.poisoned) piece.life -= 3;
             if (piece.life <= 0 || piece.condemned) board.TakePiece(piece);
                 
         }
@@ -216,6 +223,8 @@ public class GameController : MonoBehaviour
 
         int hitsAtck = 0;
         int hitsDef = 0;
+        float startingLifeAtck = attacker.life;
+        float startingLifeDef = defensor.life;
 
         List<Piece> attackerChurches = new List<Piece>();
         List<Piece> defensorChurches = new List<Piece>();
@@ -240,7 +249,7 @@ public class GameController : MonoBehaviour
                     piece.PassiveAbility(attacker, coords);
                 }
 
-                board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
+                
             }
             else if (piece.IsFromSameColor(defensor))
             {
@@ -258,7 +267,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            board.particleManager.PlaySplashParticles(board.CalculatePositionFromCoords(piece.occupiedSquare));
+           
         }
 
         
@@ -304,27 +313,25 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef));
+        StartCoroutine(uiManager.StartFightUI(attacker, defensor,hitsAtck,hitsDef,coords , startingLifeAtck, startingLifeDef));
        
 
         if (defensor.life <= 0)
         { 
-            board.winSelectedPiece = true;
-            uiManager.StopFight();
-            Debug.Log(activePlayer.gold);
+            //board.winSelectedPiece = true;
+            //uiManager.StopFight();
             float extraGold = 0;
             foreach(Knight k in attackerKnights.Cast<Knight>())
             {
                 extraGold += k.goldAddition;
             }
             activePlayer.gold += defensor.richness + Mathf.FloorToInt(attacker.richness * extraGold);
-            Debug.Log(activePlayer.gold);
 
         }
         else
         {
-            board.winSelectedPiece = false;
-            uiManager.StopFight();
+            //board.winSelectedPiece = false;
+            //uiManager.StopFight();
             float extraGold = 0;
             foreach (Knight k in defensorKnights)
             {
@@ -332,20 +339,24 @@ public class GameController : MonoBehaviour
             }
             GetOpponentToPlayer(activePlayer).gold += attacker.richness + Mathf.FloorToInt(attacker.richness * extraGold);
         }
-            
+          
     }
 
-    private void EndGame()
+    private void EndGame(bool whiteWon)
     {
-        SetGameState(GameState.Finished); 
+        SetGameState(GameState.Finished);
+
+        uiManager.EndGameUI(whiteWon);
     }
+
 
     public void OnPieceRemoved(Piece piece)
     {
         Player pieceOwner = (piece.color == PieceColor.White) ? whitePlayer : blackPlayer;
         pieceOwner.RemovePiece(piece);
         Destroy(piece.gameObject);
-        
+
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().pieceDeath.Play();
     }
 
     private Player GetOpponentToPlayer(Player player)
@@ -355,6 +366,12 @@ public class GameController : MonoBehaviour
 
     private void ChangeActiveTeam()
     {
+        Piece [] churches=  activePlayer.GetPiecesOfType<Church>();
+        foreach(Church church in churches)
+        {
+            church.HealAdjacent(church.occupiedSquare);
+        }
+        
         activePlayer = activePlayer == whitePlayer ? blackPlayer : whitePlayer;
 
         //---Call the turn window---
@@ -362,10 +379,10 @@ public class GameController : MonoBehaviour
         uiManager.CallTurnWindow(activePlayer == whitePlayer ? true : false);
 
         //--------------------
-
+        
         activePlayer.GetTheratNextMove<King>();
         activePlayer.alreadyMoved = false;
-        uiManager.UpdatePlayerItemsUI(activePlayer);
+        //uiManager.UpdatePlayerItemsUI(activePlayer);
         activePlayer.EnableAllPieces();
         GetTitheAndBlessing();
 
@@ -376,7 +393,7 @@ public class GameController : MonoBehaviour
     {
         activePlayer.UpdateGold();
         activePlayer.blessing += 1;
-        uiManager.ChangePlayerUI(activePlayer);
+        uiManager.ChangePlayerUI(activePlayer,activePlayer.team);
     }
 
     public void RemoveMovesEnablingAttackOnPieceOfType<T>(Piece p) where T : Piece
@@ -406,7 +423,7 @@ public class GameController : MonoBehaviour
         {
             activePlayer.AddObject(item);
 
-            activePlayer.gold -= item.cost;
+            board.SubstractGold(item.cost);
             uiManager.UpdatePlayerItemsUI(activePlayer);
             uiManager.CloseShop();
 
@@ -416,11 +433,32 @@ public class GameController : MonoBehaviour
         {
             uiManager.NotEnoughGold();
         }
+        
     }
 
     public void SelectItemAtIndex(int idx)
     {
         board.SelectItem(activePlayer.playerObjects[idx]);
+        Cursor.SetCursor(mouseManager.mouseObject, Vector2.zero, CursorMode.ForceSoftware);
         
+    }
+
+    public void setNormalMouse()
+    {
+        Cursor.SetCursor(mouseManager.mouseText, new Vector2(1, 2), CursorMode.ForceSoftware);
+
+    }
+
+    internal bool WarPrisionerPaid()
+    {
+
+        int goldPlayer = GetOpponentToPlayer(activePlayer).gold;
+        if(goldPlayer >= 400)
+        {
+            GetOpponentToPlayer(activePlayer).gold -= 400;
+            uiManager.ChangePlayerUI(GetOpponentToPlayer(activePlayer), GetOpponentToPlayer(activePlayer).team);
+            return true;
+        }
+        return false;
     }
 }

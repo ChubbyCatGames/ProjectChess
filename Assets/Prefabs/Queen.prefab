@@ -211,8 +211,8 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -736640727
+  m_SortingOrder: -4
   m_TargetDisplay: 0
 --- !u!114 &2410546159052753840
 MonoBehaviour:
@@ -435,6 +435,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -5754084199372789682, guid: 745396369c8dbfe45af6f25401f02511, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: bfc976408d5cb8d4bb7011c936011843, type: 2}
     - target: {fileID: 919132149155446097, guid: 745396369c8dbfe45af6f25401f02511, type: 3}
       propertyPath: m_Name
       value: Queen
@@ -510,6 +514,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01c9d866a0fa5a4d89139b320aac751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5343861989500612628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7076060925798827187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fff89cdfbbcaa24cbae8518c257b75a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _quality: 0.215
 --- !u!4 &7600078665362349577 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 745396369c8dbfe45af6f25401f02511, type: 3}

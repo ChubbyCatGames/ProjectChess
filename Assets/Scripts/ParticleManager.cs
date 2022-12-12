@@ -12,6 +12,9 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] ParticleSystem lockParticles;
     [SerializeField] ParticleSystem boost;
     [SerializeField] ParticleSystem splashDmg;
+    [SerializeField] ParticleSystem deadParticles;
+    [SerializeField] ParticleSystem winGoldParticles;
+    [SerializeField] ParticleSystem loseGoldParticles;
 
     [Header("Turn manager particle")]
     [SerializeField] private ParticleSystem FireWhite;
@@ -74,6 +77,28 @@ public class ParticleManager : MonoBehaviour
     {
         ParticleSystem s= Instantiate(splashDmg);
         s.transform.position = coords; 
+        s.Play();
+    }
+
+    public void PlayDeadParticles(Vector3 coords)
+    {
+        ParticleSystem s = Instantiate(deadParticles);
+        s.transform.position = coords;
+        s.Play();
+        GameObject.Find("AudioManager").GetComponent<AudioManager>().pieceDeath.Play();
+    }
+
+    public void PlayWinGoldParticles(Vector3 coords)
+    {
+        ParticleSystem s = Instantiate(winGoldParticles);
+        s.transform.position = coords;
+        s.Play();
+    }
+
+    public void PlayLoseGoldParticles(Vector3 coords)
+    {
+        ParticleSystem s = Instantiate(loseGoldParticles);
+        s.transform.position = coords;
         s.Play();
     }
 

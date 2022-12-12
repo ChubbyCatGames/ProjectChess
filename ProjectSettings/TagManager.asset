@@ -17,7 +17,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - items
   - 
   - 
   - 
@@ -40,6 +40,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Particles
+    uniqueID: 3558326569
+    locked: 0
+  - name: Shop
+    uniqueID: 1440997525
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: itemsShop
+    uniqueID: 2183551943
+    locked: 0
+  - name: Fight
+    uniqueID: 196123301
     locked: 0

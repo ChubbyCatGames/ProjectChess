@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.UIElements;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+using static GameController;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,24 +19,44 @@ public class UIManager : MonoBehaviour
     private Animator cardAnimator;
     private Animator cardAnimatorDef;
 
+    private TextMeshProUGUI textAttacker;
+    private TextMeshProUGUI textDefensor;
+    private String startingLifeAtck; 
+    private String startingLifeDef;
+    [SerializeField] Canvas damageCanvasAttacker;
+    [SerializeField] Canvas damageCanvasDefensor;
+
 
     [SerializeField] Board board;
     //game object interfaz in game
     [SerializeField] GameObject inGameUi;
-    [SerializeField] TextMeshProUGUI goldText;
-    [SerializeField] TextMeshProUGUI blessingText;
+    [SerializeField] GameObject warPrisionerUi;
+    [SerializeField] TextMeshProUGUI goldTextWhite;
+    [SerializeField] TextMeshProUGUI blessingTextWhite;
+    [SerializeField] TextMeshProUGUI goldTextBlack;
+    [SerializeField] TextMeshProUGUI blessingTextBlack;
+
+
+ 
     //cards prefabs
     [SerializeField] private GameObject[] cardsPrefabs;
     Animation animation;
     private GameObject card;
+
+
     [SerializeField] GameObject[] icons;
 
     [Header("Turns")]
-    [SerializeField] GameObject blackTurnImg;
-    [SerializeField] GameObject whiteTurnImg;
+    public GameObject blackTurnImg;
+    public GameObject whiteTurnImg;
+
+    [Header("End Game")]
+    [SerializeField] GameObject endUi;
+    [SerializeField] GameObject blackWins;
+    [SerializeField] GameObject whiteWins;
 
     [Header("Square Events")]
-    [SerializeField] GameObject squareEventImg;
+    public GameObject squareEventImg;
     [SerializeField] GameObject squareName;
     [SerializeField] GameObject squareDescription;
 
@@ -62,7 +84,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] SpriteRenderer img3;
 
     [Header("List Object Images")]
-    [SerializeField] List<SpriteRenderer> listImages;
+    [SerializeField] List<SpriteRenderer> listImagesWhite;
+    [SerializeField] List<SpriteRenderer> listImagesBlack;
     
     GameObject item1;
     GameObject item2;
@@ -85,6 +108,8 @@ public class UIManager : MonoBehaviour
     private int selectedItem;
 
     public TextMeshProUGUI goldWarning;
+    public TextMeshProUGUI goldPlayer;
+
     
 
 
@@ -109,7 +134,6 @@ public class UIManager : MonoBehaviour
         foreach (var concreteCard in cardsPrefabs)
         {
             CardsDict.Add(concreteCard.name, concreteCard);
-            Debug.Log(concreteCard.name);
         }
 
         foreach(var item in itemsPrefab)
@@ -117,28 +141,62 @@ public class UIManager : MonoBehaviour
             ItemsDict.Add(item.name, item);
         }
     }
-    public void ChangePlayerUI(Player player)
+    public void ChangePlayerUI(Player player,PieceColor team)
     {
-        goldText.text= player.gold.ToString();
-        blessingText.text= player.blessing.ToString();
+        if(team == PieceColor.White)
+        {
+            goldTextWhite.text= player.gold.ToString();
+            blessingTextWhite.text= player.blessing.ToString();
+        }
+        else
+        {
+            goldTextBlack.text = player.gold.ToString();
+            blessingTextBlack.text= player.blessing.ToString();
+        }
     }
 
     public void UpdatePlayerItemsUI(Player player)
     {
-        ClearSprites();
+        ClearSprites(player.team);
         int i = 0;
-        foreach (var item in player.playerObjects)
+        if(player.team == PieceColor.White)
         {
-            listImages[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
-            i++;
+            foreach (var item in player.playerObjects)
+            {
+                listImagesWhite[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
+                listImagesWhite[i].transform.GetChild(0).gameObject.SetActive(true);
+                i++;
+            }
+        }
+        else
+        {
+            foreach (var item in player.playerObjects)
+            {
+                listImagesBlack[i].sprite = item.GetComponent<SpriteRenderer>().sprite;
+                listImagesBlack[i].transform.GetChild(0).gameObject.SetActive(true);
+                i++;
+            }
         }
     }
 
-    private void ClearSprites()
+    private void ClearSprites(PieceColor team)
     {
-        foreach (var item in listImages)
+        if(team == PieceColor.White)
         {
-            item.sprite = null;
+            foreach (var item in listImagesWhite)
+            {
+                item.sprite = null;
+                item.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            foreach (var item in listImagesBlack)
+            {
+                item.sprite = null;
+                item.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
         }
     }
     
@@ -168,9 +226,13 @@ public class UIManager : MonoBehaviour
                
                 GameObject.Find("cardAttack").GetComponent<TextMeshProUGUI>().SetText(piece.GetAttack());
                 GameObject.Find("cardLife").GetComponent<TextMeshProUGUI>().SetText(piece.GetLife());
+
                 GameObject.Find("cardRichness").GetComponent<TextMeshProUGUI>().SetText(piece.GetRichness());
-                GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldText.text + "/" + piece.GetGoldDevelopCost());
-                GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingText.text + "/" + piece.GetBlessingDevelopCost());
+                if (piece.GetName() != "King")
+                {
+                    GameObject.Find("cardGold").GetComponent<TextMeshProUGUI>().SetText(goldTextWhite.text + "/" + piece.GetGoldDevelopCost());
+                    GameObject.Find("cardBlessing").GetComponent<TextMeshProUGUI>().SetText(blessingTextWhite.text + "/" + piece.GetBlessingDevelopCost());
+                }
 
                 if (piece.equipedObject != null)
                 {
@@ -199,13 +261,26 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef)
+    public void EndGameUI(bool whiteWon)
+    {
+        inGameUi.SetActive(false);
+        endUi.SetActive(true);
+        whiteWins.SetActive(whiteWon);
+        blackWins.SetActive(!whiteWon);
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("Menu");
+    }
+
+    public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef,Vector2Int coords, float atckLife, float defLife)
     {
 
-        // NOT IMPLEMENTED YET ////////////////////////////////////////////////////////////////
         fightUI.SetActive(true);
         attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
         defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
+        Debug.Log(defensor.GetName());
         attackerCard.transform.position = attackerCardPos.position;
         defensorCard.transform.position = defensorCardPos.position;
         attackerCard.transform.localScale = new Vector3(0.25f,0.25f,0.8f);
@@ -213,6 +288,8 @@ public class UIManager : MonoBehaviour
 
         attackerCard.SetActive(true);
         defensorCard.SetActive(true);
+        StartCardAttacker(attacker,atckLife.ToString());
+        StartCardDefensor(defensor, defLife.ToString());
         //attackerCard.GetComponent<Animator>().SetBool("isIddle", true);
         //defensorCard.GetComponent<Animator>().SetBool("isIddle", true);
         cardAnimatorDef = defensorCard.GetComponent<Animator>();
@@ -220,7 +297,6 @@ public class UIManager : MonoBehaviour
         cardAnimator = attackerCard.GetComponent<Animator>();
         cardAnimator.SetBool("isIddle", true);
 
-        Debug.Log("hola" + attackerCard.name);
         
         int n = hitsAtck;
         int m = hitsDef;
@@ -228,15 +304,13 @@ public class UIManager : MonoBehaviour
         while (n + m > 0)
         {
             if (attackerCard.GetComponent<Animator>())
-            {
-                Debug.Log(n);
+{
                 //attackerCard.GetComponent<Animator>().SetBool("isIddle", true);
                 //bucle para numero de golpes
                 //Debug.Log(attackerCard.name + "ataco");
 
                 if (n > 0)
                 {
-                    Debug.Log(attackerCard.name + "ataco");
                     //cardAnimator = attackerCard.GetComponent<Animator>();
                     cardAnimator.SetBool("isIddle", false);
                     cardAnimator.SetBool("isFighting", true);
@@ -244,7 +318,12 @@ public class UIManager : MonoBehaviour
                     //Debug.Log(attackerCard.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Description());
 
                     GameObject.Find("AudioManager").GetComponent<AudioManager>().hit.Play();
+                    String[] aux = textDefensor.text.Split("/");
+
+                    float txt = float.Parse(aux[0]);
                     yield return new WaitForSeconds(0.2f);
+                    textDefensor.text = (txt - attacker.attackDmg).ToString() + "/" + aux[1];
+                    damageCanvasDefensor.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(attacker.attackDmg);
                     n--;
                 }
                 //attackerCard.GetComponent<Animator>().SetBool("isFighting", false);
@@ -257,10 +336,8 @@ public class UIManager : MonoBehaviour
                 //defensorCard.GetComponent<Animator>().SetBool("isIddle", true);
                 //defensorCard.SetActive(true);
                 //Debug.Log(defensorCard.name + "defiendo");
-                Debug.Log(m);
                 if (m > 0)
                 {
-                    Debug.Log(defensorCard.name + "defiendo");
                     /*
                     defensorCard.GetComponent<Animator>().SetBool("isDefending", true);
                     yield return new WaitForSeconds(0.2f);
@@ -270,7 +347,12 @@ public class UIManager : MonoBehaviour
                     cardAnimatorDef.SetBool("isDefending", true);
 
                     GameObject.Find("AudioManager").GetComponent<AudioManager>().hit.Play();
+                    String[] aux = textAttacker.text.Split("/");
+
+                    float txt = float.Parse(aux[0]);
                     yield return new WaitForSeconds(0.2f);
+                    textAttacker.text = (txt - defensor.attackDmg).ToString() + "/" + aux[1];
+                    damageCanvasAttacker.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(defensor.attackDmg);
                     m--;
                     
                 }
@@ -283,7 +365,6 @@ public class UIManager : MonoBehaviour
 
 
 
-            yield return new WaitForSeconds(3f);
         //yield return new WaitForSeconds(3f);
         //animation.Play();
         //yield return new WaitUntil(()=>!animation.isPlaying);
@@ -293,14 +374,24 @@ public class UIManager : MonoBehaviour
         fightUI.SetActive(false);
         attackerCard.SetActive(false);
         defensorCard.SetActive(false);
-        
+
         //For{
         /*
          * ejecucion
          * wait
          * 
          */
+        if(hitsAtck>hitsDef)
+        {
+            board.MovePieceAfterFight(attacker, defensor, coords); 
+        }
+        else
+        {
+            board.PieceDiedFighting();
+        }
+        
 
+        board.controller.SetGameState(GameState.Play);
     }
 
     public IEnumerator AttackAnimation()
@@ -378,20 +469,43 @@ public class UIManager : MonoBehaviour
 
     IEnumerator CallTurnWindowAnim(bool white)
     {
+        //When the turn is finished, the square info window disappears if it is inside of the view
+        if (squareEventImg.GetComponent<InfoWindow>().WindowState == InfoWindow.State.Inside)
+        {
+            squareEventImg.GetComponent<InfoWindow>().StartAnimation();
+        }
+
+
         if (!white)
         {
             whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
         }
         else
         {
             blackTurnImg.GetComponent<InfoWindow>().StartAnimation();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             whiteTurnImg.GetComponent<InfoWindow>().StartAnimation();
         }
     }
+    public void StartCardAttacker(Piece p,String s)
+    {
+        GameObject life = GameObject.Find("AttackerPos/"+p.GetName()+"(Clone)/cardLife");
+        textAttacker= life.GetComponent<TextMeshProUGUI>();
+        startingLifeAtck= s;
+        textAttacker.text = startingLifeAtck + "/" + p.maxLife.ToString();
 
+    }
+    public void StartCardDefensor(Piece p,String s)
+    {
+        GameObject life = GameObject.Find("DefensorPos/" + p.GetName() + "(Clone)/cardLife");
+        textDefensor = life.GetComponent<TextMeshProUGUI>();
+        startingLifeDef= s;
+        textDefensor.text = startingLifeDef + "/" + p.maxLife.ToString();
+
+
+    }
     public void EquipItemOnCard(string item)
     {
         Sprite s =ItemsDict[item];
@@ -416,6 +530,7 @@ public class UIManager : MonoBehaviour
                 break;
 
         }
+        
     }
     public void SelectItem1()
     {
@@ -471,4 +586,8 @@ public class UIManager : MonoBehaviour
         squareDescription.GetComponent<TextMeshProUGUI>().text = description;
     }
 
+    internal void WarPrisioner(Piece p)
+    {
+        warPrisionerUi.SetActive(true);
+    }
 }

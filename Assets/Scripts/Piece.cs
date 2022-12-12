@@ -45,11 +45,14 @@ public abstract class Piece : MonoBehaviour
             //Check if the unit loses health
             if (value < m_life)
             {
-                canvasDamage.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(m_life - value);
+                canvasDamage.GetComponentInChildren<DamageNumber>().DamageNumberAnimation(Mathf.FloorToInt(m_life - value));
             }
-
+            if(value > maxLife)
+            {
+                value = maxLife;
+            }
             //Set the value
-            m_life = value;
+            m_life = Mathf.CeilToInt(value);
 
             if (OnLifeChanged != null)
                 OnLifeChanged();
@@ -79,6 +82,8 @@ public abstract class Piece : MonoBehaviour
     //this variable will make the piece die at the end of the turn
     public bool condemned;
     public bool poisoned;
+
+    public bool promotedThisTurn=true;
 
     //Variable Canvas for the damage number
     [SerializeField] private Canvas canvasDamage;
@@ -289,6 +294,7 @@ public abstract class Piece : MonoBehaviour
             //MOSTRAR DAÑO EN EL PREFAB DE LA PIEZA UN ICONO DE DAÑADO
             if(life <= 0)
             {
+                board.particleManager.PlayDeadParticles(board.CalculatePositionFromCoords(occupiedSquare));
                 board.TakePiece(this);
             }
             canvasHurt.enabled= true;
@@ -297,6 +303,11 @@ public abstract class Piece : MonoBehaviour
         {
             //DESACTIVAR EL DAÑO
             canvasHurt.enabled= false;
+            if(life > maxLife)
+            {
+                life = maxLife;
+            }
+
         }
     }
     public void ChangeTeam()
@@ -307,11 +318,13 @@ public abstract class Piece : MonoBehaviour
     }
     internal void GetGold(int g)
     {
+        board.particleManager.PlayWinGoldParticles(board.CalculatePositionFromCoords(occupiedSquare));
         board.AddGold(g);
     }
 
     internal void RemoveGold(int g)
     {
+        board.particleManager.PlayLoseGoldParticles(board.CalculatePositionFromCoords(occupiedSquare));
         board.SubstractGold(g);
     }
 }

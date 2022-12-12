@@ -18,7 +18,7 @@ public class Board : MonoBehaviour
     private Piece[,] grid;
     private SquareEvent[,] gridEvents; 
     private Piece selectedPiece;
-    private GameController controller;
+    public GameController controller;
     private SquareSelectorCreator squareSelector;
 
     public bool winSelectedPiece = true;
@@ -26,9 +26,11 @@ public class Board : MonoBehaviour
     public bool newRecruit = false;
     public List<Vector2Int> newRecruitPositions;
 
-    [SerializeField] UIManager uIManager;
+    [SerializeField]public UIManager uIManager;
 
     private Object itemSelected;
+
+    private bool readyToPromote = false;
 
     private void Awake()
     {
@@ -69,11 +71,14 @@ public class Board : MonoBehaviour
         Piece piece = GetPieceOnSquare(coords);
         if (itemSelected != null)
         {
-
-            piece.EquipObject(itemSelected);
-            controller.activePlayer.RemoveObject(itemSelected);
-            itemSelected= null;
-            uIManager.UpdatePlayerItemsUI(controller.activePlayer);
+            if (piece.GetType() != typeof(King))
+            {
+                piece.EquipObject(itemSelected);
+                controller.activePlayer.RemoveObject(itemSelected);
+                itemSelected = null;
+                uIManager.UpdatePlayerItemsUI(controller.activePlayer);
+                controller.setNormalMouse();
+            }
         }
         else if (selectedPiece)
         {
@@ -94,6 +99,7 @@ public class Board : MonoBehaviour
                     newRecruit = false;
                     DeselectPiece();
                     newRecruitPositions.Clear();
+                    CheckGridEvents(coords,GetPieceOnSquare(coords));
                 }
             }
             if (piece != null && controller.IsTeamTurnActive(piece.color))
@@ -107,6 +113,7 @@ public class Board : MonoBehaviour
 
     public void SelectPiece(Piece piece)
     {
+        if (readyToPromote) return;
         DeselectPiece();
         controller.RemoveMovesEnablingAttackOnPieceOfType<King>(piece);
         selectedPiece = piece;
@@ -160,13 +167,16 @@ public class Board : MonoBehaviour
     private void OnSelectedPieceMoved(Vector2Int coords, Piece piece)
     {
         bool success=TryToTake(coords);
-        
+        if (!controller.IsGameInProgress()) return;
         if (success)
         {
             UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
             selectedPiece.MovePiece(coords);
             DeselectPiece();
-            CheckGridEvents(coords, piece);
+            if(piece.GetType() != typeof(King))
+            {
+                CheckGridEvents(coords, piece);
+            }
             if (piece.IsAttackingPieceOFType<King>())
                 piece.canMoveTwice = false;
             if (!piece.canMoveTwice)
@@ -190,20 +200,54 @@ public class Board : MonoBehaviour
         controller.activePlayer.alreadyMoved = true;
     }
 
+    public void MovePieceAfterFight(Piece winner, Piece loser, Vector2Int coords )
+    {
+
+        UpdateBoardOnPieceMove(coords, selectedPiece.occupiedSquare, selectedPiece, null);
+        selectedPiece.MovePiece(coords);
+        particleManager.PlayDeadParticles(CalculatePositionFromCoords(coords));
+
+        if (selectedPiece.GetType() != typeof(King))
+        {
+            CheckGridEvents(coords, selectedPiece);
+        }
+        if (selectedPiece.IsAttackingPieceOFType<King>())
+            selectedPiece.canMoveTwice = false;
+        if (!selectedPiece.canMoveTwice)
+        {
+            //EndTurn();
+
+        }
+        else
+            selectedPiece.canMoveTwice = false;
+        DeselectPiece();
+    }
+    public void MoveAuto(Piece p, Vector2Int coords)
+    {
+        UpdateBoardOnPieceMove(coords, p.occupiedSquare, p, null);
+        p.MovePiece(coords);
+        EndTurn();
+        //controller.EndTurn();
+
+        //particleManager.ChangeTurn();
+        //itemSelected = null;
+    }
+
     private void CheckGridEvents(Vector2Int coords, Piece piece)
     {
-        Debug.Log(gridEvents[coords.x, coords.y]);
         if(gridEvents[coords.x, coords.y] != null)
         {
             //Set the ui info
             uIManager.UpdateSquareEventInfo(gridEvents[coords.x, coords.y].squareName, gridEvents[coords.x, coords.y].squareDescription);
 
-
             gridEvents[coords.x, coords.y].StartEvent(piece);
             DestroyEvent(gridEvents[coords.x, coords.y]);
             gridEvents[coords.x, coords.y]=null;
 
-            uIManager.CallSquareEventAnim();
+            if (uIManager.squareEventImg.GetComponent<InfoWindow>().WindowState == InfoWindow.State.Outside)
+            {
+                uIManager.CallSquareEventAnim();
+            }
         }
 
     }
@@ -214,17 +258,19 @@ public class Board : MonoBehaviour
 
         
         Piece piece = GetPieceOnSquare(coords);
-        winSelectedPiece = true;
+        //winSelectedPiece = true;
 
         if (piece != null && !selectedPiece.IsFromSameColor(piece))
         {
+            controller.SetGameState(GameController.GameState.Fight);
             controller.StartFight(selectedPiece, piece, coords);
-            if (winSelectedPiece)
-                TakePiece(piece);
-            else
-                TakePiece(selectedPiece);
+
+            //if (winSelectedPiece)
+            //    TakePiece(piece);
+            //else
+            //    TakePiece(selectedPiece);
         }
-        return winSelectedPiece;
+        return true;
     }
 
     public void TakePiece(Piece piece)
@@ -246,8 +292,13 @@ public class Board : MonoBehaviour
 
     public void EndTurn()
     {
+        //return if the windows are still doing the animations-----
+        if (uIManager.whiteTurnImg.GetComponent<InfoWindow>().Animating || uIManager.blackTurnImg.GetComponent<InfoWindow>().Animating) return;
+        //--------
+
         controller.EndTurn();
         particleManager.ChangeTurn();
+        itemSelected = null;
     }
 
     //This method emulates the state of the board after a move is done
@@ -275,6 +326,18 @@ public class Board : MonoBehaviour
         }
         return pieces;
     }
+    public List<Piece> GetPiecesOnAdjacent(Vector2Int coords)
+    {
+        List<Piece> pieces = new List<Piece>();
+        Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down,
+            new Vector2Int (-1,1),new Vector2Int (-1,-1),new Vector2Int(1,-1),new Vector2Int(1,1) };
+        for (int i = 0; i < directions.Length; i++)
+        {
+            Piece p = GetPieceOnSquare(coords + directions[i]);
+            if (p != null) pieces.Add(p);
+        }
+        return pieces;
+    }
 
     public bool CheckIfCoordAreOnBoard(Vector2Int coords)
     {
@@ -299,9 +362,9 @@ public class Board : MonoBehaviour
     {
         //Check if is possible to develop a piece
         if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold 
-            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing || selectedPiece.promotedThisTurn) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
-        uIManager.ChangePlayerUI(controller.activePlayer);
+        uIManager.ChangePlayerUI(controller.activePlayer,controller.activePlayer.team);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteFaith();
 
@@ -311,15 +374,22 @@ public class Board : MonoBehaviour
     {
         //Check if is possible to develop a piece
         if (!selectedPiece || selectedPiece.goldDevelopCost > controller.activePlayer.gold
-            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing) return;
+            || selectedPiece.blessingDevelopCost > controller.activePlayer.blessing || selectedPiece.promotedThisTurn) return;
         controller.activePlayer.PieceDeveloped(selectedPiece);
-        uIManager.ChangePlayerUI(controller.activePlayer);
+        uIManager.ChangePlayerUI(controller.activePlayer,controller.activePlayer.team);
         particleManager.PlayLevelParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
         selectedPiece.PromoteWar();
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().ascension.Play();
     }
-
+    public void GetReadyToPromote()
+    {
+        readyToPromote = true;
+    }
+    public void Promoted()
+    {
+        readyToPromote= false;
+    }
     public void PromotePieceFaith(Piece p, Type t)
     {
         TakePiece(p);
@@ -330,7 +400,6 @@ public class Board : MonoBehaviour
 
         controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
-        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
 
     public void PromotePieceWar(Piece p, Type t)
@@ -340,9 +409,9 @@ public class Board : MonoBehaviour
         //Calculate the new life
         float ratio = p.life / p.maxLife;
 
+        p.promotedThisTurn = true;
         controller.CreatePieceAndInitializeHierLife(p.occupiedSquare, p.color, t, ratio);
         DeselectPiece();
-        controller.GenerateAllPossiblePlayerMoves(controller.activePlayer);
     }
     internal void ChangeTeamOfPiece(Piece piece, PieceColor newColor)
     {
@@ -385,10 +454,12 @@ public class Board : MonoBehaviour
     public void SubstractGold(int gold)
     {
         controller.activePlayer.gold -= gold;
+        uIManager.ChangePlayerUI(controller.activePlayer, controller.activePlayer.team);
     }
 
     public void OpenShop(List<GameObject> items)
     {
+        uIManager.goldPlayer.text = controller.activePlayer.gold.ToString();
         uIManager.OpenShop(items);
 
         GameObject.Find("AudioManager").GetComponent<AudioManager>().store.Play();
@@ -397,5 +468,27 @@ public class Board : MonoBehaviour
     public void TryToBuy(Object item)
     {
         controller.TryToBuy(item);
+    }
+
+    Piece prisioner;
+    internal void WarPrisioner(Piece p)
+    {
+        uIManager.WarPrisioner(p);
+        prisioner = p;
+    }
+
+    public void WarPrisionerPaid()
+    {
+        if(controller.WarPrisionerPaid())
+            prisioner.ChangeTeam();
+
+
+    }
+
+    internal void PieceDiedFighting()
+    {
+        particleManager.PlayDeadParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
+        controller.activePlayer.alreadyMoved = true;
+        DeselectPiece();
     }
 }
