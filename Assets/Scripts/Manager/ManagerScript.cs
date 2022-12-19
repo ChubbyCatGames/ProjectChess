@@ -15,6 +15,8 @@ public class ManagerScript : MonoBehaviour
     [SerializeField] GameObject prefabText;
     [SerializeField] Transform initialPos;
 
+    private List<GameObject> gameObjects = new List<GameObject>();
+
     [Header("InputFields")]
     [SerializeField] TMP_InputField inputName;
     [SerializeField] TMP_InputField inputPass;
@@ -61,6 +63,7 @@ public class ManagerScript : MonoBehaviour
         System.IO.File.WriteAllText(filePath, json);
 
         Debug.Log("JSON file created successfully.");
+        ListAdmins();
     }
 
     public void ListAdmins()
@@ -76,11 +79,19 @@ public class ManagerScript : MonoBehaviour
             NamingList nl = newAdmin.GetComponent<NamingList>();
             Debug.Log(admin.Username);
             nl.SetName(admin.Username);
+            gameObjects.Add(newAdmin);
             i++;
         }
 
     }
-
+    public void DeleteGameobjects()
+    {
+        foreach (var admin in gameObjects)
+        {
+            Destroy(admin.gameObject);
+        }
+        gameObjects.Clear();
+    }
     public void DeleteAdmins()
     {
         string json = System.IO.File.ReadAllText(filePath);
@@ -99,6 +110,8 @@ public class ManagerScript : MonoBehaviour
 
         // Write the JSON string to a file
         System.IO.File.WriteAllText(filePath, json);
+        DeleteGameobjects();
+        ListAdmins();
     }
 }
 
