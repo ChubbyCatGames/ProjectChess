@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(WaitTimeCoroutine(() => {
 
             //------------Music things-------------
-            if (nameScene == "FirstTry") //Change this value according to the name of the Ingame scene
+            if (nameScene == "FirstTry" || nameScene == "IAMinMax") //Change this value according to the name of the Ingame scene
                 if (music != null)
                     music.GetComponent<AudioSource>().Stop();
             //--------------------------------------
