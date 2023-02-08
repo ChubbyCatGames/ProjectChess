@@ -72,6 +72,16 @@ public class Pope : Piece
         this.richness = 35;
         this.blessingDevelopCost = 9999;
         this.goldDevelopCost = 9999;
+        this.value = 900f;
+
+        gridValues = new float[,]{ {-20, -10, -10, -5, -5, -10, -10, -20 },
+                                    {-10, 0, 5, 0, 0, 0, 0, -10},
+                                    {-10, 5, 5, 5, 5, 5, 0, -10},
+                                    {-5, 0, 5, 5, 5, 5, 0, -5},
+                                    {-5, 0, 5, 5, 5, 5, 0, -5},
+                                    {-10, 0, 5, 5, 5, 5, 0, -10},
+                                    {-10, 0, 5, 0, 0, 0, 0, -10},
+                                    {-20, -10, -10, -5, -5, -10, -10, -20}};
     }
 
     public override void PromoteFaith()

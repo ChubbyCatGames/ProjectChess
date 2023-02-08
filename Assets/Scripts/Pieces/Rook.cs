@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class Rook : Piece
 {
-    private Vector2Int [] directions = new Vector2Int[] {Vector2Int.left,Vector2Int.right,Vector2Int.up,Vector2Int.down};
-    public override List<Vector2Int> SelectAvaliableSquares()
+    private Vector2Int[] directions = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.up, Vector2Int.down };
+   public override List<Vector2Int> SelectAvaliableSquares()
     {
         avaliableMoves.Clear();
         float range = Board.BOARD_SIZE;
@@ -40,6 +41,16 @@ public class Rook : Piece
         this.richness = 30;
         this.blessingDevelopCost = 5;
         this.goldDevelopCost = 300;
+        this.value = 500f;
+
+        gridValues = new float[,]{ {0, -5, -5, -5, -5, -5, 5, 0 },
+                                    {0, 0, 0, 0, 0, 0, 10, 0},
+                                    {0, 0, 0, 0, 0, 0, 10, 0},
+                                    {5, 0, 0, 0, 0, 0, 10, 0},
+                                    {5, 0, 0, 0, 0, 0, 10, 0},
+                                    {0, 0, 0, 0, 0, 0, 10, 0},
+                                    {0, 0, 0, 0, 0, 0, 10, 0},
+                                    {0, -5, -5, -5, -5, -5, 5, 0 }};
     }
 
     public override void PromoteFaith()

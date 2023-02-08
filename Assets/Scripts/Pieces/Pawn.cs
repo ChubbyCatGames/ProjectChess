@@ -43,6 +43,16 @@ public class Pawn : Piece
         this.richness = 10;
         this.blessingDevelopCost = 2;
         this.goldDevelopCost = 75;
+        this.value = 100f;
+
+        gridValues = new float[,]{ {0, 5, 5, 0, 5, 10, 50, 0 },
+                                    {0, 10, -5, 0, 5, 10, 50, 0},
+                                    {0, 10, -10, 0, 10, 20, 50, 0},
+                                    {0, -20, 0, 20, 25, 30, 50, 0},
+                                    {0, -20, 0, 20, 25, 30, 50, 0},
+                                    {0, 10, -10, 0, 10, 20, 50, 0},
+                                    {0, 10, -5, 0, 5, 10, 50, 0},
+                                    {0, 5, 5, 0, 5, 10, 50, 0}};
     }
 
     public override void PromoteFaith()

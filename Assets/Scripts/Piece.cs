@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(IObjectTweener))]
-[RequireComponent (typeof(MaterialSetter))]
+[RequireComponent(typeof(MaterialSetter))]
 public abstract class Piece : MonoBehaviour
 {
     private MaterialSetter materialSetter;
@@ -14,7 +14,8 @@ public abstract class Piece : MonoBehaviour
     public Vector2Int occupiedSquare { get; set; }
 
     public PieceColor color { get; set; }
-    
+    public float[,] gridValues { get; set; }
+
     //Variables that determinates the moves of every piece
     public bool hasMoved { get; private set; }
     public List<Vector2Int> avaliableMoves;
@@ -84,6 +85,8 @@ public abstract class Piece : MonoBehaviour
     public bool poisoned;
 
     public bool promotedThisTurn=true;
+
+    public float value;
 
     //Variable Canvas for the damage number
     [SerializeField] private Canvas canvasDamage;

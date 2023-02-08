@@ -52,6 +52,16 @@ public class Church : Piece
         this.richness = 25;
         this.blessingDevelopCost = 6;
         this.goldDevelopCost = 220;
+        this.value = 500f;
+
+        gridValues = new float[,]{ {-20, -10, -10, -10, -10, -10, -10, -20 },
+                                    {-10, 5, 10, 0, 5, 0, 0, -10},
+                                    {-10, 0, 10, 10, 5, 5, 0, -10},
+                                    {-10, 0, 10, 10, 10, 10, 0, -10},
+                                    {-10, 0, 10, 10, 10, 10, 0, -10},
+                                    {-10, 0, 10, 10, 5, 5, 0, -10},
+                                    {-10, 5, 10, 0, 5, 0, 0, -10},
+                                    {-20, -10, -10, -10, -10, -10, -10, -20}};
     }
 
     public override void PromoteFaith()

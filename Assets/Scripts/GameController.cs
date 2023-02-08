@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private BoardLayout startingBoardLayout;
     [SerializeField] private BoardLayoutEvents startingBoardEvents;
-    [SerializeField] private Board board;
+    [SerializeField] protected Board board;
     [SerializeField] private UIManager uiManager;
     [SerializeField] private MouseManager mouseManager;
 
@@ -21,8 +21,8 @@ public class GameController : MonoBehaviour
     private CameraManager cameraManager;
 
     //Instances of the players and the active player
-    private Player whitePlayer;
-    private Player blackPlayer;
+    protected Player whitePlayer;
+    protected Player blackPlayer;
     public Player activePlayer;
 
     public GameState gameState;
@@ -150,6 +150,9 @@ public class GameController : MonoBehaviour
         Player currentPlayer = pieceColor == PieceColor.White ? whitePlayer : blackPlayer;
         currentPlayer.AddPiece(newPiece);
 
+        Debug.Log(newPiece.gridValues[newPiece.occupiedSquare.x,newPiece.occupiedSquare.y]);
+
+
     }
 
     public void GenerateAllPossiblePlayerMoves(Player player)
@@ -189,7 +192,7 @@ public class GameController : MonoBehaviour
                 
         }
     }
-    private bool CheckIfGameIsFinished()
+    protected bool CheckIfGameIsFinished()
     {
         Piece[] kingAttackingPieces = activePlayer.GetPieceAttakingPieceOfType<King>();
         bool kingAlive = GetOpponentToPlayer(activePlayer).GetPiecesOfType<King>().Any();
@@ -359,12 +362,12 @@ public class GameController : MonoBehaviour
         GameObject.Find("AudioManager").GetComponent<AudioManager>().pieceDeath.Play();
     }
 
-    private Player GetOpponentToPlayer(Player player)
+    public Player GetOpponentToPlayer(Player player)
     {
         return player == whitePlayer ? blackPlayer : whitePlayer; 
     }
 
-    private void ChangeActiveTeam()
+    virtual public void ChangeActiveTeam()
     {
         Piece [] churches=  activePlayer.GetPiecesOfType<Church>();
         foreach(Church church in churches)
@@ -435,6 +438,24 @@ public class GameController : MonoBehaviour
         }
         
     }
+    public void TryToBuyAI(Object item)
+    {
+        if (blackPlayer.gold >= item.cost)
+        {
+            blackPlayer.AddObject(item);
+
+            board.SubstractGold(item.cost);
+            uiManager.UpdatePlayerItemsUI(blackPlayer);
+            uiManager.CloseShop();
+
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().spentMoney.Play();
+        }
+        else
+        {
+            uiManager.NotEnoughGold();
+        }
+
+    }
 
     public void SelectItemAtIndex(int idx)
     {
@@ -443,7 +464,7 @@ public class GameController : MonoBehaviour
         
     }
 
-    public void setNormalMouse()
+    public void SetNormalMouse()
     {
         Cursor.SetCursor(mouseManager.mouseText, new Vector2(1, 2), CursorMode.ForceSoftware);
 
@@ -460,5 +481,10 @@ public class GameController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    virtual internal bool IsPlayerTurn()
+    {
+        return true;
     }
 }

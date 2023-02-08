@@ -11,6 +11,7 @@ public class SecretPath : SquareEvent
         //if(paga)
         float range = Board.BOARD_SIZE;
         List<Vector2Int> positions = new List<Vector2Int>();
+
         foreach (var dir in directions)
         {
             for (int i = 1; i <= range; i++)

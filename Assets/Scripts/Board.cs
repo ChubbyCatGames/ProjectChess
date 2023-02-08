@@ -5,8 +5,9 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(SquareSelectorCreator))]
-public class Board : MonoBehaviour
-{
+
+
+public class Board : MonoBehaviour {
     public const int BOARD_SIZE = 8;
     
     [SerializeField] private Transform bottomLeftSquareTransform;
@@ -15,7 +16,7 @@ public class Board : MonoBehaviour
     [SerializeField] public ParticleManager particleManager;
 
 
-    private Piece[,] grid;
+    public Piece[,] grid;
     private SquareEvent[,] gridEvents; 
     private Piece selectedPiece;
     public GameController controller;
@@ -32,11 +33,13 @@ public class Board : MonoBehaviour
 
     private bool readyToPromote = false;
 
+    public LastMove moves;
     private void Awake()
     {
         squareSelector = GetComponent<SquareSelectorCreator>();
         CreateGrid();
         itemSelected = null;
+        moves = new LastMove();
     }
 
     public void SetDependencies(GameController controller)
@@ -65,7 +68,7 @@ public class Board : MonoBehaviour
 
     public void onSquareSelected(Vector3 inputPosition)
     {
-        if(!controller.IsGameInProgress())
+        if(!controller.IsGameInProgress() || !controller.IsPlayerTurn())
             return;
         Vector2Int coords= CalculateCoordsFromPosition(inputPosition);
         Piece piece = GetPieceOnSquare(coords);
@@ -77,7 +80,7 @@ public class Board : MonoBehaviour
                 controller.activePlayer.RemoveObject(itemSelected);
                 itemSelected = null;
                 uIManager.UpdatePlayerItemsUI(controller.activePlayer);
-                controller.setNormalMouse();
+                controller.SetNormalMouse();
             }
         }
         else if (selectedPiece)
@@ -203,24 +206,25 @@ public class Board : MonoBehaviour
     public void MovePieceAfterFight(Piece winner, Piece loser, Vector2Int coords )
     {
 
-        UpdateBoardOnPieceMove(coords, selectedPiece.occupiedSquare, selectedPiece, null);
-        selectedPiece.MovePiece(coords);
+        UpdateBoardOnPieceMove(coords, winner.occupiedSquare, winner, null);
+        winner.MovePiece(coords);
         particleManager.PlayDeadParticles(CalculatePositionFromCoords(coords));
 
-        if (selectedPiece.GetType() != typeof(King))
+        if (winner.GetType() != typeof(King))
         {
-            CheckGridEvents(coords, selectedPiece);
+            CheckGridEvents(coords, winner);
         }
-        if (selectedPiece.IsAttackingPieceOFType<King>())
-            selectedPiece.canMoveTwice = false;
-        if (!selectedPiece.canMoveTwice)
+        if (winner.IsAttackingPieceOFType<King>())
+            winner.canMoveTwice = false;
+        if (!winner.canMoveTwice)
         {
             //EndTurn();
 
         }
         else
-            selectedPiece.canMoveTwice = false;
+            winner.canMoveTwice = false;
         DeselectPiece();
+        uIManager.inGameUi.SetActive(true);
     }
     public void MoveAuto(Piece p, Vector2Int coords)
     {
@@ -231,6 +235,33 @@ public class Board : MonoBehaviour
 
         //particleManager.ChangeTurn();
         //itemSelected = null;
+    }
+    public void OnAIMove(Vector2Int coords, Piece piece)
+    {
+        selectedPiece = piece;
+        bool success = TryToTake(coords);
+        //if (!controller.IsGameInProgress()) return;
+        if (success)
+        {
+            UpdateBoardOnPieceMove(coords, piece.occupiedSquare, piece, null);
+            piece.MovePiece(coords);
+            //DeselectPiece();
+            if (piece.GetType() != typeof(King))
+            {
+                //CheckGridEvents(coords, piece);
+            }
+            if (piece.IsAttackingPieceOFType<King>())
+                piece.canMoveTwice = false;
+
+        }
+        else
+        {
+            DeselectPiece();
+
+        }
+        controller.activePlayer.alreadyMoved = true;
+
+        //EndTurn();
     }
 
     private void CheckGridEvents(Vector2Int coords, Piece piece)
@@ -243,6 +274,44 @@ public class Board : MonoBehaviour
             gridEvents[coords.x, coords.y].StartEvent(piece);
             DestroyEvent(gridEvents[coords.x, coords.y]);
             gridEvents[coords.x, coords.y]=null;
+
+            if (uIManager.squareEventImg.GetComponent<InfoWindow>().WindowState == InfoWindow.State.Outside)
+            {
+                uIManager.CallSquareEventAnim();
+            }
+        }
+
+    }
+
+    public void CheckGridEventsAI(Vector2Int coords, Piece piece)
+    {
+        if (gridEvents[coords.x, coords.y] != null)
+        {
+            //Set the ui info
+            uIManager.UpdateSquareEventInfo(gridEvents[coords.x, coords.y].squareName, gridEvents[coords.x, coords.y].squareDescription);
+            gridEvents[coords.x, coords.y].StartEvent(piece);
+
+            switch (gridEvents[coords.x, coords.y].squareName)
+            {
+                case "New recruit":
+                    int rand = UnityEngine.Random.Range(0,newRecruitPositions.Count-1);
+                    CreatePawnAI(newRecruitPositions[rand], PieceColor.Black);
+                    break;
+                case "Secret path":
+                    
+                    int i = UnityEngine.Random.Range(0, piece.avaliableMoves.Count - 1);
+                    OnAIMove(piece.avaliableMoves[i],piece);
+                    break;
+                case "Rick, the merchant":
+                    uIManager.BuyItemAI();
+                    break;
+
+
+            }
+
+
+            DestroyEvent(gridEvents[coords.x, coords.y]);
+            gridEvents[coords.x, coords.y] = null;
 
             if (uIManager.squareEventImg.GetComponent<InfoWindow>().WindowState == InfoWindow.State.Outside)
             {
@@ -295,7 +364,7 @@ public class Board : MonoBehaviour
         //return if the windows are still doing the animations-----
         if (uIManager.whiteTurnImg.GetComponent<InfoWindow>().Animating || uIManager.blackTurnImg.GetComponent<InfoWindow>().Animating) return;
         //--------
-
+        DeselectPiece();
         controller.EndTurn();
         particleManager.ChangeTurn();
         itemSelected = null;
@@ -306,6 +375,10 @@ public class Board : MonoBehaviour
     {
         grid[oldCoords.x, oldCoords.y] = oldPiece;
         grid[newCoords.x, newCoords.y] = piece;
+        moves.newCoords = newCoords;
+        moves.oldCoords = oldCoords;
+        moves.piece = piece;
+        moves.oldPiece = oldPiece;
     }
 
     public Piece GetPieceOnSquare(Vector2Int coords)
@@ -385,6 +458,7 @@ public class Board : MonoBehaviour
     public void GetReadyToPromote()
     {
         readyToPromote = true;
+        selectedPiece.avaliableMoves.Clear();
     }
     public void Promoted()
     {
@@ -430,6 +504,19 @@ public class Board : MonoBehaviour
         controller.CreatePieceAndInitialize(coords, color, Type.GetType("Pawn"));
     }
 
+    public void CreatePawnAI(Vector2Int coords,PieceColor color)
+    {
+        if (newRecruitPositions.Contains(coords))
+        {
+
+            controller.CreatePieceAndInitialize(coords, color, Type.GetType("Pawn"));
+            newRecruit = false;
+            DeselectPiece();
+            newRecruitPositions.Clear();
+            CheckGridEventsAI(coords, GetPieceOnSquare(coords));
+        }
+    }
+
     public void OnGameRestarted()
     {
         DeselectPiece();
@@ -470,6 +557,20 @@ public class Board : MonoBehaviour
         controller.TryToBuy(item);
     }
 
+    public void TryToBuyAI(Object item1,Object item2, Object item3) 
+    {
+        controller.TryToBuyAI(item1);
+        if (uIManager.shopImg.activeSelf)
+        {
+            controller.TryToBuyAI(item2);
+        }
+        if (uIManager.shopImg.activeSelf)
+        {
+            controller.TryToBuyAI(item3);
+        }
+        uIManager.CloseShop();
+    }
+
     Piece prisioner;
     internal void WarPrisioner(Piece p)
     {
@@ -485,10 +586,13 @@ public class Board : MonoBehaviour
 
     }
 
-    internal void PieceDiedFighting()
+    internal void PieceDiedFighting(Piece piece)
     {
-        particleManager.PlayDeadParticles(CalculatePositionFromCoords(selectedPiece.occupiedSquare));
+        particleManager.PlayDeadParticles(CalculatePositionFromCoords(piece.occupiedSquare));
         controller.activePlayer.alreadyMoved = true;
         DeselectPiece();
+        uIManager.inGameUi.SetActive(true);
     }
+
+
 }

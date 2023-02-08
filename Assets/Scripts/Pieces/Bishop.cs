@@ -50,6 +50,16 @@ public class Bishop : Piece
         this.richness = 20;
         this.blessingDevelopCost = 3;
         this.goldDevelopCost = 140;
+        this.value = 320f;
+
+        gridValues = new float[,]{ {-20, -10, -10, -10, -10, -10, -10, -20 },
+                                    {-10, 5, 10, 0, 5, 0, 0, -10},
+                                    {-10, 0, 10, 10, 5, 5, 0, -10},
+                                    {-10, 0, 10, 10, 10, 10, 0, -10},
+                                    {-10, 0, 10, 10, 10, 10, 0, -10},
+                                    {-10, 0, 10, 10, 5, 5, 0, -10},
+                                    {-10, 5, 10, 0, 5, 0, 0, -10},
+                                    {-20, -10, -10, -10, -10, -10, -10, -20}};
     }
 
     public override void PromoteFaith()

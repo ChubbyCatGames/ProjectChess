@@ -17,6 +17,8 @@ public class Knight : Piece
 
     };
 
+
+
     public float goldAddition = 0.3f;
     public override List<Vector2Int> SelectAvaliableSquares()
     {
@@ -41,6 +43,19 @@ public class Knight : Piece
         this.richness = 20;
         this.blessingDevelopCost = 3;
         this.goldDevelopCost = 140;
+        this.value = 320f;
+
+        gridValues = new float[,]{ {-50,-40,-30,-30,-30,-30,-40,-50},
+                                 {  -40,-20,  5,  0,  5,  0,-20,-40},
+                                 { -30,  0, 10, 15, 15, 10,  0,-30 },
+                                 { -30,  5, 15, 20, 20, 15,  0,-30 },
+                                 { -30,  5, 15, 20, 20, 15,  0,-30},
+                                 { -30,  0, 10, 15, 15, 10,  0,-30},
+                                 {-40,-20,  5,  0,  5,  0,-20,-40},
+                                 {  -50,-40,-30,-30,-30,-30,-40,-50}};
+
+
+
     }
 
     public override void PromoteFaith()

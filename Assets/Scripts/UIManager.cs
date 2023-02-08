@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Board board;
     //game object interfaz in game
-    [SerializeField] GameObject inGameUi;
+    [SerializeField] public GameObject inGameUi;
     [SerializeField] GameObject warPrisionerUi;
     [SerializeField] TextMeshProUGUI goldTextWhite;
     [SerializeField] TextMeshProUGUI blessingTextWhite;
@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject squareDescription;
 
     [Header("Shop")]
-    [SerializeField] GameObject shopImg;
+    [SerializeField] public GameObject shopImg;
 
     [Header("Names")]
     [SerializeField] TextMeshProUGUI name1;
@@ -276,7 +276,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator StartFightUI(Piece attacker, Piece defensor,int hitsAtck,int hitsDef,Vector2Int coords, float atckLife, float defLife)
     {
-
+        inGameUi.SetActive(false);
         fightUI.SetActive(true);
         attackerCard = Instantiate(CardsDict[attacker.GetName()], attackerCardPos);
         defensorCard = Instantiate(CardsDict[defensor.GetName()], defensorCardPos);
@@ -370,7 +370,7 @@ public class UIManager : MonoBehaviour
         //yield return new WaitUntil(()=>!animation.isPlaying);
         //Ejecutar animaciones de pegarse
         //Hacer un diccionario de prefabs de cartas, llamarlas aqui y ejecutar su animacion.        
-
+        
         fightUI.SetActive(false);
         attackerCard.SetActive(false);
         defensorCard.SetActive(false);
@@ -387,11 +387,12 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            board.PieceDiedFighting();
+            board.PieceDiedFighting(attacker);
         }
         
 
         board.controller.SetGameState(GameState.Play);
+
     }
 
     public IEnumerator AttackAnimation()
@@ -543,6 +544,11 @@ public class UIManager : MonoBehaviour
     public void SelectItem3()
     {
         selectedItem = 3;
+    }
+
+    public void BuyItemAI()
+    {
+        board.TryToBuyAI(item1.GetComponent<Object>(), item2.GetComponent<Object>(), item3.GetComponent<Object>());
     }
 
     private void BuyItem1()

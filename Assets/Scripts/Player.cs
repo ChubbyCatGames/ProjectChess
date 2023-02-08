@@ -159,4 +159,25 @@ public class Player
         gold -= piece.goldDevelopCost;
         blessing -= piece.blessingDevelopCost;
     }
+
+    public float GetValueOfPieces()
+    {
+        float f = 0;
+        if(team == PieceColor.White)
+        {
+            foreach (var piece in activePieces)
+            {
+                f += (piece.value + piece.gridValues[piece.occupiedSquare.x, piece.occupiedSquare.y]);
+            }
+        }
+        else
+        {
+            foreach (var piece in activePieces)
+            {
+                f += (piece.value + piece.gridValues[7-piece.occupiedSquare.x, 7-piece.occupiedSquare.y]);
+            }
+
+        }
+        return f;
+    }
 }
